@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-navy-900 text-white font-sans antialiased;
+    background-image: 
+      radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='%233B82F6' stroke-opacity='0.03' stroke-width='1'/%3E%3C/svg%3E");
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-navy-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-electric-500 rounded-full;
+  }
+}
+
+@layer components {
+  .section-container {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-heading {
+    @apply text-3xl sm:text-4xl font-bold text-white mb-2;
+  }
+
+  .section-subheading {
+    @apply text-blue-400 font-mono text-sm tracking-widest uppercase mb-3;
+  }
+
+  .prose-muted {
+    @apply text-slate-400 leading-relaxed;
+  }
+
+  .card-glass {
+    @apply bg-navy-800/60 border border-white/10 rounded-2xl backdrop-blur-sm;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .card-glass:hover {
+    @apply border-electric-500/30;
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-electric-500 hover:bg-electric-600 
+           text-white font-semibold rounded-xl transition-all duration-200 cursor-pointer
+           shadow-lg shadow-electric-500/25 hover:shadow-electric-500/40 hover:scale-[1.02];
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-6 py-3 border border-electric-500/50 
+           hover:border-electric-500 text-electric-400 hover:text-white hover:bg-electric-500/10
+           font-semibold rounded-xl transition-all duration-200 cursor-pointer;
+  }
+
+  .tag {
+    @apply inline-block px-2.5 py-1 text-xs font-mono font-medium rounded-md;
+  }
+}
+
+@layer utilities {
+  .animate-in {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-electric-400 via-blue-400 to-accent-cyan bg-clip-text text-transparent;
+  }
+
+  .text-gradient-purple {
+    @apply bg-gradient-to-r from-electric-400 to-accent-purple bg-clip-text text-transparent;
+  }
+}
