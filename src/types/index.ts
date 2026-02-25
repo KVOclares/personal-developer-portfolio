@@ -28,6 +28,9 @@ export interface Profile {
     email: string;
     phone: string;
     about: string;
+    bio: string[];
+    availability: boolean;
+    photo: string;
     socials: SocialLink[];
 }
 
