@@ -7,6 +7,11 @@
     scroll-behavior: smooth;
   }
 
+  /* Offset anchor targets so fixed navbar doesn't overlap headings (Fix #2) */
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+
   body {
     @apply bg-navy-900 text-white font-sans antialiased;
     background-image: 

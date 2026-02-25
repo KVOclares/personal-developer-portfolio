@@ -20,10 +20,10 @@ export const EXPERIENCE: ExperienceEntry[] = [
     },
     {
         kind: 'experience',
-        title: 'Communication Lead Technician',
+        title: 'Senior Communication Technician',
         company: 'ASCCI - North Inc.',
         period: 'Aug 2021 – Aug 2024',
-        location: 'Fort McMurray, AB',
+        location: 'Edmonton, AB',
         description: [
             'Led installation, commissioning, and maintenance of industrial communication and control systems across Alberta\'s oil sands operations.',
             'Coordinated with multidisciplinary engineering teams to troubleshoot and resolve complex electrical and network issues on-site.',

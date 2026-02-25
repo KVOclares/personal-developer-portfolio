@@ -3,6 +3,14 @@
  * All interfaces are maintained here to ensure consistency across components and data files.
  */
 
+// ─── Navigation ─────────────────────────────────────────────────────────────────
+
+/** Navigation item definition. */
+export interface NavItem {
+    label: string;
+    href: string;
+}
+
 // ─── Profile ────────────────────────────────────────────────────────────────────
 
 /** Represents a single social/contact link. */
