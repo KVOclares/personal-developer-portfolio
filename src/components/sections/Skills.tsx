@@ -1,17 +1,77 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ComponentType, type SVGProps } from 'react';
 import { SKILLS } from '../../data/skills';
+import {
+    SiTypescript,
+    SiJavascript,
+    SiPython,
+    SiR,
+    SiReact,
+    SiTailwindcss,
+    SiHtml5,
+    SiVite,
+    SiNodedotjs,
+    SiExpress,
 
-/** Color map for category badge styles. */
-const CATEGORY_COLORS: Record<string, string> = {
-    electric: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    cyan: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
-    green: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-    purple: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
-    orange: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+    SiPandas,
+    SiNumpy,
+    SiScikitlearn,
+    SiPostgresql,
+    SiSupabase,
+    SiGit,
+    SiGithub,
+    SiDocker,
+} from '@icons-pack/react-simple-icons';
+import { CircleDot, Database, BrainCircuit, BarChart3 } from 'lucide-react';
+
+/* ------------------------------------------------------------------ */
+/*  Icon mapping — skill name → Simple Icons component                */
+/* ------------------------------------------------------------------ */
+
+type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number | string; color?: string }>;
+
+const SKILL_ICON_MAP: Record<string, IconComponent> = {
+    TypeScript: SiTypescript,
+    JavaScript: SiJavascript,
+    Python: SiPython,
+    R: SiR,
+    React: SiReact,
+    'Tailwind CSS': SiTailwindcss,
+    HTML5: SiHtml5,
+    Vite: SiVite,
+    'Node.js': SiNodedotjs,
+    Express: SiExpress,
+    'Power BI': BarChart3 as unknown as IconComponent,
+    Pandas: SiPandas,
+    NumPy: SiNumpy,
+    'Scikit-learn': SiScikitlearn,
+    PostgreSQL: SiPostgresql,
+    Supabase: SiSupabase,
+    Git: SiGit,
+    GitHub: SiGithub,
+    Docker: SiDocker,
+    'Azure AI': BrainCircuit as unknown as IconComponent,
+    SQL: Database as unknown as IconComponent,
 };
 
+/** Fallback icon for skills without a Simple Icon. */
+const FallbackIcon = CircleDot as unknown as IconComponent;
+
+/** Per-category tag color styles. */
+const CATEGORY_COLORS: Record<string, string> = {
+    Languages: 'bg-blue-500/10   text-blue-400   border-blue-500/20',
+    Frontend: 'bg-cyan-500/10   text-cyan-400   border-cyan-500/20',
+    Backend: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+    'Data & ML': 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+    Database: 'bg-amber-500/10  text-amber-400  border-amber-500/20',
+    'Tools & DevOps': 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+};
+
+/* ------------------------------------------------------------------ */
+/*  Component                                                         */
+/* ------------------------------------------------------------------ */
+
 /**
- * Skills section — categorized grid of technical skills with SVG icons.
+ * Skills section — categorized grid of technical skills with brand icons.
  */
 function Skills() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -63,37 +123,28 @@ function Skills() {
                                 transition: `opacity 0.6s ease ${catIdx * 0.08}s, transform 0.6s ease ${catIdx * 0.08}s`,
                             }}
                         >
-                            {/* Category label */}
-                            <span
-                                className={`tag border mb-5 ${CATEGORY_COLORS[cat.color] ?? CATEGORY_COLORS['electric']}`}
-                            >
+                            {/* Category label — unique color per category */}
+                            <span className={`tag border mb-5 ${CATEGORY_COLORS[cat.category] ?? 'bg-blue-500/10 text-blue-400 border-blue-500/20'}`}>
                                 {cat.category}
                             </span>
 
-                            {/* Skills grid */}
-                            <div className="grid grid-cols-2 gap-3">
-                                {cat.skills.map((skill) => (
-                                    <div
-                                        key={skill.name}
-                                        className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-white/5 
-                               transition-colors duration-150 group"
-                                    >
-                                        <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 
-                                    group-hover:bg-electric-500/10 transition-colors duration-150 flex-shrink-0">
-                                            <svg
-                                                className="w-4 h-4 text-slate-400 group-hover:text-electric-400 transition-colors duration-150"
-                                                viewBox="0 0 24 24"
-                                                fill="currentColor"
-                                                aria-hidden="true"
-                                            >
-                                                <path d={skill.iconPath} />
-                                            </svg>
-                                        </div>
-                                        <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors duration-150 leading-tight">
+                            {/* Skills — pill badges with flex wrap */}
+                            <div className="flex flex-wrap gap-2">
+                                {cat.skills.map((skill) => {
+                                    const Icon = SKILL_ICON_MAP[skill.name] ?? FallbackIcon;
+                                    return (
+                                        <span
+                                            key={skill.name}
+                                            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5
+                                               bg-navy-950/80 border border-gray-700 text-sm text-gray-300
+                                               hover:border-electric-500/50 hover:text-white
+                                               transition-colors duration-150 cursor-default"
+                                        >
+                                            <Icon size={14} className="flex-shrink-0" aria-hidden="true" />
                                             {skill.name}
                                         </span>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </div>
                     ))}

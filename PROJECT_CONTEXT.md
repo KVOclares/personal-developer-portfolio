@@ -18,6 +18,8 @@
 - **eslint** (with plugins `@eslint/js`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`, `typescript-eslint`): Linter to maintain code quality and consistent formatting.
 - **@types/react** & **@types/react-dom**: TypeScript definitions for React.
 - **globals**: Globals library used with ESLint.
+- **@icons-pack/react-simple-icons**: React components for 3,000+ brand icons from Simple Icons.
+- **lucide-react**: Lightweight icon library used for category headers and fallback skill icons.
 
 ## 3. Current Folder Structure
 ```text
@@ -88,15 +90,22 @@ src/
 - Experience data corrected: "Senior Communication Technician" at Edmonton, AB
 - Profile about text updated to short punchy recruiter-facing tagline
 - **Hero.tsx fully built**: full-viewport intro with staggered mount animations (fadeIn/slideUp with delays 0–900ms), typewriter cycling role titles via useTypingCycle wrapped in code brackets (< Role />), full PROFILE.about as tagline (no truncation), CTA buttons (View My Work → #projects, Download Resume → PDF), scroll-aware bouncing ChevronDown indicator using lucide-react, radial gradient background with decorative blurred circles, aria-live on role title
+- **About.tsx fully built**: two-column layout (40/60), profile photo with CSS background-image zoom (backgroundSize 170%, backgroundPosition 77% 70%) inside circular frame with electric blue ring + glow, click-to-open lightbox modal (Escape/click-outside/X to close, body scroll lock, focus management, caption), MapPin location badge, pulsing green "Open to Opportunities" badge, 3 bio paragraphs from profile.bio[], 4 quick stats row, 8-item Core Stack badges (variant="stack"), scroll-triggered slide-in animations via useScrollAnimation (left column from left, right from right)
+- Profile interface extended with bio: string[], availability: boolean, photo: string
+- profile.ts extended with bio paragraphs, availability flag, Vite-imported profile photo
+- animate-in CSS utility updated to reset both translateX and translateY via translate(0, 0)
 - vercel.json configured for SPA routing and PDF headers
 - .env.example, .gitignore, README.md all production-ready
 - Pushed to GitHub: https://github.com/KVOclares/personal-developer-portfolio
+- **Skills.tsx fully built**: 6-category grid (Languages, Frontend, Backend, Data & ML, Database, Tools & DevOps) with per-category colored label badges, brand icons via @icons-pack/react-simple-icons mapped per skill name (Lucide CircleDot/BarChart3 fallback for skills without a Simple Icon), pill badge layout (flex-wrap, rounded-full, bg-navy-950/80, border-gray-700, hover glow), scroll-triggered staggered animations via IntersectionObserver
+- Skill type simplified: removed iconPath field, icons resolved at render-time via SKILL_ICON_MAP in Skills.tsx
+- skills.ts restructured: PostgreSQL and SSIS moved to Database category, Vite moved to Frontend, Tools renamed to Tools & DevOps with Docker added
 
 ## 5. What Needs To Be Built Next (In Order)
 1. [x] Navbar.tsx — sticky nav with smooth scroll anchor links, active section highlighting, hamburger menu, Back to Top button
 2. [x] Hero.tsx — animated cycling title using useTypingCycle, staggered mount animations, scroll-aware indicator, radial gradient background
-3. [ ] About.tsx — summary section with scroll animation
-4. [ ] Skills.tsx — categorized grid using Badge component
+3. [x] About.tsx — two-column layout, profile photo with lightbox, bio paragraphs, quick stats, core stack badges, scroll animations
+4. [x] Skills.tsx — categorized grid with Simple Icons brand logos, per-category colored labels, pill badge layout
 5. [ ] Experience.tsx — timeline using Timeline component
 6. [ ] Projects.tsx — card grid using Card component
 7. [ ] Education.tsx — timeline reusing Timeline component
@@ -136,5 +145,5 @@ Paste this exact instruction at the start of the new chat:
 
 ---
 You are an expert Full Stack Frontend Developer helping me build my personal portfolio. Read PROJECT_CONTEXT.md for full project context. We are building components one at a time in the order listed in section 5. All components use React + TypeScript strict mode, Tailwind CSS, and pull content from src/data/ files. Do not hardcode any content inside components.
-Current task: Build About.tsx
+Current task: Build Skills.tsx
 ---

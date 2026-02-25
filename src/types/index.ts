@@ -39,8 +39,6 @@ export interface Profile {
 /** A single skill item. */
 export interface Skill {
     name: string;
-    /** SVG icon path (d attribute) drawn on a 24×24 viewBox — heroicons/simple-icons style. */
-    iconPath: string;
 }
 
 /** A category grouping related skills. */
