@@ -20,16 +20,16 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@v4
 
       - name: 🔍 Run Dependency Review
-        uses: actions/dependency-review-action@cc4b281f6d0f8ea346e9dfd82eef118f6fcf96fb
+        uses: actions/dependency-review-action@v4
         with:
           fail-on-severity: high
           comment-summary-in-pr: always
 
       - name: ⚙️ Setup Node.js (for NPM Audit)
-        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 

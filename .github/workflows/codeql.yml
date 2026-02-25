@@ -31,15 +31,15 @@ jobs:
         language: [ 'javascript-typescript' ]
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@v4
 
       - name: ⚙️ Initialize CodeQL
-        uses: github/codeql-action/init@5c777e48addcb0dd5a3d7aa3c6cbdbb3e5141ef1
+        uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
           queries: security-extended
 
       - name: 🔍 Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@5c777e48addcb0dd5a3d7aa3c6cbdbb3e5141ef1
+        uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"

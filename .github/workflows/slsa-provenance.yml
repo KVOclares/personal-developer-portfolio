@@ -14,16 +14,18 @@ permissions:
   contents: write
 
 jobs:
-  build_and_provenance:
-    name: 🛡️ Generate SLSA Provenance
+  build:
+    name: 📦 Build and Hash
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@v4
 
       - name: ⚙️ Setup Node.js
-        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
@@ -35,7 +37,19 @@ jobs:
       - name: 🗜️ Archive Build artifacts
         run: tar -czvf release.tar.gz dist/
 
-      - name: 📜 Generate SLSA Provenance
-        uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0
-        with:
-          base64-subjects: "${{ hashFiles('release.tar.gz') }}"
+      - name: 🔑 Generate Hashes
+        id: hash
+        run: |
+          set -euo pipefail
+          echo "hashes=$(sha256sum release.tar.gz | base64 -w0)" >> "$GITHUB_OUTPUT"
+
+  provenance:
+    name: 🛡️ Generate SLSA Provenance
+    needs: [build]
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0
+    with:
+      base64-subjects: "${{ needs.build.outputs.hashes }}"
