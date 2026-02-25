@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { PROJECTS } from '../data/projects';
+import { PROJECTS } from '../../data/projects';
 
 /**
  * Projects section — card grid showing portfolio projects (currently all "coming soon").

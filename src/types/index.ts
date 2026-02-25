@@ -1,0 +1,81 @@
+/**
+ * Centralized type definitions for the portfolio application.
+ * All interfaces are maintained here to ensure consistency across components and data files.
+ */
+
+// ─── Profile ────────────────────────────────────────────────────────────────────
+
+/** Represents a single social/contact link. */
+export interface SocialLink {
+    label: string;
+    url: string;
+    icon: 'email' | 'phone' | 'linkedin' | 'github';
+}
+
+/** Core profile data shape. */
+export interface Profile {
+    name: string;
+    titles: string[];
+    location: string;
+    email: string;
+    phone: string;
+    about: string;
+    socials: SocialLink[];
+}
+
+// ─── Skills ─────────────────────────────────────────────────────────────────────
+
+/** A single skill item. */
+export interface Skill {
+    name: string;
+    /** SVG icon path (d attribute) drawn on a 24×24 viewBox — heroicons/simple-icons style. */
+    iconPath: string;
+}
+
+/** A category grouping related skills. */
+export interface SkillCategory {
+    category: string;
+    color: string;
+    skills: Skill[];
+}
+
+// ─── Experience ─────────────────────────────────────────────────────────────────
+
+/** A single work experience entry. */
+export interface ExperienceEntry {
+    kind: 'experience';
+    title: string;
+    company: string;
+    period: string;
+    location: string;
+    description: string[];
+    current?: boolean;
+}
+
+// ─── Projects ───────────────────────────────────────────────────────────────────
+
+/** Status of a project. */
+export type ProjectStatus = 'coming-soon' | 'live' | 'wip';
+
+/** A single project card. */
+export interface Project {
+    title: string;
+    description: string;
+    tech: string[];
+    status: ProjectStatus;
+    githubUrl?: string;
+    liveUrl?: string;
+}
+
+// ─── Education ──────────────────────────────────────────────────────────────────
+
+/** A single education entry. */
+export interface EducationEntry {
+    kind: 'education';
+    degree: string;
+    field: string;
+    institution: string;
+    period: string;
+    honors: boolean;
+    highlights?: string[];
+}

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { PROFILE } from '../data/profile';
+import { PROFILE } from '../../data/profile';
 
 /**
  * About section — professional summary with subtle scroll-fade animation.

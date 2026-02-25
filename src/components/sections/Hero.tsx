@@ -1,46 +1,11 @@
-import { useState, useEffect } from 'react';
-import { PROFILE } from '../data/profile';
-
-/** Custom hook for cycling through animated title strings. */
-function useTypingAnimation(words: string[], typingSpeed = 80, deletingSpeed = 40, pauseMs = 2000) {
-    const [displayed, setDisplayed] = useState('');
-    const [wordIndex, setWordIndex] = useState(0);
-    const [charIndex, setCharIndex] = useState(0);
-    const [deleting, setDeleting] = useState(false);
-
-    useEffect(() => {
-        const currentWord = words[wordIndex] ?? '';
-
-        const timeout = setTimeout(() => {
-            if (!deleting) {
-                if (charIndex < currentWord.length) {
-                    setDisplayed(currentWord.slice(0, charIndex + 1));
-                    setCharIndex((c) => c + 1);
-                } else {
-                    setTimeout(() => setDeleting(true), pauseMs);
-                }
-            } else {
-                if (charIndex > 0) {
-                    setDisplayed(currentWord.slice(0, charIndex - 1));
-                    setCharIndex((c) => c - 1);
-                } else {
-                    setDeleting(false);
-                    setWordIndex((w) => (w + 1) % words.length);
-                }
-            }
-        }, deleting ? deletingSpeed : typingSpeed);
-
-        return () => clearTimeout(timeout);
-    }, [displayed, charIndex, deleting, wordIndex, words, typingSpeed, deletingSpeed, pauseMs]);
-
-    return displayed;
-}
+import { PROFILE } from '../../data/profile';
+import { useTypingCycle } from '../../hooks/useTypingCycle';
 
 /**
  * Hero section — full viewport introduction with animated cycling titles and CTA buttons.
  */
 function Hero() {
-    const animatedTitle = useTypingAnimation(PROFILE.titles);
+    const animatedTitle = useTypingCycle(PROFILE.titles);
 
     const scrollTo = (id: string) => {
         document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });

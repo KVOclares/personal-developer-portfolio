@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { SKILLS } from '../data/skills';
+import { SKILLS } from '../../data/skills';
 
 /** Color map for category badge styles. */
 const CATEGORY_COLORS: Record<string, string> = {

@@ -1,20 +1,7 @@
 /**
  * Skills data — categorized technical skills with SVG icon paths.
  */
-
-/** A single skill item. */
-export interface Skill {
-    name: string;
-    /** SVG icon path(d attribute) drawn on a 24×24 viewBox — heroicons/simple-icons style. */
-    iconPath: string;
-}
-
-/** A category grouping related skills. */
-export interface SkillCategory {
-    category: string;
-    color: string; // Tailwind color class for the category badge
-    skills: Skill[];
-}
+import type { SkillCategory } from '../types';
 
 /** All skill categories and items. */
 export const SKILLS: SkillCategory[] = [

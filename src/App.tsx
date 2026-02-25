@@ -1,11 +1,12 @@
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Experience from './components/Experience';
-import Projects from './components/Projects';
-import Education from './components/Education';
-import Contact from './components/Contact';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import Hero from './components/sections/Hero';
+import About from './components/sections/About';
+import Skills from './components/sections/Skills';
+import Experience from './components/sections/Experience';
+import Projects from './components/sections/Projects';
+import Education from './components/sections/Education';
+import Contact from './components/sections/Contact';
 
 /**
  * Root application component.
@@ -24,13 +25,7 @@ function App() {
                 <Education />
                 <Contact />
             </main>
-            <footer className="border-t border-white/10 py-8">
-                <div className="section-container text-center">
-                    <p className="text-slate-500 text-sm font-mono">
-                        © {new Date().getFullYear()} Kier Vincent Oclares — Built with React + TypeScript + Tailwind CSS
-                    </p>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }

@@ -24,7 +24,7 @@ A modern, fully responsive personal portfolio SPA showcasing my background in fu
 | Bundler | Vite 5 |
 | Styling | Tailwind CSS 3 |
 | Fonts | Inter + JetBrains Mono (Google Fonts) |
-| Deployment | Static SPA — any CDN or static host |
+| Deployment | Vercel (automatic deploys from `main`) |
 
 ---
 
@@ -32,25 +32,43 @@ A modern, fully responsive personal portfolio SPA showcasing my background in fu
 
 ```
 src/
-├── components/         # One file per UI section
-│   ├── Navbar.tsx      # Sticky nav bar with mobile hamburger menu
-│   ├── Hero.tsx        # Full-viewport hero with typewriter animation
-│   ├── About.tsx       # Professional summary + stat cards
-│   ├── Skills.tsx      # Categorized skill grid with SVG icons
-│   ├── Experience.tsx  # Vertical timeline of work history
-│   ├── Projects.tsx    # Project card grid (coming soon cards)
-│   ├── Education.tsx   # NAIT diploma entries with honors badges
-│   └── Contact.tsx     # Contact cards + copy-to-clipboard email
-│
-├── data/               # All content as typed TypeScript constants
-│   ├── profile.ts      # Name, titles, about text, social links
-│   ├── skills.ts       # Categorized skills with SVG icon paths
-│   ├── experience.ts   # Work experience entries
-│   └── projects.ts     # Portfolio project definitions
-│
-├── App.tsx             # Root component — composes all sections
-├── main.tsx            # Entry point (React StrictMode)
-└── index.css           # Tailwind directives + global styles
+├── assets/
+│   ├── images/              # Static images
+│   └── resume/              # Resume PDF
+├── components/
+│   ├── layout/
+│   │   ├── Navbar.tsx        # Sticky nav bar with mobile hamburger menu
+│   │   └── Footer.tsx        # Site-wide footer
+│   ├── sections/
+│   │   ├── Hero.tsx          # Full-viewport hero with typewriter animation
+│   │   ├── About.tsx         # Professional summary + stat cards
+│   │   ├── Skills.tsx        # Categorized skill grid with SVG icons
+│   │   ├── Experience.tsx    # Vertical timeline of work history
+│   │   ├── Projects.tsx      # Project card grid
+│   │   ├── Education.tsx     # NAIT diploma entries with honors badges
+│   │   └── Contact.tsx       # Contact cards + copy-to-clipboard email
+│   └── ui/
+│       ├── Badge.tsx          # Styled pill/tag (skill, status, stack)
+│       ├── Card.tsx           # Reusable glass card wrapper
+│       ├── Button.tsx         # Primary and outline button variants
+│       ├── SectionHeader.tsx  # Consistent section heading
+│       └── Timeline.tsx       # Vertical timeline (Experience/Education)
+├── data/
+│   ├── profile.ts            # Name, titles, about text, social links
+│   ├── skills.ts             # Categorized skills with SVG icon paths
+│   ├── experience.ts         # Work experience entries
+│   ├── projects.ts           # Portfolio project definitions
+│   └── education.ts          # Degrees, certifications
+├── hooks/
+│   ├── useScrollAnimation.ts # Intersection Observer scroll animation
+│   └── useTypingCycle.ts     # Typewriter cycling animation
+├── types/
+│   └── index.ts              # All TypeScript interfaces and types
+├── utils/
+│   └── index.ts              # Shared utility functions
+├── App.tsx                    # Root component — composes all sections
+├── main.tsx                   # Entry point (React StrictMode)
+└── index.css                  # Tailwind directives + global styles
 ```
 
 ---
@@ -85,7 +103,7 @@ npm run build
 npm run preview
 ```
 
-Output is in the `dist/` folder — deploy to Vercel, Netlify, or GitHub Pages.
+Output is in the `dist/` folder.
 
 ### Linting
 
@@ -106,16 +124,28 @@ npm run lint
 
 ---
 
-## ✏️ Customizing Content
+## 🚀 Deployment
 
-All portfolio data lives in `src/data/` — edit these files to update the site without touching any component:
+This site is deployed on Vercel with automatic deployments from the main branch.
 
-| File | What to edit |
-|------|--------------|
-| `profile.ts` | Name, animated titles, about text, contact info |
-| `skills.ts` | Skill categories and SVG icon paths |
-| `experience.ts` | Work history entries and bullet points |
-| `projects.ts` | Project cards, tech stacks, and links |
+### Deploy Your Own
+1. Fork this repository
+2. Go to [vercel.com](https://vercel.com) and import the repo
+3. Set framework preset to: **Vite**
+4. Add environment variables from `.env.example`
+5. Deploy — done
+
+### Updating Content
+
+All site content lives in `src/data/`. To update: edit the relevant data file → `git push` → Vercel auto-deploys in ~30 seconds.
+
+| File | What to update |
+|------|---------------|
+| `src/data/profile.ts` | Name, bio, contact info |
+| `src/data/experience.ts` | Work history |
+| `src/data/projects.ts` | Portfolio projects |
+| `src/data/skills.ts` | Technical skills |
+| `src/data/education.ts` | Degrees, certifications |
 
 ---
 

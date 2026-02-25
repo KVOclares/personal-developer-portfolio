@@ -1,24 +1,7 @@
 /**
  * Profile data — contact information and social links for Kier Vincent Oclares.
  */
-
-/** Represents a single social/contact link. */
-export interface SocialLink {
-    label: string;
-    url: string;
-    icon: 'email' | 'phone' | 'linkedin' | 'github';
-}
-
-/** Core profile data shape. */
-export interface Profile {
-    name: string;
-    titles: string[];
-    location: string;
-    email: string;
-    phone: string;
-    about: string;
-    socials: SocialLink[];
-}
+import type { Profile } from '../types';
 
 /** Hardcoded profile constants. */
 export const PROFILE: Profile = {

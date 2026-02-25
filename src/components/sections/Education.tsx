@@ -1,39 +1,5 @@
 import { useEffect, useRef } from 'react';
-
-/** A single education entry. */
-interface EducationEntry {
-    degree: string;
-    field: string;
-    institution: string;
-    period: string;
-    honors: boolean;
-    highlights?: string[];
-}
-
-const EDUCATION: EducationEntry[] = [
-    {
-        degree: 'Diploma with Honors',
-        field: 'Data Analytics',
-        institution: 'Northern Alberta Institute of Technology (NAIT)',
-        period: '2024 – 2025',
-        honors: true,
-        highlights: [
-            'Python, R, SQL, Power BI, Machine Learning, ETL Pipelines',
-            'Capstone: Predictive analytics dashboard for operational KPIs',
-        ],
-    },
-    {
-        degree: 'Diploma with Honors',
-        field: 'Electronic Engineering Technology',
-        institution: 'Northern Alberta Institute of Technology (NAIT)',
-        period: '2018 – 2020',
-        honors: true,
-        highlights: [
-            'Industrial control systems, PLC programming, circuit design',
-            'Dean\'s List, graduated with distinction',
-        ],
-    },
-];
+import { EDUCATION } from '../../data/education';
 
 /**
  * Education section — two NAIT diploma entries with highlights.

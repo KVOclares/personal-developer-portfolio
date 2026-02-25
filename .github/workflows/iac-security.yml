@@ -1,0 +1,48 @@
+name: 🏗️ IaC Security
+on:
+  push:
+    paths:
+      - '**/*.tf'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.json'
+      - '**/Dockerfile'
+  pull_request:
+    paths:
+      - '**/*.tf'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.json'
+      - '**/Dockerfile'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  checkov:
+    name: 🛡️ Checkov Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: 🔍 Run Checkov
+        uses: bridgecrewio/checkov-action@07ab0b33230bdf31c8ad4bdb2102005ac68d839
+        with:
+          directory: '.'
+          framework: terraform,dockerfile,kubernetes
+          output_format: sarif
+          output_file_path: checkov-results.sarif
+          hard_fail_on: HIGH,CRITICAL
+
+      - name: 📤 Upload Checkov scan results to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@5c777e48addcb0dd5a3d7aa3c6cbdbb3e5141ef1
+        with:
+          sarif_file: checkov-results.sarif

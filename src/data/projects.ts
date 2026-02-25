@@ -1,19 +1,7 @@
 /**
  * Projects data — portfolio project card definitions.
  */
-
-/** Status of a project. */
-export type ProjectStatus = 'coming-soon' | 'live' | 'wip';
-
-/** A single project card. */
-export interface Project {
-    title: string;
-    description: string;
-    tech: string[];
-    status: ProjectStatus;
-    githubUrl?: string;
-    liveUrl?: string;
-}
+import type { Project } from '../types';
 
 /** All portfolio projects. */
 export const PROJECTS: Project[] = [

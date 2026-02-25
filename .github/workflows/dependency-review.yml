@@ -1,0 +1,48 @@
+name: 📦 Dependency Review
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  dependency-review:
+    name: 🛡️ Dependency Review Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: 🔍 Run Dependency Review
+        uses: actions/dependency-review-action@cc4b281f6d0f8ea346e9dfd82eef118f6fcf96fb
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: always
+
+      - name: ⚙️ Setup Node.js (for NPM Audit)
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4
+        with:
+          node-version: '20'
+
+      - name: 🔍 NPM/PIP Audit
+        run: |
+          if [ -f "package.json" ]; then
+            npm audit --audit-level=high
+          elif [ -f "requirements.txt" ]; then
+            pip install safety
+            safety check
+          elif [ -f "pyproject.toml" ]; then
+            pip install safety
+            safety check
+          else
+            echo "ℹ️ No package.json or python config found. Skipping manual audit."
+          fi

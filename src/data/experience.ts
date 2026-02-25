@@ -1,20 +1,12 @@
 /**
  * Experience data — work history entries for the timeline component.
  */
-
-/** A single work experience entry. */
-export interface ExperienceEntry {
-    title: string;
-    company: string;
-    period: string;
-    location: string;
-    description: string[];
-    current?: boolean;
-}
+import type { ExperienceEntry } from '../types';
 
 /** Ordered (newest first) work experience. */
 export const EXPERIENCE: ExperienceEntry[] = [
     {
+        kind: 'experience',
         title: 'Machine Learning Developer',
         company: 'Government of Alberta',
         period: 'June 2025 – Present',
@@ -27,6 +19,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
         ],
     },
     {
+        kind: 'experience',
         title: 'Communication Lead Technician',
         company: 'ASCCI - North Inc.',
         period: 'Aug 2021 – Aug 2024',
@@ -38,6 +31,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
         ],
     },
     {
+        kind: 'experience',
         title: 'Machine Operator',
         company: 'Silent-Aire',
         period: 'Oct 2020 – Jul 2021',

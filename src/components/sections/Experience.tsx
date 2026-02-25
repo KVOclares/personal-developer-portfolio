@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { EXPERIENCE } from '../data/experience';
+import { EXPERIENCE } from '../../data/experience';
 
 /**
  * Experience section — vertical timeline of work history.

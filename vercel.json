@@ -1,0 +1,19 @@
+{
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/assets/resume/(.*)",
+            "headers": [
+                {
+                    "key": "Content-Disposition",
+                    "value": "inline"
+                }
+            ]
+        }
+    ]
+}

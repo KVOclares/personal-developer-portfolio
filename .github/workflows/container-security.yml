@@ -1,0 +1,52 @@
+name: 🐳 Container Security
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - '**/Dockerfile'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  trivy:
+    name: 🛡️ Trivy Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: 🔍 Check for Dockerfile
+        id: dockerfile-check
+        run: |
+          if [ -f "Dockerfile" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ No Dockerfile found in repository root. Skipping Trivy scan gracefully."
+          fi
+
+      - name: 🔍 Run Trivy vulnerability scanner
+        if: steps.dockerfile-check.outputs.exists == 'true'
+        uses: aquasecurity/trivy-action@915b19bbe73b92a6ba82a1bc12b087c9a19a5524
+        with:
+          scan-type: 'fs'
+          severity: 'CRITICAL,HIGH'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          exit-code: '1'
+          ignore-unfixed: true
+
+      - name: 📤 Upload Trivy scan results to GitHub Security tab
+        if: ${{ steps.dockerfile-check.outputs.exists == 'true' && always() }}
+        uses: github/codeql-action/upload-sarif@5c777e48addcb0dd5a3d7aa3c6cbdbb3e5141ef1
+        with:
+          sarif_file: 'trivy-results.sarif'
