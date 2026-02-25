@@ -86,13 +86,15 @@ src/
 - **Navbar.tsx fully built**: scroll-aware bg transition, active section highlighting via useActiveSection, responsive hamburger menu with animated icon, "Download Resume" outline button, "Back to Top" floating button, full accessibility (aria-label, aria-expanded, single nav landmark)
 - scroll-margin-top added to index.css so fixed navbar doesn't overlap section headings
 - Experience data corrected: "Senior Communication Technician" at Edmonton, AB
+- Profile about text updated to short punchy recruiter-facing tagline
+- **Hero.tsx fully built**: full-viewport intro with staggered mount animations (fadeIn/slideUp with delays 0–900ms), typewriter cycling role titles via useTypingCycle wrapped in code brackets (< Role />), full PROFILE.about as tagline (no truncation), CTA buttons (View My Work → #projects, Download Resume → PDF), scroll-aware bouncing ChevronDown indicator using lucide-react, radial gradient background with decorative blurred circles, aria-live on role title
 - vercel.json configured for SPA routing and PDF headers
 - .env.example, .gitignore, README.md all production-ready
 - Pushed to GitHub: https://github.com/KVOclares/personal-developer-portfolio
 
 ## 5. What Needs To Be Built Next (In Order)
 1. [x] Navbar.tsx — sticky nav with smooth scroll anchor links, active section highlighting, hamburger menu, Back to Top button
-2. [ ] Hero.tsx — animated cycling title using useTypingCycle
+2. [x] Hero.tsx — animated cycling title using useTypingCycle, staggered mount animations, scroll-aware indicator, radial gradient background
 3. [ ] About.tsx — summary section with scroll animation
 4. [ ] Skills.tsx — categorized grid using Badge component
 5. [ ] Experience.tsx — timeline using Timeline component
@@ -134,5 +136,5 @@ Paste this exact instruction at the start of the new chat:
 
 ---
 You are an expert Full Stack Frontend Developer helping me build my personal portfolio. Read PROJECT_CONTEXT.md for full project context. We are building components one at a time in the order listed in section 5. All components use React + TypeScript strict mode, Tailwind CSS, and pull content from src/data/ files. Do not hardcode any content inside components.
-Current task: Build Hero.tsx
+Current task: Build About.tsx
 ---

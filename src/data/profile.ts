@@ -7,15 +7,15 @@ import type { Profile } from '../types';
 export const PROFILE: Profile = {
     name: 'Kier Vincent Oclares',
     titles: [
-        'Full Stack Developer',
-        'Data Engineer',
-        'AI Integration Specialist',
+        'Machine Learning Developer',
+        'Data & Systems Analyst',
+        'Your Future Full Stack Developer',
     ],
     location: 'Edmonton, Alberta, Canada',
     email: 'KierVOclares@gmail.com',
     phone: '+1 (780) 920-8681',
     about:
-        'I am a Full Stack Developer and Data Engineer with a strong foundation in electronics engineering technology and data analytics from NAIT. Currently working at the Government of Alberta, I design and build AI-assisted data pipelines, machine learning solutions, and web applications that turn complex systems into clear, actionable insights. My work bridges the gap between raw engineering discipline and modern software — combining Python, TypeScript, and Azure AI Services to deliver scalable, impactful tools.',
+        'Pipelines that don\'t break. Dashboards that actually get used. AI tools that make work faster and smarter. That\'s what I build — and I\'ve been doing it at the Government of Alberta.',
     socials: [
         {
             label: 'LinkedIn',
