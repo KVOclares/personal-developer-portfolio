@@ -59,6 +59,7 @@ export interface ExperienceEntry {
     location: string;
     description: string[];
     current?: boolean;
+    highlights?: string[];
 }
 
 // ─── Projects ───────────────────────────────────────────────────────────────────

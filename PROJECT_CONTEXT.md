@@ -100,13 +100,17 @@ src/
 - **Skills.tsx fully built**: 6-category grid (Languages, Frontend, Backend, Data & ML, Database, Tools & DevOps) with per-category colored label badges, brand icons via @icons-pack/react-simple-icons mapped per skill name (Lucide CircleDot/BarChart3 fallback for skills without a Simple Icon), pill badge layout (flex-wrap, rounded-full, bg-navy-950/80, border-gray-700, hover glow), scroll-triggered staggered animations via IntersectionObserver
 - Skill type simplified: removed iconPath field, icons resolved at render-time via SKILL_ICON_MAP in Skills.tsx
 - skills.ts restructured: PostgreSQL and SSIS moved to Database category, Vite moved to Frontend, Tools renamed to Tools & DevOps with Docker added
+- **Experience.tsx fully built**: custom vertical timeline with electric blue accent line (scaleY draw-on-scroll), pulsing dot for current role, glassmorphic entry cards sliding in from right with staggered delays, Building2/MapPin/ChevronRight Lucide icons, date period pill badges, impact highlight badges (variant="stack") for GoA role, full accessibility (role="region", role="list", aria-labelledby, aria-label on current dot)
+- ExperienceEntry interface extended with highlights?: string[] in src/types/index.ts
+- experience.ts fully rewritten: 3 entries (GoA ML Developer 8 bullets + 4 highlights, ASCCI Senior Communication Technician 4 bullets, Silent-Aire Machine Operator 3 bullets), all action-verb led
+- useActiveSection rootMargin tuned to '-70% 0px -30% 0px' for accurate active nav highlighting on scroll
 
 ## 5. What Needs To Be Built Next (In Order)
 1. [x] Navbar.tsx — sticky nav with smooth scroll anchor links, active section highlighting, hamburger menu, Back to Top button
 2. [x] Hero.tsx — animated cycling title using useTypingCycle, staggered mount animations, scroll-aware indicator, radial gradient background
 3. [x] About.tsx — two-column layout, profile photo with lightbox, bio paragraphs, quick stats, core stack badges, scroll animations
 4. [x] Skills.tsx — categorized grid with Simple Icons brand logos, per-category colored labels, pill badge layout
-5. [ ] Experience.tsx — timeline using Timeline component
+5. [x] Experience.tsx — custom vertical timeline with scroll animations, impact highlights, full accessibility
 6. [ ] Projects.tsx — card grid using Card component
 7. [ ] Education.tsx — timeline reusing Timeline component
 8. [ ] Contact.tsx — email/links with copyToClipboard utility
@@ -145,5 +149,5 @@ Paste this exact instruction at the start of the new chat:
 
 ---
 You are an expert Full Stack Frontend Developer helping me build my personal portfolio. Read PROJECT_CONTEXT.md for full project context. We are building components one at a time in the order listed in section 5. All components use React + TypeScript strict mode, Tailwind CSS, and pull content from src/data/ files. Do not hardcode any content inside components.
-Current task: Build Skills.tsx
+Current task: Build Projects.tsx
 ---

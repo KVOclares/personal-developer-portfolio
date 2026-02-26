@@ -64,7 +64,7 @@ export function useActiveSection(navLinks: NavLink[]): string {
                 // viewport. The negative top margin means "don't count it until
                 // it's 10% past the top edge", and the large negative bottom
                 // margin means "stop counting once it passes the top 40%".
-                rootMargin: '-10% 0px -40% 0px',
+                rootMargin: '-70% 0px -30% 0px',
                 threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5],
             },
         );
