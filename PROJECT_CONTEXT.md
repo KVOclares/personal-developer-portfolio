@@ -110,6 +110,10 @@ src/
 - SectionHeader.tsx extended with optional headingId prop for accessible section labelling
 - projects.ts rewritten: 8 project entries (Personal Portfolio Site [live], Alberta Program Finder, Personal Budget Tracker, Edmonton Housing Data Explorer, Developer Notes App, Cloud Cost Explainer Tool, PR Quality Gate Bot, Alberta Benefits Navigator [featured])
 
+- **Education.tsx fully built**: two-column layout (40/60) with personal note blockquote and animated "Currently Learning" pills on left, stacked education cards and certifications block on right, data-driven from typed arrays in `education.ts`, staggered scroll animations via `useScrollAnimation` hook, full accessibility (role="region", role="list", aria-labels)
+- `EducationEntry` interface extended with `coursework?: string[]`, `Certification` interface added
+- `education.ts` updated with precise credential strings, and exports for `CERTIFICATIONS` and `CURRENTLY_LEARNING` to enable zero-component-change scalability
+
 ## 5. What Needs To Be Built Next (In Order)
 1. [x] Navbar.tsx — sticky nav with smooth scroll anchor links, active section highlighting, hamburger menu, Back to Top button
 2. [x] Hero.tsx — animated cycling title using useTypingCycle, staggered mount animations, scroll-aware indicator, radial gradient background
@@ -117,7 +121,7 @@ src/
 4. [x] Skills.tsx — categorized grid with Simple Icons brand logos, per-category colored labels, pill badge layout
 5. [x] Experience.tsx — custom vertical timeline with scroll animations, impact highlights, full accessibility
 6. [x] Projects.tsx — responsive card grid with featured project layout, status colour system, mock terminal, scroll animations, full accessibility
-7. [ ] Education.tsx — timeline reusing Timeline component
+7. [x] Education.tsx — two-column layout with learning pills, stacked education cards, and certifications block
 8. [ ] Contact.tsx — email/links with copyToClipboard utility
 9. [ ] Footer.tsx — simple footer with links
 10. [ ] EmailJS integration in Contact.tsx
@@ -148,11 +152,12 @@ src/
 - Reusable ui/ components used across all sections
 - Vercel auto-deploys on every git push to main
 - Resume PDF hosted in src/assets/resume/ and served inline via vercel.json headers
+- Scalable data arrays (`CERTIFICATIONS`, `CURRENTLY_LEARNING`) used to prevent component code changes when adding new entries
 
 ## 8. How To Continue In a New Chat
 Paste this exact instruction at the start of the new chat:
 
 ---
 You are an expert Full Stack Frontend Developer helping me build my personal portfolio. Read PROJECT_CONTEXT.md for full project context. We are building components one at a time in the order listed in section 5. All components use React + TypeScript strict mode, Tailwind CSS, and pull content from src/data/ files. Do not hardcode any content inside components.
-Current task: Building Projects.tsx but do not change any code at the moment wait until I send a different prompt explaining what I want to do with it.
+Current task: Building Contact.tsx but do not change any code at the moment wait until I send a different prompt explaining what I want to do with it.
 ---

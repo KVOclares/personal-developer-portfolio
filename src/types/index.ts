@@ -88,5 +88,13 @@ export interface EducationEntry {
     institution: string;
     period: string;
     honors: boolean;
+    coursework?: string[];
     highlights?: string[];
+}
+
+/** A single certification or training credential. */
+export interface Certification {
+    title: string;
+    issuer: string;
+    status: 'active' | 'expired' | 'in-progress';
 }

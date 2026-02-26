@@ -1,102 +1,196 @@
-import { useEffect, useRef } from 'react';
-import { EDUCATION } from '../../data/education';
+import { GraduationCap, Award, ShieldCheck, BookOpen } from 'lucide-react';
+import { EDUCATION, CERTIFICATIONS, CURRENTLY_LEARNING } from '../../data/education';
+import { useScrollAnimation } from '../../hooks/useScrollAnimation';
+import SectionHeader from '../ui/SectionHeader';
+import type { EducationEntry, Certification } from '../../types';
+
+/** Status → colour mapping for certification badges. */
+const CERT_STATUS_STYLES: Record<Certification['status'], string> = {
+    active: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+    expired: 'bg-red-500/10 text-red-400 border-red-500/20',
+    'in-progress': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+};
+
+const CERT_STATUS_LABELS: Record<Certification['status'], string> = {
+    active: 'Active',
+    expired: 'Expired',
+    'in-progress': 'In Progress',
+};
 
 /**
- * Education section — two NAIT diploma entries with highlights.
+ * Education section — two-column layout with education cards,
+ * certifications, and a "Currently Learning" sidebar.
  */
 function Education() {
-    const sectionRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
-
-        const el = sectionRef.current;
-        if (el) {
-            el.querySelectorAll('[data-animate]').forEach((child) => observer.observe(child));
-        }
-        return () => observer.disconnect();
-    }, []);
+    const sectionRef = useScrollAnimation<HTMLElement>();
 
     return (
-        <section id="education" ref={sectionRef} className="py-24">
-            <div className="section-container">
-                {/* Section header */}
-                <div
-                    data-animate
-                    className="mb-12"
-                    style={{ opacity: 0, transform: 'translateY(20px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
-                >
-                    <p className="section-subheading">Academic Background</p>
-                    <h2 className="section-heading">Education</h2>
-                    <div className="h-1 w-16 bg-gradient-to-r from-electric-500 to-accent-cyan rounded-full" />
-                </div>
+        <section
+            id="education"
+            ref={sectionRef}
+            className="py-24"
+            role="region"
+            aria-labelledby="education-heading"
+        >
+            <div className="max-w-6xl mx-auto px-6">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+                    {/* ── Left Column (40%) ──────────────────────────── */}
+                    <div
+                        className="lg:col-span-2"
+                        data-animate
+                        style={{
+                            opacity: 0,
+                            transform: 'translateX(-20px)',
+                            transition: 'opacity 0.6s ease, transform 0.6s ease',
+                        }}
+                    >
+                        <SectionHeader
+                            title="Education"
+                            subtitle="Foundations that shaped how I think"
+                            headingId="education-heading"
+                        />
 
-                <div className="grid sm:grid-cols-2 gap-6">
-                    {EDUCATION.map((entry, idx) => (
-                        <div
-                            key={entry.field}
-                            data-animate
-                            className="card-glass p-6 cursor-default"
-                            style={{
-                                opacity: 0,
-                                transform: 'translateY(24px)',
-                                transition: `opacity 0.6s ease ${idx * 0.1}s, transform 0.6s ease ${idx * 0.1}s`,
-                            }}
-                        >
-                            {/* Header row */}
-                            <div className="flex items-start gap-4 mb-4">
-                                <div className="w-12 h-12 rounded-xl bg-electric-500/10 border border-electric-500/20 
-                                flex items-center justify-center flex-shrink-0">
-                                    <svg
-                                        className="w-6 h-6 text-electric-400"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        strokeWidth={1.5}
-                                        aria-hidden="true"
+                        {/* Personal note */}
+                        <blockquote className="mt-6 border-l-[3px] border-electric-500 pl-4 italic text-gray-400 text-sm leading-relaxed">
+                            I have two NAIT diplomas with Honors and I am currently building
+                            the full stack skills to match my data engineering background
+                            &mdash; one project at a time.
+                        </blockquote>
+
+                        {/* Currently Learning */}
+                        <div className="mt-8" aria-label="Technologies currently being learned">
+                            <p className="text-gray-500 text-xs uppercase tracking-widest mb-3">
+                                Currently Learning
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                                {CURRENTLY_LEARNING.map((topic) => (
+                                    <span
+                                        key={topic}
+                                        className="bg-electric-500/5 border border-electric-500/20 text-electric-400/70
+                                                   text-xs px-3 py-1 rounded-full animate-pulse"
                                     >
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
-                                    </svg>
-                                </div>
-                                {entry.honors && (
-                                    <span className="ml-auto tag bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 flex items-center gap-1.5">
-                                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005z" clipRule="evenodd" />
-                                        </svg>
-                                        With Honors
+                                        {topic}
                                     </span>
-                                )}
+                                ))}
                             </div>
-
-                            <h3 className="text-xl font-bold text-white mb-1">{entry.field}</h3>
-                            <p className="text-electric-400 font-semibold text-sm mb-1">{entry.degree}</p>
-                            <p className="text-slate-400 text-sm mb-1">{entry.institution}</p>
-                            <p className="text-slate-500 text-xs font-mono mb-5">{entry.period}</p>
-
-                            {entry.highlights && (
-                                <ul className="space-y-2 border-t border-white/10 pt-4">
-                                    {entry.highlights.map((highlight, hIdx) => (
-                                        <li key={hIdx} className="flex gap-3 text-sm text-slate-400">
-                                            <svg className="w-4 h-4 text-electric-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                                            </svg>
-                                            {highlight}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
                         </div>
-                    ))}
+                    </div>
+
+                    {/* ── Right Column (60%) ─────────────────────────── */}
+                    <div className="lg:col-span-3">
+                        {/* Education cards */}
+                        <div role="list" className="space-y-6">
+                            {EDUCATION.map((entry: EducationEntry, idx: number) => (
+                                <div
+                                    key={entry.field}
+                                    role="listitem"
+                                    data-animate
+                                    className="bg-navy-800/60 border border-gray-800 rounded-xl p-6
+                                               hover:border-electric-500/30 hover:-translate-y-0.5
+                                               transition-all duration-200"
+                                    style={{
+                                        opacity: 0,
+                                        transform: 'translateY(15px)',
+                                        transition: `opacity 0.6s ease ${idx * 0.1}s, transform 0.6s ease ${idx * 0.1}s`,
+                                    }}
+                                >
+                                    {/* Top row — institution + period */}
+                                    <div className="flex items-start justify-between gap-4 mb-3">
+                                        <div className="flex items-center gap-2 min-w-0">
+                                            <GraduationCap
+                                                className="w-5 h-5 text-electric-400 flex-shrink-0"
+                                                aria-hidden="true"
+                                            />
+                                            <span className="text-gray-300 text-sm font-medium truncate">
+                                                {entry.institution}
+                                            </span>
+                                        </div>
+                                        <span className="bg-electric-500/10 text-electric-400 text-xs px-3 py-1 rounded-full border border-electric-500/20 whitespace-nowrap flex-shrink-0">
+                                            {entry.period}
+                                        </span>
+                                    </div>
+
+                                    {/* Credential + field */}
+                                    <h3 className="text-base font-bold text-white mb-0.5">
+                                        {entry.degree}
+                                    </h3>
+                                    <p className="text-gray-400 text-sm mb-3">{entry.field}</p>
+
+                                    {/* Honors badge */}
+                                    {entry.honors && (
+                                        <span
+                                            className="inline-flex items-center gap-1 bg-amber-500/10 text-amber-400
+                                                       border border-amber-500/20 text-xs px-2 py-0.5 rounded-full mb-3"
+                                            aria-label="Dean's Honour Roll"
+                                        >
+                                            <Award className="w-3 h-3" aria-hidden="true" />
+                                            Dean&apos;s Honour Roll
+                                        </span>
+                                    )}
+
+                                    {/* Coursework */}
+                                    {entry.coursework && entry.coursework.length > 0 && (
+                                        <div className="mt-3 pt-3 border-t border-white/5">
+                                            <p className="text-gray-500 text-xs mb-1">Coursework</p>
+                                            <p className="text-gray-400 text-xs leading-relaxed">
+                                                {entry.coursework.join(', ')}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Certifications block */}
+                        {CERTIFICATIONS.length > 0 && (
+                            <div
+                                data-animate
+                                className="mt-10"
+                                style={{
+                                    opacity: 0,
+                                    transform: 'translateY(15px)',
+                                    transition: `opacity 0.6s ease ${EDUCATION.length * 0.1 + 0.2}s, transform 0.6s ease ${EDUCATION.length * 0.1 + 0.2}s`,
+                                }}
+                            >
+                                <p className="text-gray-500 text-xs uppercase tracking-widest mb-4 flex items-center gap-2">
+                                    <ShieldCheck className="w-4 h-4" aria-hidden="true" />
+                                    Certifications &amp; Training
+                                </p>
+
+                                <div className="space-y-3">
+                                    {CERTIFICATIONS.map((cert: Certification) => (
+                                        <div
+                                            key={cert.title}
+                                            className="bg-navy-800/60 border border-gray-800 rounded-xl p-4
+                                                       flex items-center justify-between gap-4
+                                                       hover:border-electric-500/30 hover:-translate-y-0.5
+                                                       transition-all duration-200"
+                                        >
+                                            <div className="flex items-center gap-3 min-w-0">
+                                                <BookOpen
+                                                    className="w-4 h-4 text-electric-400 flex-shrink-0"
+                                                    aria-hidden="true"
+                                                />
+                                                <div className="min-w-0">
+                                                    <p className="text-white text-sm font-medium truncate">
+                                                        {cert.title}
+                                                    </p>
+                                                    <p className="text-gray-500 text-xs truncate">
+                                                        {cert.issuer}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <span
+                                                className={`text-xs px-2.5 py-0.5 rounded-full border whitespace-nowrap flex-shrink-0 ${CERT_STATUS_STYLES[cert.status]}`}
+                                            >
+                                                {CERT_STATUS_LABELS[cert.status]}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </section>
