@@ -1,125 +1,307 @@
-import { useEffect, useRef } from 'react';
+import { Github, ExternalLink, Clock, Terminal } from 'lucide-react';
 import { PROJECTS } from '../../data/projects';
+import SectionHeader from '../ui/SectionHeader';
+import Badge from '../ui/Badge';
+import { useScrollAnimation } from '../../hooks/useScrollAnimation';
+import type { ProjectStatus } from '../../types';
+
+/* ─── Status colour system ──────────────────────────────────────────────────── */
+
+const STATUS_STYLES: Record<
+    ProjectStatus,
+    { bar: string; badge: string; label: string }
+> = {
+    live: {
+        bar: 'bg-green-500',
+        badge: 'bg-green-500/10 text-green-400 border border-green-500/20',
+        label: 'Live',
+    },
+    'in-progress': {
+        bar: 'bg-yellow-500',
+        badge: 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20',
+        label: 'In Progress',
+    },
+    'coming-soon': {
+        bar: 'bg-gray-600',
+        badge: 'bg-gray-700 text-gray-400 border border-gray-600',
+        label: 'Coming Soon',
+    },
+};
+
+/* ─── Featured-card mock terminal content ────────────────────────────────────── */
+
+const MOCK_MESSAGES = [
+    { role: 'user' as const, text: 'What benefits am I eligible for?' },
+    {
+        role: 'ai' as const,
+        text: `Based on your situation, here are 3 programs you may qualify for:\n1. AISH — Assured Income\n2. Alberta Works\n3. Child Benefit Supplement`,
+    },
+];
+
+/* ─── Component ──────────────────────────────────────────────────────────────── */
 
 /**
- * Projects section — card grid showing portfolio projects (currently all "coming soon").
+ * Projects section — responsive card grid showcasing portfolio projects.
+ * Fully data-driven: adding a project = one new object in projects.ts.
  */
 function Projects() {
-    const sectionRef = useRef<HTMLElement>(null);
+    const sectionRef = useScrollAnimation<HTMLElement>();
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
+    /* Separate standard and featured projects */
+    const standardProjects = PROJECTS.filter((p) => !p.featured);
+    const featuredProject = PROJECTS.find((p) => p.featured);
 
-        const el = sectionRef.current;
-        if (el) {
-            el.querySelectorAll('[data-animate]').forEach((child) => observer.observe(child));
-        }
-        return () => observer.disconnect();
-    }, []);
+    /* Animation delay index — featured card animates last */
+    const featuredDelay = standardProjects.length;
 
     return (
-        <section id="projects" ref={sectionRef} className="py-24 bg-navy-950/50">
-            <div className="section-container">
-                {/* Section header */}
+        <section
+            id="projects"
+            ref={sectionRef}
+            className="py-24"
+            role="region"
+            aria-labelledby="projects-heading"
+        >
+            <div className="max-w-6xl mx-auto px-6">
+                {/* Animated section header */}
                 <div
                     data-animate
-                    className="mb-12"
-                    style={{ opacity: 0, transform: 'translateY(20px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
+                    style={{
+                        opacity: 0,
+                        transform: 'translateY(20px)',
+                        transition: 'opacity 0.6s ease, transform 0.6s ease',
+                    }}
                 >
-                    <p className="section-subheading">What I'm Building</p>
-                    <h2 className="section-heading">Projects</h2>
-                    <div className="h-1 w-16 bg-gradient-to-r from-electric-500 to-accent-cyan rounded-full" />
+                    <SectionHeader
+                        title="Projects"
+                        subtitle="Things I have built and am building"
+                        headingId="projects-heading"
+                    />
                 </div>
 
-                {/* Project cards */}
-                <div className="grid sm:grid-cols-2 gap-6">
-                    {PROJECTS.map((project, idx) => (
-                        <div
-                            key={project.title}
-                            data-animate
-                            className="card-glass p-6 flex flex-col cursor-default"
-                            style={{
-                                opacity: 0,
-                                transform: 'translateY(24px)',
-                                transition: `opacity 0.6s ease ${idx * 0.1}s, transform 0.6s ease ${idx * 0.1}s`,
-                            }}
-                        >
-                            {/* Header */}
-                            <div className="flex items-start justify-between gap-4 mb-4">
-                                <div className="w-12 h-12 rounded-xl bg-electric-500/10 border border-electric-500/20 
-                                flex items-center justify-center flex-shrink-0">
-                                    <svg
-                                        className="w-6 h-6 text-electric-400"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        strokeWidth={1.5}
-                                        aria-hidden="true"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
-                                    </svg>
+                {/* ── Standard project cards ─────────────────────────────── */}
+                <div
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    role="list"
+                >
+                    {standardProjects.map((project, idx) => {
+                        const style = STATUS_STYLES[project.status];
+                        return (
+                            <div
+                                key={project.title}
+                                role="listitem"
+                                data-animate
+                                className="card-glass flex flex-col overflow-hidden transition-all duration-300 ease-in-out
+                                           hover:border-electric-500/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-electric-500/10"
+                                style={{
+                                    opacity: 0,
+                                    transform: 'translateY(20px)',
+                                    transition: `opacity 0.6s ease ${idx * 0.1}s, transform 0.6s ease ${idx * 0.1}s`,
+                                }}
+                            >
+                                {/* Top accent bar */}
+                                <div className={`h-1 w-full rounded-t-xl ${style.bar}`} />
+
+                                <div className="p-6 flex flex-col flex-grow">
+                                    {/* Header row */}
+                                    <div className="flex items-start justify-between gap-3 mb-3">
+                                        <h3 className="text-lg font-bold text-white">{project.title}</h3>
+                                        <span
+                                            className={`inline-flex items-center whitespace-nowrap px-2.5 py-1 text-xs font-mono font-medium rounded-md ${style.badge}`}
+                                            aria-label={`Project status: ${style.label}`}
+                                        >
+                                            {style.label}
+                                        </span>
+                                    </div>
+
+                                    {/* Description */}
+                                    <p className="text-gray-400 text-sm leading-relaxed mb-5 flex-grow">
+                                        {project.description}
+                                    </p>
+
+                                    {/* Tech stack */}
+                                    <div className="mb-5">
+                                        <p className="text-gray-500 text-xs uppercase tracking-wider mb-2">Stack</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {project.stack.map((tech) => (
+                                                <Badge key={tech} label={tech} variant="stack" />
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Action row */}
+                                    <div className="flex gap-3 pt-4 border-t border-white/10 mt-auto">
+                                        {project.githubUrl && (
+                                            <a
+                                                href={project.githubUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="btn-outline text-xs py-2 px-4"
+                                                aria-label={`View ${project.title} on GitHub`}
+                                            >
+                                                <Github className="w-4 h-4" aria-hidden="true" />
+                                                GitHub
+                                            </a>
+                                        )}
+
+                                        {project.liveUrl && (
+                                            <a
+                                                href={project.liveUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="btn-outline text-xs py-2 px-4"
+                                                aria-label={`View live demo of ${project.title}`}
+                                            >
+                                                <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                                                Live Demo
+                                            </a>
+                                        )}
+
+                                        {project.status === 'coming-soon' && (
+                                            <span
+                                                className="inline-flex items-center gap-2 px-4 py-2 text-xs text-slate-500 border border-white/5 rounded-xl cursor-not-allowed"
+                                                aria-disabled="true"
+                                            >
+                                                <Clock className="w-4 h-4" aria-hidden="true" />
+                                                In Development
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                                {project.status === 'coming-soon' && (
-                                    <span className="tag bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
-                                        Coming Soon
-                                    </span>
-                                )}
-                                {project.status === 'live' && (
-                                    <span className="tag bg-green-500/10 text-green-400 border border-green-500/20">
-                                        Live
-                                    </span>
-                                )}
                             </div>
+                        );
+                    })}
+                </div>
 
-                            {/* Title & Description */}
-                            <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-                            <p className="prose-muted text-sm flex-grow mb-5">{project.description}</p>
+                {/* ── Featured project card ──────────────────────────────── */}
+                {featuredProject && (
+                    <div
+                        data-animate
+                        role="listitem"
+                        className="mt-6 card-glass overflow-hidden transition-all duration-300 ease-in-out
+                                   hover:border-electric-500/50 hover:-translate-y-1 hover:shadow-lg hover:shadow-electric-500/10"
+                        style={{
+                            opacity: 0,
+                            transform: 'translateY(20px)',
+                            transition: `opacity 0.6s ease ${featuredDelay * 0.1}s, transform 0.6s ease ${featuredDelay * 0.1}s`,
+                        }}
+                    >
+                        {/* Top accent bar */}
+                        <div className={`h-1 w-full rounded-t-xl ${STATUS_STYLES[featuredProject.status].bar}`} />
 
-                            {/* Tech stack tags */}
-                            <div className="flex flex-wrap gap-2 mb-5">
-                                {project.tech.map((tech) => (
+                        <div className="flex flex-col lg:flex-row">
+                            {/* Left column — 60% */}
+                            <div className="p-6 lg:p-8 lg:w-[60%] flex flex-col">
+                                {/* Header row */}
+                                <div className="flex items-start justify-between gap-3 mb-3">
+                                    <div className="flex items-center gap-3">
+                                        <Terminal className="w-5 h-5 text-electric-400" aria-hidden="true" />
+                                        <h3 className="text-xl font-bold text-white">{featuredProject.title}</h3>
+                                    </div>
                                     <span
-                                        key={tech}
-                                        className="tag bg-electric-500/10 text-electric-400 border border-electric-500/20"
+                                        className={`inline-flex items-center whitespace-nowrap px-2.5 py-1 text-xs font-mono font-medium rounded-md ${STATUS_STYLES[featuredProject.status].badge}`}
+                                        aria-label={`Project status: ${STATUS_STYLES[featuredProject.status].label}`}
                                     >
-                                        {tech}
+                                        {STATUS_STYLES[featuredProject.status].label}
                                     </span>
-                                ))}
+                                </div>
+
+                                {/* Featured label */}
+                                <span className="inline-flex items-center gap-1.5 text-xs text-electric-400 font-mono mb-4">
+                                    ★ Flagship Project
+                                </span>
+
+                                {/* Description */}
+                                <p className="text-gray-400 text-sm leading-relaxed mb-5 flex-grow">
+                                    {featuredProject.description}
+                                </p>
+
+                                {/* Tech stack */}
+                                <div className="mb-5">
+                                    <p className="text-gray-500 text-xs uppercase tracking-wider mb-2">Stack</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {featuredProject.stack.map((tech) => (
+                                            <Badge key={tech} label={tech} variant="stack" />
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Action row */}
+                                <div className="flex gap-3 pt-4 border-t border-white/10 mt-auto">
+                                    {featuredProject.githubUrl && (
+                                        <a
+                                            href={featuredProject.githubUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="btn-outline text-xs py-2 px-4"
+                                            aria-label={`View ${featuredProject.title} on GitHub`}
+                                        >
+                                            <Github className="w-4 h-4" aria-hidden="true" />
+                                            GitHub
+                                        </a>
+                                    )}
+
+                                    {featuredProject.liveUrl && (
+                                        <a
+                                            href={featuredProject.liveUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="btn-outline text-xs py-2 px-4"
+                                            aria-label={`View live demo of ${featuredProject.title}`}
+                                        >
+                                            <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                                            Live Demo
+                                        </a>
+                                    )}
+
+                                    {featuredProject.status === 'coming-soon' && (
+                                        <span
+                                            className="inline-flex items-center gap-2 px-4 py-2 text-xs text-slate-500 border border-white/5 rounded-xl cursor-not-allowed"
+                                            aria-disabled="true"
+                                        >
+                                            <Clock className="w-4 h-4" aria-hidden="true" />
+                                            In Development
+                                        </span>
+                                    )}
+                                </div>
                             </div>
 
-                            {/* Links */}
-                            <div className="flex gap-3 pt-4 border-t border-white/10">
-                                {project.githubUrl ? (
-                                    <a
-                                        href={project.githubUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="btn-outline text-sm py-2 px-4"
-                                    >
-                                        GitHub
-                                    </a>
-                                ) : (
-                                    <span className="flex items-center gap-2 text-slate-500 text-sm">
-                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
-                                        </svg>
-                                        Launching soon
-                                    </span>
-                                )}
+                            {/* Right column — 40% mock terminal */}
+                            <div
+                                className="lg:w-[40%] p-6 lg:p-8 flex items-center"
+                                aria-hidden="true"
+                            >
+                                <div className="w-full bg-black/40 rounded-xl p-4 font-mono text-xs space-y-4 border border-white/5">
+                                    {/* Terminal title bar */}
+                                    <div className="flex items-center gap-1.5 mb-3">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                                        <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                                        <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+                                        <span className="ml-2 text-gray-600 text-[10px]">benefits-navigator</span>
+                                    </div>
+
+                                    {/* Chat messages */}
+                                    {MOCK_MESSAGES.map((msg, i) => (
+                                        <div key={i} className="space-y-1">
+                                            <span className={msg.role === 'user' ? 'text-gray-400' : 'text-green-400'}>
+                                                {msg.role === 'user' ? '> User: ' : '> AI: '}
+                                            </span>
+                                            <p
+                                                className={`whitespace-pre-wrap pl-2 ${msg.role === 'user' ? 'text-gray-400' : 'text-green-400'
+                                                    }`}
+                                            >
+                                                {msg.text}
+                                            </p>
+                                        </div>
+                                    ))}
+
+                                    {/* Blinking cursor */}
+                                    <span className="inline-block w-2 h-4 bg-green-400 animate-pulse" />
+                                </div>
                             </div>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                )}
             </div>
         </section>
     );

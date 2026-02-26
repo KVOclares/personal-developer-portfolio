@@ -104,6 +104,11 @@ src/
 - ExperienceEntry interface extended with highlights?: string[] in src/types/index.ts
 - experience.ts fully rewritten: 3 entries (GoA ML Developer 8 bullets + 4 highlights, ASCCI Senior Communication Technician 4 bullets, Silent-Aire Machine Operator 3 bullets), all action-verb led
 - useActiveSection rootMargin tuned to '-70% 0px -30% 0px' for accurate active nav highlighting on scroll
+- **Projects.tsx fully built**: responsive card grid (1→2→3 columns), 8 projects from data-driven projects.ts, typed STATUS_STYLES helper (live/in-progress/coming-soon) for accent bars and badges, featured card (Alberta Benefits Navigator) renders full-width at bottom with 60/40 split layout and mock terminal chat UI, staggered scroll animations via useScrollAnimation hook with featured card animating last, SectionHeader with headingId for aria-labelledby, full accessibility (role="region", role="list", role="listitem", aria-disabled, aria-hidden on decorative terminal), Github/ExternalLink/Clock/Terminal Lucide icons
+- Project interface updated: tech→stack rename, added featured?: boolean field
+- ProjectStatus updated: replaced 'wip' with 'in-progress'
+- SectionHeader.tsx extended with optional headingId prop for accessible section labelling
+- projects.ts rewritten: 8 project entries (Personal Portfolio Site [live], Alberta Program Finder, Personal Budget Tracker, Edmonton Housing Data Explorer, Developer Notes App, Cloud Cost Explainer Tool, PR Quality Gate Bot, Alberta Benefits Navigator [featured])
 
 ## 5. What Needs To Be Built Next (In Order)
 1. [x] Navbar.tsx — sticky nav with smooth scroll anchor links, active section highlighting, hamburger menu, Back to Top button
@@ -111,7 +116,7 @@ src/
 3. [x] About.tsx — two-column layout, profile photo with lightbox, bio paragraphs, quick stats, core stack badges, scroll animations
 4. [x] Skills.tsx — categorized grid with Simple Icons brand logos, per-category colored labels, pill badge layout
 5. [x] Experience.tsx — custom vertical timeline with scroll animations, impact highlights, full accessibility
-6. [ ] Projects.tsx — card grid using Card component
+6. [x] Projects.tsx — responsive card grid with featured project layout, status colour system, mock terminal, scroll animations, full accessibility
 7. [ ] Education.tsx — timeline reusing Timeline component
 8. [ ] Contact.tsx — email/links with copyToClipboard utility
 9. [ ] Footer.tsx — simple footer with links
@@ -149,5 +154,5 @@ Paste this exact instruction at the start of the new chat:
 
 ---
 You are an expert Full Stack Frontend Developer helping me build my personal portfolio. Read PROJECT_CONTEXT.md for full project context. We are building components one at a time in the order listed in section 5. All components use React + TypeScript strict mode, Tailwind CSS, and pull content from src/data/ files. Do not hardcode any content inside components.
-Current task: Build Projects.tsx
+Current task: Building Projects.tsx but do not change any code at the moment wait until I send a different prompt explaining what I want to do with it.
 ---

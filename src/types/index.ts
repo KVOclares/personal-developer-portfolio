@@ -65,14 +65,15 @@ export interface ExperienceEntry {
 // ─── Projects ───────────────────────────────────────────────────────────────────
 
 /** Status of a project. */
-export type ProjectStatus = 'coming-soon' | 'live' | 'wip';
+export type ProjectStatus = 'coming-soon' | 'live' | 'in-progress';
 
 /** A single project card. */
 export interface Project {
     title: string;
     description: string;
-    tech: string[];
+    stack: string[];
     status: ProjectStatus;
+    featured?: boolean;
     githubUrl?: string;
     liveUrl?: string;
 }
