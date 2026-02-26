@@ -1,137 +1,251 @@
-import { useEffect, useRef, useState, type ReactElement } from 'react';
+import { useState } from 'react';
+import { Mail, Phone, Linkedin, Github, MapPin, Copy, Check } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { PROFILE } from '../../data/profile';
+import { useScrollAnimation } from '../../hooks/useScrollAnimation';
+import { copyToClipboard } from '../../utils';
+import SectionHeader from '../ui/SectionHeader';
 
-/** Result state for copy-to-clipboard action. */
-type CopyState = 'idle' | 'copied' | 'failed';
+// ─── Local Types ────────────────────────────────────────────────────────────────
+
+/** A single contact link card definition. */
+interface ContactLink {
+    icon: LucideIcon;
+    label: string;
+    value: string;
+    subValue?: string;
+    href?: string;
+    newTab?: boolean;
+}
+
+// ─── Data ───────────────────────────────────────────────────────────────────────
+
+const CONTACT_LINKS: ContactLink[] = [
+    {
+        icon: Phone,
+        label: 'Phone',
+        value: PROFILE.phone,
+        href: 'tel:+17809208681',
+    },
+    {
+        icon: Linkedin,
+        label: 'LinkedIn',
+        value: 'kier-vincent-o',
+        href: PROFILE.socials.find((s) => s.icon === 'linkedin')!.url,
+        newTab: true,
+    },
+    {
+        icon: Github,
+        label: 'GitHub',
+        value: 'KVOclares',
+        href: PROFILE.socials.find((s) => s.icon === 'github')!.url,
+        newTab: true,
+    },
+    {
+        icon: MapPin,
+        label: 'Location',
+        value: PROFILE.location.replace(', Canada', ''),
+        subValue: 'Remote-ready across Alberta',
+    },
+];
+
+// ─── Component ──────────────────────────────────────────────────────────────────
 
 /**
- * Contact section — shows email, phone, LinkedIn, and GitHub with
- * copy-to-clipboard functionality for the email address.
+ * Contact section — confident closing statement with direct email CTA,
+ * contact link cards, and availability status pill.
  */
 function Contact() {
-    const sectionRef = useRef<HTMLElement>(null);
-    const [copyState, setCopyState] = useState<CopyState>('idle');
+    const sectionRef = useScrollAnimation<HTMLElement>();
+    const [isCopied, setIsCopied] = useState<boolean>(false);
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
-
-        const el = sectionRef.current;
-        if (el) {
-            el.querySelectorAll('[data-animate]').forEach((child) => observer.observe(child));
+    const handleCopyEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault(); // prevent the parent <a> mailto from firing
+        e.stopPropagation();
+        const success = await copyToClipboard(PROFILE.email);
+        if (success) {
+            setIsCopied(true);
+            setTimeout(() => setIsCopied(false), 2000);
         }
-        return () => observer.disconnect();
-    }, []);
-
-    const handleCopyEmail = async () => {
-        try {
-            await navigator.clipboard.writeText(PROFILE.email);
-            setCopyState('copied');
-            setTimeout(() => setCopyState('idle'), 2000);
-        } catch {
-            setCopyState('failed');
-            setTimeout(() => setCopyState('idle'), 2000);
-        }
-    };
-
-    /** Icon paths for each social type. */
-    const socialIcons: Record<string, ReactElement> = {
-        email: (
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-            </svg>
-        ),
-        phone: (
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25z" />
-            </svg>
-        ),
-        linkedin: (
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg>
-        ),
-        github: (
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-            </svg>
-        ),
     };
 
     return (
-        <section id="contact" ref={sectionRef} className="py-24 bg-navy-950/50">
+        <section
+            id="contact"
+            ref={sectionRef}
+            className="py-24"
+            role="region"
+            aria-labelledby="contact-heading"
+        >
             <div className="section-container">
-                {/* Section header */}
+                {/* ── Section Header ────────────────────────────── */}
                 <div
                     data-animate
-                    className="mb-12"
-                    style={{ opacity: 0, transform: 'translateY(20px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
+                    className="text-left"
+                    style={{
+                        opacity: 0,
+                        transform: 'translateY(20px)',
+                        transition: 'opacity 0.6s ease, transform 0.6s ease',
+                    }}
                 >
-                    <p className="section-subheading">Get In Touch</p>
-                    <h2 className="section-heading">Contact</h2>
-                    <div className="h-1 w-16 bg-gradient-to-r from-electric-500 to-accent-cyan rounded-full" />
+                    <SectionHeader
+                        title="Get In Touch"
+                        subtitle="Open to opportunities and conversations"
+                        headingId="contact-heading"
+                    />
                 </div>
 
-                {/* Contact cards */}
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {PROFILE.socials.map((social, idx) => (
-                        <div
-                            key={social.label}
-                            data-animate
-                            className="card-glass p-6 text-center cursor-default"
-                            style={{
-                                opacity: 0,
-                                transform: 'translateY(24px)',
-                                transition: `opacity 0.6s ease ${idx * 0.1}s, transform 0.6s ease ${idx * 0.1}s`,
-                            }}
-                        >
-                            <div className="w-14 h-14 rounded-2xl bg-electric-500/10 border border-electric-500/20 
-                              flex items-center justify-center mx-auto mb-4 text-electric-400">
-                                {socialIcons[social.icon]}
-                            </div>
+                {/* ── Closing Statement ─────────────────────────── */}
+                <p
+                    data-animate
+                    className="text-gray-400 text-center max-w-xl mx-auto leading-relaxed mb-10"
+                    style={{
+                        opacity: 0,
+                        transform: 'translateY(20px)',
+                        transition: 'opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s',
+                    }}
+                >
+                    I am currently open to Full Stack Developer roles in Alberta.
+                    If you think I could be a good fit for your team — I would love
+                    to hear from you.
+                </p>
 
-                            {social.icon === 'email' ? (
-                                <button
-                                    onClick={handleCopyEmail}
-                                    className="group cursor-pointer"
-                                >
-                                    <p className="text-sm text-white font-medium group-hover:text-electric-400 transition-colors duration-200 mb-1">
-                                        {social.label}
-                                    </p>
-                                    <p className="text-xs text-slate-500">
-                                        {copyState === 'copied'
-                                            ? '✓ Copied!'
-                                            : copyState === 'failed'
-                                                ? '✗ Failed'
-                                                : 'Click to copy'}
-                                    </p>
-                                </button>
+                {/* ── Primary CTA — Email Button ───────────────── */}
+                <div
+                    data-animate
+                    className="flex flex-col items-center"
+                    style={{
+                        opacity: 0,
+                        transform: 'translateY(20px)',
+                        transition: 'opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s',
+                    }}
+                >
+                    <a
+                        href={`mailto:${PROFILE.email}`}
+                        aria-label="Send email to Kier"
+                        className="relative bg-electric-500 hover:bg-electric-600 text-white font-medium
+                                   px-8 py-4 rounded-xl text-base flex items-center gap-3 mx-auto
+                                   transition-all duration-300 hover:shadow-lg hover:shadow-electric-500/25
+                                   hover:-translate-y-1 group"
+                    >
+                        <Mail className="w-5 h-5" aria-hidden="true" />
+                        <span>{PROFILE.email}</span>
+
+                        {/* Copy icon — overlaid on the right */}
+                        <button
+                            type="button"
+                            onClick={handleCopyEmail}
+                            aria-label={isCopied ? 'Email copied' : 'Copy email address'}
+                            className="ml-1 p-1 rounded-md hover:bg-white/20
+                                       opacity-0 group-hover:opacity-100
+                                       transition-opacity duration-200 cursor-pointer"
+                        >
+                            {isCopied ? (
+                                <Check className="w-4 h-4 text-green-400" aria-hidden="true" />
                             ) : (
-                                <a
-                                    href={social.url}
-                                    target={social.icon === 'phone' ? undefined : '_blank'}
-                                    rel={social.icon === 'phone' ? undefined : 'noopener noreferrer'}
-                                    className="group"
-                                >
-                                    <p className="text-sm text-white font-medium group-hover:text-electric-400 transition-colors duration-200 mb-1">
-                                        {social.label}
-                                    </p>
-                                    <p className="text-xs text-slate-500">
-                                        {social.icon === 'phone' ? 'Tap to call' : `Visit ${social.icon === 'linkedin' ? 'LinkedIn' : 'GitHub'}`}
-                                    </p>
-                                </a>
+                                <Copy className="w-4 h-4" aria-hidden="true" />
                             )}
-                        </div>
-                    ))}
+                        </button>
+                    </a>
+
+                    <p className="text-gray-600 text-xs text-center mt-3">
+                        or reach out through any of the links below
+                    </p>
+                </div>
+
+                {/* ── Contact Links Row ─────────────────────────── */}
+                <div className="flex flex-wrap justify-center gap-4 mt-10">
+                    {CONTACT_LINKS.map((link, idx) => {
+                        const isInteractive = Boolean(link.href);
+                        const CardIcon = link.icon;
+
+                        const cardContent = (
+                            <>
+                                <CardIcon
+                                    className="w-5 h-5 text-electric-400 mb-1"
+                                    aria-hidden="true"
+                                />
+                                <span className="text-gray-500 text-xs uppercase tracking-wider">
+                                    {link.label}
+                                </span>
+                                <span className="text-white text-sm font-medium">
+                                    {link.value}
+                                </span>
+                                {link.subValue && (
+                                    <span className="text-gray-500 text-xs">
+                                        {link.subValue}
+                                    </span>
+                                )}
+                            </>
+                        );
+
+                        const sharedClasses = `bg-navy-800/60 border border-gray-800 rounded-xl
+                            px-6 py-4 flex flex-col items-center gap-1
+                            transition-all duration-300`;
+
+                        const animationStyle = {
+                            opacity: 0 as const,
+                            transform: 'translateY(20px)',
+                            transition: `opacity 0.6s ease ${0.3 + idx * 0.1}s, transform 0.6s ease ${0.3 + idx * 0.1}s`,
+                        };
+
+                        if (isInteractive) {
+                            return (
+                                <a
+                                    key={link.label}
+                                    href={link.href}
+                                    target={link.newTab ? '_blank' : undefined}
+                                    rel={link.newTab ? 'noopener noreferrer' : undefined}
+                                    aria-label={
+                                        link.newTab
+                                            ? `Visit ${link.label} profile (opens in new tab)`
+                                            : `Call ${link.value}`
+                                    }
+                                    data-animate
+                                    className={`${sharedClasses} cursor-pointer hover:border-electric-500/30 hover:-translate-y-0.5`}
+                                    style={animationStyle}
+                                >
+                                    {cardContent}
+                                </a>
+                            );
+                        }
+
+                        return (
+                            <div
+                                key={link.label}
+                                role="presentation"
+                                data-animate
+                                className={`${sharedClasses} cursor-default`}
+                                style={animationStyle}
+                            >
+                                {cardContent}
+                            </div>
+                        );
+                    })}
+                </div>
+
+                {/* ── Availability Status ───────────────────────── */}
+                <div
+                    data-animate
+                    className="flex justify-center mt-8"
+                    style={{
+                        opacity: 0,
+                        transform: 'translateY(10px)',
+                        transition: 'opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s',
+                    }}
+                >
+                    <span
+                        className="bg-green-500/5 border border-green-500/20 text-green-400 text-sm
+                                   px-4 py-2 rounded-full flex items-center gap-2 w-fit"
+                        aria-label="Current availability status"
+                    >
+                        {/* Pulsing green dot */}
+                        <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+                        </span>
+                        {PROFILE.availabilityNote}
+                    </span>
                 </div>
             </div>
         </section>

@@ -30,6 +30,7 @@ export interface Profile {
     about: string;
     bio: string[];
     availability: boolean;
+    availabilityNote: string;
     photo: string;
     socials: SocialLink[];
 }

@@ -113,6 +113,7 @@ src/
 - **Education.tsx fully built**: two-column layout (40/60) with personal note blockquote and animated "Currently Learning" pills on left, stacked education cards and certifications block on right, data-driven from typed arrays in `education.ts`, staggered scroll animations via `useScrollAnimation` hook, full accessibility (role="region", role="list", aria-labels)
 - `EducationEntry` interface extended with `coursework?: string[]`, `Certification` interface added
 - `education.ts` updated with precise credential strings, and exports for `CERTIFICATIONS` and `CURRENTLY_LEARNING` to enable zero-component-change scalability
+- **Contact.tsx fully built**: centered single-column layout within `section-container` for alignment, left-aligned `SectionHeader`, recruiter-facing closing statement, large primary email CTA with secondary hover `copyToClipboard` action (Check icon on success), 4 contact link cards in a flex-wrap row (Phone, LinkedIn, GitHub, Location), data-driven availability status pill with pulsing green dot, staggered scroll animations, full accessibility (role="region", aria-labelledby, descriptive aria-labels).
 
 ## 5. What Needs To Be Built Next (In Order)
 1. [x] Navbar.tsx — sticky nav with smooth scroll anchor links, active section highlighting, hamburger menu, Back to Top button
@@ -122,7 +123,7 @@ src/
 5. [x] Experience.tsx — custom vertical timeline with scroll animations, impact highlights, full accessibility
 6. [x] Projects.tsx — responsive card grid with featured project layout, status colour system, mock terminal, scroll animations, full accessibility
 7. [x] Education.tsx — two-column layout with learning pills, stacked education cards, and certifications block
-8. [ ] Contact.tsx — email/links with copyToClipboard utility
+8. [x] Contact.tsx — email/links with copyToClipboard utility
 9. [ ] Footer.tsx — simple footer with links
 10. [ ] EmailJS integration in Contact.tsx
 11. [ ] Vercel deployment + custom domain setup
@@ -159,5 +160,5 @@ Paste this exact instruction at the start of the new chat:
 
 ---
 You are an expert Full Stack Frontend Developer helping me build my personal portfolio. Read PROJECT_CONTEXT.md for full project context. We are building components one at a time in the order listed in section 5. All components use React + TypeScript strict mode, Tailwind CSS, and pull content from src/data/ files. Do not hardcode any content inside components.
-Current task: Building Contact.tsx but do not change any code at the moment wait until I send a different prompt explaining what I want to do with it.
+Current task: Building Footer.tsx but do not change any code at the moment wait until I send a different prompt explaining what I want to do with it.
 ---
