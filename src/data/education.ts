@@ -7,6 +7,26 @@ import type { EducationEntry, Certification } from '../types';
 export const EDUCATION: EducationEntry[] = [
     {
         kind: 'education',
+        degree: 'Certificate — Alberta AI Academy (Levels 1–3)',
+        field: 'Applied AI & Enterprise Automation',
+        institution: 'Government of Alberta',
+        period: '2025 – 2026',
+        honors: false,
+        coursework: [
+            'Prompt Engineering',
+            'AI Agent Design',
+            'Workflow Automation',
+            'Enterprise AI Deployment',
+            'Human-in-the-Loop AI Practices',
+        ],
+        highlights: [
+            'Completed advanced hands-on AI training focused on real-world government use cases',
+            'Collaborated in cross-functional groups to design and release production-ready AI applications',
+            'Applied human-in-the-loop AI practices emphasizing safety, oversight, and measurable productivity improvements',
+        ],
+    },
+    {
+        kind: 'education',
         degree: 'Post-Diploma Certificate with Honors',
         field: 'Data Analytics',
         institution: 'NAIT — Northern Alberta Institute of Technology',
@@ -48,8 +68,9 @@ export const CERTIFICATIONS: Certification[] = [
 
 /** Technologies currently being learned — rendered as animated pill badges. */
 export const CURRENTLY_LEARNING: string[] = [
-    'React + TypeScript',
-    'Node.js + Express',
-    'PostgreSQL',
-    'Full Stack Architecture',
+    'AI Agent Orchestration',
+    'Retrieval-Augmented Generation (RAG)',
+    'Scalable Full Stack Architecture',
+    'Cloud-Native System Design',
+    'Microservices & API Engineering',
 ];

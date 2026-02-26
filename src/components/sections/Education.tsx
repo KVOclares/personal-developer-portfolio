@@ -60,7 +60,7 @@ function Education() {
                         {/* Currently Learning */}
                         <div className="mt-8" aria-label="Technologies currently being learned">
                             <p className="text-gray-500 text-xs uppercase tracking-widest mb-3">
-                                Currently Learning
+                                Technical Advancements
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 {CURRENTLY_LEARNING.map((topic) => (
@@ -136,6 +136,17 @@ function Education() {
                                                 {entry.coursework.join(', ')}
                                             </p>
                                         </div>
+                                    )}
+
+                                    {/* Highlights */}
+                                    {entry.highlights && entry.highlights.length > 0 && (
+                                        <ul className="mt-3 space-y-1 list-disc list-outside ml-4">
+                                            {entry.highlights.map((highlight, i) => (
+                                                <li key={i} className="text-gray-400 text-xs leading-relaxed">
+                                                    {highlight}
+                                                </li>
+                                            ))}
+                                        </ul>
                                     )}
                                 </div>
                             ))}
