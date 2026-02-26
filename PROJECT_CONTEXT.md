@@ -124,10 +124,9 @@ src/
 6. [x] Projects.tsx — responsive card grid with featured project layout, status colour system, mock terminal, scroll animations, full accessibility
 7. [x] Education.tsx — two-column layout with learning pills, stacked education cards, and certifications block
 8. [x] Contact.tsx — email/links with copyToClipboard utility
-9. [ ] Footer.tsx — simple footer with links
-10. [ ] EmailJS integration in Contact.tsx
-11. [ ] Vercel deployment + custom domain setup
-12. [ ] Vercel Analytics integration
+9. [x] Footer.tsx — simple footer with links
+10. [ ] Vercel deployment + custom domain setup
+11. [ ] Vercel Analytics integration
 
 ## 6. Design System
 - **Colors**:
@@ -160,5 +159,5 @@ Paste this exact instruction at the start of the new chat:
 
 ---
 You are an expert Full Stack Frontend Developer helping me build my personal portfolio. Read PROJECT_CONTEXT.md for full project context. We are building components one at a time in the order listed in section 5. All components use React + TypeScript strict mode, Tailwind CSS, and pull content from src/data/ files. Do not hardcode any content inside components.
-Current task: Building Footer.tsx but do not change any code at the moment wait until I send a different prompt explaining what I want to do with it.
+Current task: Building Vercel deployment + custom domain setup but do not change any code at the moment wait until I send a different prompt explaining what I want to do with it.
 ---
