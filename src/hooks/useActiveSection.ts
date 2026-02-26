@@ -19,7 +19,7 @@ interface NavLink {
  * @returns The `href` string of the currently active section.
  */
 export function useActiveSection(navLinks: NavLink[]): string {
-    const [activeHref, setActiveHref] = useState<string>(navLinks[0]?.href ?? '');
+    const [activeHref, setActiveHref] = useState<string>('');
 
     // Persistent map: sectionId → IntersectionObserverEntry
     const visibleMap = useRef<Map<string, IntersectionObserverEntry>>(new Map());
@@ -77,6 +77,13 @@ export function useActiveSection(navLinks: NavLink[]): string {
                 observer.observe(el);
                 elements.push(el);
             }
+        }
+
+        // Also observe the hero section so we know when we are at the top
+        const heroEl = document.getElementById('hero');
+        if (heroEl) {
+            observer.observe(heroEl);
+            elements.push(heroEl);
         }
 
         return () => {

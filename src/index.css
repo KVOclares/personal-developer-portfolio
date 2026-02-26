@@ -7,9 +7,9 @@
     scroll-behavior: smooth;
   }
 
-  /* Offset anchor targets so fixed navbar doesn't overlap headings (Fix #2) */
+  /* Offset anchor targets so fixed navbar doesn't overlap headings */
   [id] {
-    scroll-margin-top: 5rem;
+    scroll-margin-top: 1rem;
   }
 
   body {

@@ -1,5 +1,6 @@
 import { Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
 import { PROFILE } from '../../data/profile';
+import resumePdf from '../../assets/resume/KierVincentOclares_Resume.pdf';
 
 interface NavLink {
     label: string;
@@ -69,6 +70,16 @@ export default function Footer() {
                         © {new Date().getFullYear()} {PROFILE.name}. All rights reserved.
                     </p>
                     <div className="flex items-center gap-4">
+                        <a
+                            href={resumePdf}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            download
+                            aria-label="Download Kier's Resume"
+                            className="text-gray-600 hover:text-electric-500 transition-colors duration-200"
+                        >
+                            <span className="text-xs font-semibold uppercase tracking-wider">Resume</span>
+                        </a>
                         <a
                             href={githubLink}
                             target="_blank"

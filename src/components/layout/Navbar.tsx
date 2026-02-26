@@ -88,8 +88,8 @@ function Navbar() {
                 <div className="section-container flex items-center justify-between h-16">
                     {/* ── Logo ─────────────────────────────────────────────── */}
                     <a
-                        href="#"
-                        onClick={(e) => handleNavClick(e, '#')}
+                        href="#hero"
+                        onClick={(e) => handleNavClick(e, '#hero')}
                         aria-label="Back to top"
                         className="font-mono text-electric-500 text-xl font-bold tracking-tight
                                    hover:text-electric-400 transition-colors duration-200"
