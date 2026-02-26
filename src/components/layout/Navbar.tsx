@@ -21,8 +21,10 @@ const NAV_LINKS: NavLink[] = [
     { label: 'Contact', href: '#contact' },
 ] as const;
 
+import resumePdf from '../../assets/resume/KierVincentOclares_Resume.pdf';
+
 /** Path to the downloadable résumé PDF. */
-const RESUME_PATH = '/assets/resume/KierVincentOclares_Resume.pdf';
+const RESUME_PATH = resumePdf;
 
 // ─── Component ──────────────────────────────────────────────────────────────────
 
@@ -115,6 +117,7 @@ function Navbar() {
                                 href={RESUME_PATH}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                download
                                 className="btn-outline ml-3 text-sm py-2 px-4"
                             >
                                 Download Resume
@@ -194,6 +197,7 @@ function Navbar() {
                             href={RESUME_PATH}
                             target="_blank"
                             rel="noopener noreferrer"
+                            download
                             className="btn-outline mt-3 text-sm py-2.5 px-4 text-center"
                         >
                             Download Resume
