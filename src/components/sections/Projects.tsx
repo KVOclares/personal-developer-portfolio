@@ -86,13 +86,14 @@ function Projects() {
                 >
                     {standardProjects.map((project, idx) => {
                         const style = STATUS_STYLES[project.status];
+                        const isLoneCard = standardProjects.length % 3 === 1 && idx === standardProjects.length - 1;
+
                         return (
                             <div
                                 key={project.title}
                                 role="listitem"
                                 data-animate
-                                className="card-glass flex flex-col overflow-hidden transition-all duration-300 ease-in-out
-                                           hover:border-electric-500/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-electric-500/10"
+                                className={`card-glass flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:border-electric-500/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-electric-500/10 ${isLoneCard ? 'lg:col-start-2' : ''}`}
                                 style={{
                                     opacity: 0,
                                     transform: 'translateY(20px)',

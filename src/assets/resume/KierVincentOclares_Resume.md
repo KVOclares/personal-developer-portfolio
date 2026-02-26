@@ -129,7 +129,7 @@ governance and business needs.
 
 ## [KEY PROJECTS AND ADVANCED ANALYTICS INITIATIVES]
 
-**Contact Centre & AI Chatbot Intent Analysis, Government of Alberta**
+**AI Chatbot Intent Analysis, Government of Alberta**
 
 -   Evaluated AI chatbot intent accuracy and user satisfaction by
     parsing and analyzing 5,000 unstructured JSON conversation logs,

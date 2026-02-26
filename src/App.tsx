@@ -17,13 +17,27 @@ function App() {
         <div className="min-h-screen bg-navy-900 text-white overflow-x-hidden">
             <Navbar />
             <main>
-                <Hero />
-                <About />
-                <Skills />
-                <Experience />
-                <Projects />
-                <Education />
-                <Contact />
+                <div className="w-full bg-[#0F172A]">
+                    <Hero />
+                </div>
+                <div className="w-full bg-[#111827]">
+                    <About />
+                </div>
+                <div className="w-full bg-[#0F172A]">
+                    <Skills />
+                </div>
+                <div className="w-full bg-[#111827]">
+                    <Experience />
+                </div>
+                <div className="w-full bg-[#0F172A]">
+                    <Projects />
+                </div>
+                <div className="w-full bg-[#111827]">
+                    <Education />
+                </div>
+                <div className="w-full bg-[#0F172A]">
+                    <Contact />
+                </div>
             </main>
             <Footer />
         </div>
