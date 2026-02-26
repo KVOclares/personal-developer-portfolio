@@ -14,7 +14,6 @@ export const SKILLS: SkillCategory[] = [
             { name: 'JavaScript' },
             { name: 'Python' },
             { name: 'SQL' },
-            { name: 'R' },
         ],
     },
     {
@@ -44,6 +43,10 @@ export const SKILLS: SkillCategory[] = [
             { name: 'Pandas' },
             { name: 'NumPy' },
             { name: 'Scikit-learn' },
+            { name: 'TensorFlow' },
+            { name: 'SciPy' },
+            { name: 'LightGBM' },
+            { name: 'XGBoost' },
             { name: 'ETL Pipelines' },
         ],
     },

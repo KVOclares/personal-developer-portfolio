@@ -8,7 +8,7 @@
 
 -   GitHub: https://github.com/KVOclares
 
-## [PROFESSIONAL SUMMARY]
+## [PROFESSIONAL SUMMARY]{.underline}
 
 Machine Learning Developer with strong experience in applied analytics,
 AI automation, and enterprise data solutions within the public sector.
@@ -16,11 +16,11 @@ Proven ability to design reliable data pipelines, evaluate AI systems,
 and deliver practical, human centric AI solutions aligned with
 governance and business needs.
 
-## [CORE COMPETENCIES AND TECHNICAL SKILLS]
+## [CORE COMPETENCIES AND TECHNICAL SKILLS]{.underline}
 
 -   **Data Analytics & Visualization:** Power BI (Advanced DAX & Git
-    Version Control), Tableau, R (Statistical Modeling), Python (Pandas,
-    NumPy, Scikit-learn), Data Visualization.
+    Version Control), Tableau, Statistical Modeling, Python (Pandas, NumPy, 
+    Scikit-learn, TensorFlow, SciPy, XGBoost, LightGBM), Data Visualization.
 
 -   **Database & Engineering:** SQL (T-SQL, SSIS), ETL/ELT Automation,
     REST API Integration, Cloud Cost Data Consolidation, Legacy System
@@ -34,7 +34,7 @@ governance and business needs.
     Governance, User Acceptance Testing (UAT), SDLC Support, Metadata
     Tracking.
 
-## [PROFESSIONAL EXPERIENCE]
+## [PROFESSIONAL EXPERIENCE]{.underline}
 
 **Machine Learning Developer Intern, Government of Alberta**
 
@@ -104,7 +104,7 @@ governance and business needs.
     tolerances, supporting process improvements that increased
     throughput.
 
-## [EDUCATION]
+## [EDUCATION]{.underline}
 
 **Alberta AI Academy (Levels 1 - 3), Government of Alberta**
 
@@ -127,7 +127,7 @@ governance and business needs.
 
 **Diploma with Honors, Electronic Engineering Technology, NAIT**
 
-## [KEY PROJECTS AND ADVANCED ANALYTICS INITIATIVES]
+## [KEY PROJECTS AND ADVANCED ANALYTICS INITIATIVES]{.underline}
 
 **AI Chatbot Intent Analysis, Government of Alberta**
 

@@ -15,13 +15,15 @@ import {
     SiPandas,
     SiNumpy,
     SiScikitlearn,
+    SiTensorflow,
+    SiScipy,
     SiPostgresql,
     SiSupabase,
     SiGit,
     SiGithub,
     SiDocker,
 } from '@icons-pack/react-simple-icons';
-import { CircleDot, Database, BrainCircuit, BarChart3 } from 'lucide-react';
+import { CircleDot, Database, BrainCircuit, BarChart3, Rocket, Layers } from 'lucide-react';
 
 /* ------------------------------------------------------------------ */
 /*  Icon mapping — skill name → Simple Icons component                */
@@ -44,6 +46,10 @@ const SKILL_ICON_MAP: Record<string, IconComponent> = {
     Pandas: SiPandas,
     NumPy: SiNumpy,
     'Scikit-learn': SiScikitlearn,
+    TensorFlow: SiTensorflow,
+    SciPy: SiScipy,
+    LightGBM: Layers as unknown as IconComponent,
+    XGBoost: Rocket as unknown as IconComponent,
     PostgreSQL: SiPostgresql,
     Supabase: SiSupabase,
     Git: SiGit,
