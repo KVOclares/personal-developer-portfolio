@@ -25,8 +25,9 @@ export interface Profile {
     name: string;
     titles: string[];
     location: string;
-    email: string;
-    phone: string;
+    emailUser: string;
+    emailDomain: string;
+    phone?: string;
     about: string;
     bio: string[];
     availability: boolean;
