@@ -2,10 +2,9 @@ import { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { PROFILE } from '../../data/profile';
 import { useTypingCycle } from '../../hooks/useTypingCycle';
-import resumePdf from '../../assets/resume/KierVincentOclares_Resume.pdf';
 
 /** Path to the downloadable résumé PDF. */
-const RESUME_PATH = resumePdf;
+const RESUME_PATH = PROFILE.resumeUrl;
 
 /**
  * Hero section — full-viewport introduction with animated cycling titles,

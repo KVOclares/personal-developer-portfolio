@@ -21,10 +21,10 @@ const NAV_LINKS: NavLink[] = [
     { label: 'Contact', href: '#contact' },
 ] as const;
 
-import resumePdf from '../../assets/resume/KierVincentOclares_Resume.pdf';
+import { PROFILE } from '../../data/profile';
 
 /** Path to the downloadable résumé PDF. */
-const RESUME_PATH = resumePdf;
+const RESUME_PATH = PROFILE.resumeUrl;
 
 // ─── Component ──────────────────────────────────────────────────────────────────
 
