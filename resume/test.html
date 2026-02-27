@@ -1,0 +1,400 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8"><style>* {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 100%;
+}
+
+body {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+		'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+	line-height: 1.6;
+	font-size: 0.6875em; /* 11 pt */
+	color: #111;
+	margin: 0;
+}
+
+body > :first-child {
+	padding-top: 0;
+	margin-top: 0;
+}
+
+body > :last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	padding: 0.5em 0 0.25em;
+}
+
+h5,
+h6 {
+	padding: 0;
+}
+
+h5 {
+	font-size: 1em;
+}
+
+h6 {
+	font-size: 0.875em;
+	text-transform: uppercase;
+}
+
+p {
+	margin: 0.25em 0 1em;
+}
+
+blockquote {
+	margin: 0.5em 0 1em;
+	padding-left: 0.5em;
+	padding-right: 1em;
+	border-left: 4px solid gainsboro;
+	font-style: italic;
+}
+
+ul,
+ol {
+	margin: 0;
+	margin-left: 1em;
+	padding: 0 1.5em 0.5em;
+}
+
+pre {
+	white-space: pre-wrap;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code,
+p code,
+li code,
+pre code {
+	background-color: #f8f8f8;
+	padding: 0.1em 0.375em;
+	border: 1px solid #f8f8f8;
+	border-radius: 0.25em;
+	font-family: monospace;
+	font-size: 1.2em;
+}
+
+pre code {
+	display: block;
+	padding: 0.5em;
+}
+
+.page-break {
+	page-break-after: always;
+}
+
+img {
+	max-width: 100%;
+	margin: 1em 0;
+}
+
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+	display: block;
+	margin: 0 0 1em;
+	width: 100%;
+	overflow: auto;
+}
+
+table th,
+table td {
+	padding: 0.5em 1em;
+	border: 1px solid gainsboro;
+}
+
+table th {
+	font-weight: 600;
+}
+
+table tr {
+	background-color: white;
+	border-top: 1px solid gainsboro;
+}
+
+table tr:nth-child(2n) {
+	background-color: whitesmoke;
+}
+/*# sourceURL=C:\Users\count\OneDrive\Documents\Work\Programs\personal-developer-portfolio\node_modules\md-to-pdf\markdown.css*/</style><style>pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em
+}
+code.hljs {
+  padding: 3px 5px
+}
+/*!
+  Theme: GitHub
+  Description: Light theme as seen on github.com
+  Author: github.com
+  Maintainer: @Hirse
+  Updated: 2021-05-15
+
+  Outdated base version: https://github.com/primer/github-syntax-light
+  Current colors taken from GitHub's CSS
+*/
+.hljs {
+  color: #24292e;
+  background: #ffffff
+}
+.hljs-doctag,
+.hljs-keyword,
+.hljs-meta .hljs-keyword,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable.language_ {
+  /* prettylights-syntax-keyword */
+  color: #d73a49
+}
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.hljs-title.function_ {
+  /* prettylights-syntax-entity */
+  color: #6f42c1
+}
+.hljs-attr,
+.hljs-attribute,
+.hljs-literal,
+.hljs-meta,
+.hljs-number,
+.hljs-operator,
+.hljs-variable,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id {
+  /* prettylights-syntax-constant */
+  color: #005cc5
+}
+.hljs-regexp,
+.hljs-string,
+.hljs-meta .hljs-string {
+  /* prettylights-syntax-string */
+  color: #032f62
+}
+.hljs-built_in,
+.hljs-symbol {
+  /* prettylights-syntax-variable */
+  color: #e36209
+}
+.hljs-comment,
+.hljs-code,
+.hljs-formula {
+  /* prettylights-syntax-comment */
+  color: #6a737d
+}
+.hljs-name,
+.hljs-quote,
+.hljs-selector-tag,
+.hljs-selector-pseudo {
+  /* prettylights-syntax-entity-tag */
+  color: #22863a
+}
+.hljs-subst {
+  /* prettylights-syntax-storage-modifier-import */
+  color: #24292e
+}
+.hljs-section {
+  /* prettylights-syntax-markup-heading */
+  color: #005cc5;
+  font-weight: bold
+}
+.hljs-bullet {
+  /* prettylights-syntax-markup-list */
+  color: #735c0f
+}
+.hljs-emphasis {
+  /* prettylights-syntax-markup-italic */
+  color: #24292e;
+  font-style: italic
+}
+.hljs-strong {
+  /* prettylights-syntax-markup-bold */
+  color: #24292e;
+  font-weight: bold
+}
+.hljs-addition {
+  /* prettylights-syntax-markup-inserted */
+  color: #22863a;
+  background-color: #f0fff4
+}
+.hljs-deletion {
+  /* prettylights-syntax-markup-deleted */
+  color: #b31d28;
+  background-color: #ffeef0
+}
+.hljs-char.escape_,
+.hljs-link,
+.hljs-params,
+.hljs-property,
+.hljs-punctuation,
+.hljs-tag {
+  /* purposely ignored */
+  
+}/*# sourceURL=C:\Users\count\OneDrive\Documents\Work\Programs\personal-developer-portfolio\node_modules\highlight.js\styles\github.css*/</style></head>
+	<body class="">
+		<!-- -->
+<hr>
+<h1 id="kier-vincent-oclares">Kier Vincent Oclares</h1>
+<p><a href="mailto:KierVOclares@gmail.com">KierVOclares@gmail.com</a> &nbsp;|&nbsp; 
++1 (780) 920-8681 &nbsp;|&nbsp;
+linkedin.com/in/kier-vincent-o-2150051a0 &nbsp;|&nbsp;
+github.com/KVOclares</p>
+<hr>
+<h2 id="professional-summary">Professional Summary</h2>
+<p>Machine Learning Developer with strong experience in 
+applied analytics, AI automation, and enterprise data 
+solutions within the public sector. Proven ability to 
+design reliable data pipelines, evaluate AI systems, 
+and deliver practical, human-centric AI solutions 
+aligned with governance and business needs.</p>
+<hr>
+<h2 id="core-competencies--technical-skills">Core Competencies &amp; Technical Skills</h2>
+<p><strong>Data Analytics &amp; Visualization:</strong>
+Power BI (Advanced DAX &amp; Git Version Control), Tableau,
+Statistical Modeling, Python (Pandas, NumPy, Scikit-learn,
+TensorFlow, SciPy, XGBoost, LightGBM), Data Visualization</p>
+<p><strong>Database &amp; Engineering:</strong>
+SQL (T-SQL, SSIS), ETL/ELT Automation, REST API Integration,
+Cloud Cost Data Consolidation, Legacy System Migration</p>
+<p><strong>Strategic Intelligence:</strong>
+KPI Development, Policy Impact Analysis,
+Technical Mentorship/Training, Requirements Elicitation,
+Ethical Data Analysis</p>
+<p><strong>Governance &amp; Quality Assurance:</strong>
+Git Version Control, Data Governance,
+User Acceptance Testing (UAT), SDLC Support,
+Metadata Tracking</p>
+<hr>
+<h2 id="professional-experience">Professional Experience</h2>
+<div class="job-entry">
+
+<h3 id="machine-learning-developer-intern">Machine Learning Developer Intern</h3>
+<p><strong>Government of Alberta</strong>, June 2025 – Present</p>
+<ul>
+<li>Resolved enterprise data misallocation across 28 projects 
+and over 3.5 million transactions by engineering a 
+rule-based SQL anomaly detection feature, establishing 
+new organizational tagging standards that automatically 
+mapped dynamic keywords to correct project codes.</li>
+<li>Automated data ingestion from 4+ SQL databases by 
+architecting scalable ETL pipelines using SSIS, 
+integrating thousands of daily row entries and reducing 
+manual reporting efforts by 5+ hours per week.</li>
+<li>Modernized financial infrastructure by consolidating 
+multiple legacy Cloud Cost Invoice dashboards into a 
+single unified enterprise dashboard for executive 
+decision support.</li>
+<li>Improved data accuracy from 80% to 99% by migrating 
+legacy hard-coded data transformations to scalable SQL 
+models, virtually eliminating manual labeling errors.</li>
+<li>Enhanced auditability and team collaboration by 
+pioneering Power BI Git Version Control, tracking 
+workspace metadata and ensuring strict data governance 
+across diverse business units.</li>
+<li>Developed Python-based ETL scripts to pull data from 
+REST APIs, streamlining pre-processing and exploratory 
+data analysis (EDA).</li>
+<li>Implemented Row-Level Security (RLS) for invoice 
+reporting to ensure strict data privacy and role-based 
+access compliance for diverse business units.</li>
+<li>Improved output reliability of an AI-powered PDF 
+reviewer web application by identifying, analyzing, 
+and resolving ~15% of system anomalies, collaborating 
+directly with developers to refine the model's accuracy.</li>
+</ul>
+</div>
+
+<div class="job-entry">
+
+<h3 id="communication-lead-technician">Communication Lead Technician</h3>
+<p><strong>ASCCI-North Inc.</strong>, August 2021 – August 2024</p>
+<ul>
+<li>Standardized operational service delivery and 
+accelerated onboarding by authoring comprehensive 
+technical documentation and training 10 new and 
+non-technical employees on equipment operation.</li>
+<li>Delivered Tier-2 Technical Support for 
+telecommunication infrastructure by troubleshooting 
+complex system issues and analyzing operational 
+metrics to improve service reliability and uptime.</li>
+<li>Authored Standard Operating Procedures (SOPs) and 
+technical documentation to standardize service 
+delivery and support organizational Change Management.</li>
+<li>Prevented hardware stockouts and ensured continuous 
+uptime by analyzing historical consumption trends to 
+dynamically direct resource planning and inventory 
+logistics.</li>
+</ul>
+</div>
+
+<div class="job-entry">
+
+<h3 id="machine-operator">Machine Operator</h3>
+<p><strong>Silent-Aire</strong>, October 2020 – July 2021</p>
+<ul>
+<li>Ensured strict adherence to quality standards and 
+production tolerances, supporting process improvements 
+that increased throughput.</li>
+</ul>
+</div>
+
+<hr>
+<h2 id="education">Education</h2>
+<h3 id="alberta-ai-academy-levels-13">Alberta AI Academy (Levels 1–3)</h3>
+<p><strong>Government of Alberta</strong>, 2025 - 2026</p>
+<ul>
+<li>Completed advanced hands-on AI training focused on 
+real-world government use cases.</li>
+<li>Developed skills in prompt engineering, AI agent 
+design, workflow automation, and enterprise AI 
+deployment.</li>
+<li>Collaborated in cross-functional groups to design 
+and release production-ready AI applications.</li>
+<li>Applied human-in-the-loop AI practices emphasizing 
+safety, oversight, and measurable productivity 
+improvements.</li>
+</ul>
+<h3 id="post-diploma-certificate-with-honors--data-analytics">Post-Diploma Certificate with Honors — Data Analytics</h3>
+<p><strong>NAIT — Northern Alberta Institute of Technology</strong>, September 2024 – April 2025</p>
+<p>Coursework: Statistical Learning, Machine Learning, 
+Data Preparation, Data Visualization, Data Governance</p>
+<h3 id="diploma-with-honors--electronic-engineering-technology">Diploma with Honors — Electronic Engineering Technology</h3>
+<p><strong>NAIT — Northern Alberta Institute of Technology</strong>, 2018 – 2020</p>
+<hr>
+<h2 id="key-projects--analytics-initiatives">Key Projects &amp; Analytics Initiatives</h2>
+<h3 id="ai-chatbot-intent-analysis">AI Chatbot Intent Analysis</h3>
+<p><strong>Government of Alberta</strong></p>
+<p>Evaluated AI chatbot intent accuracy and user 
+satisfaction by parsing and analyzing 5,000 
+unstructured JSON conversation logs, utilizing 
+Python to map system outputs against user inputs 
+and extracting actionable product insights.</p>
+<h3 id="edmonton-housing-analytics-capstone">Edmonton Housing Analytics Capstone</h3>
+<p><strong>NAIT</strong></p>
+<p>Facilitated strategic real estate decisions for 
+project sponsors by executing an end-to-end 
+analytics pipeline on housing inventory, 
+translating complex datasets into actionable 
+data stories and presentations for non-technical 
+stakeholders.</p>
+
+	
+
+</body></html>

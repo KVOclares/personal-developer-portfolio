@@ -7,7 +7,7 @@ import type { ExperienceEntry } from '../types';
 export const EXPERIENCE: ExperienceEntry[] = [
     {
         kind: 'experience',
-        title: 'Machine Learning Developer',
+        title: 'Machine Learning Developer Intern',
         company: 'Government of Alberta',
         period: 'June 2025 – Present',
         location: 'Edmonton, Alberta (Remote)',

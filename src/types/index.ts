@@ -31,6 +31,7 @@ export interface Profile {
     bio: string[];
     availability: boolean;
     availabilityNote: string;
+    resumeUrl?: string;
     photo: string;
     socials: SocialLink[];
 }

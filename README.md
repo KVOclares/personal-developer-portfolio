@@ -149,6 +149,15 @@ All site content lives in `src/data/`. To update: edit the relevant data file �
 
 ---
 
+## 📄 Resume Updates
+
+To update the resume:
+1. Edit resume/KierVincentOclares_Resume.md
+2. Run npm run generate:resume to preview locally
+3. git push — Vercel regenerates the PDF automatically
+
+---
+
 ## 📬 Contact
 
 - **Email:** [KierVOclares@gmail.com](mailto:KierVOclares@gmail.com)
