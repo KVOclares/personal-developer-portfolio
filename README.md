@@ -24,6 +24,8 @@ A modern, fully responsive personal portfolio SPA showcasing my background in fu
 | Bundler | Vite 5 |
 | Styling | Tailwind CSS 3 |
 | Fonts | Inter + JetBrains Mono (Google Fonts) |
+| Icons | Lucide React + React Simple Icons |
+| Analytics| Vercel Analytics |
 | Deployment | Vercel (automatic deploys from `main`) |
 
 ---
@@ -31,44 +33,48 @@ A modern, fully responsive personal portfolio SPA showcasing my background in fu
 ## 📁 Project Structure
 
 ```
-src/
-├── assets/
-│   ├── images/              # Static images
-│   └── resume/              # Resume PDF
-├── components/
-│   ├── layout/
-│   │   ├── Navbar.tsx        # Sticky nav bar with mobile hamburger menu
-│   │   └── Footer.tsx        # Site-wide footer
-│   ├── sections/
-│   │   ├── Hero.tsx          # Full-viewport hero with typewriter animation
-│   │   ├── About.tsx         # Professional summary + stat cards
-│   │   ├── Skills.tsx        # Categorized skill grid with SVG icons
-│   │   ├── Experience.tsx    # Vertical timeline of work history
-│   │   ├── Projects.tsx      # Project card grid
-│   │   ├── Education.tsx     # NAIT diploma entries with honors badges
-│   │   └── Contact.tsx       # Contact cards + copy-to-clipboard email
-│   └── ui/
-│       ├── Badge.tsx          # Styled pill/tag (skill, status, stack)
-│       ├── Card.tsx           # Reusable glass card wrapper
-│       ├── Button.tsx         # Primary and outline button variants
-│       ├── SectionHeader.tsx  # Consistent section heading
-│       └── Timeline.tsx       # Vertical timeline (Experience/Education)
-├── data/
-│   ├── profile.ts            # Name, titles, about text, social links
-│   ├── skills.ts             # Categorized skills with SVG icon paths
-│   ├── experience.ts         # Work experience entries
-│   ├── projects.ts           # Portfolio project definitions
-│   └── education.ts          # Degrees, certifications
-├── hooks/
-│   ├── useScrollAnimation.ts # Intersection Observer scroll animation
-│   └── useTypingCycle.ts     # Typewriter cycling animation
-├── types/
-│   └── index.ts              # All TypeScript interfaces and types
-├── utils/
-│   └── index.ts              # Shared utility functions
-├── App.tsx                    # Root component — composes all sections
-├── main.tsx                   # Entry point (React StrictMode)
-└── index.css                  # Tailwind directives + global styles
+├── public/                  # Favicon and other public assets
+├── resume/                  # Resume markdown source and PDF generator scripts
+├── src/
+│   ├── assets/
+│   │   ├── images/              # Static images
+│   │   └── resume/              # Generated Resume PDF
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── Navbar.tsx        # Sticky nav bar with mobile hamburger menu
+│   │   │   └── Footer.tsx        # Site-wide footer
+│   │   ├── sections/
+│   │   │   ├── Hero.tsx          # Full-viewport hero with typewriter animation
+│   │   │   ├── About.tsx         # Professional summary + stat cards
+│   │   │   ├── Skills.tsx        # Categorized skill grid with SVG icons
+│   │   │   ├── Experience.tsx    # Vertical timeline of work history
+│   │   │   ├── Projects.tsx      # Project card grid
+│   │   │   ├── Education.tsx     # NAIT diploma entries with honors badges
+│   │   │   └── Contact.tsx       # Contact cards + copy-to-clipboard email
+│   │   └── ui/
+│   │       ├── Badge.tsx          # Styled pill/tag (skill, status, stack)
+│   │       ├── Card.tsx           # Reusable glass card wrapper
+│   │       ├── Button.tsx         # Primary and outline button variants
+│   │       ├── SectionHeader.tsx  # Consistent section heading
+│   │       └── Timeline.tsx       # Vertical timeline (Experience/Education)
+│   ├── data/
+│   │   ├── profile.ts            # Name, titles, about text, social links
+│   │   ├── skills.ts             # Categorized skills with SVG icon paths
+│   │   ├── experience.ts         # Work experience entries
+│   │   ├── projects.ts           # Portfolio project definitions
+│   │   ├── education.ts          # Degrees, certifications
+│   │   └── nav.ts                # Navigation links configuration
+│   ├── hooks/
+│   │   ├── useScrollAnimation.ts # Intersection Observer scroll animation
+│   │   ├── useTypingCycle.ts     # Typewriter cycling animation
+│   │   └── useActiveSection.ts   # Observer for active nav section state
+│   ├── types/
+│   │   └── index.ts              # All TypeScript interfaces and types
+│   ├── utils/
+│   │   └── index.ts              # Shared utility functions
+│   ├── App.tsx                    # Root component — composes all sections
+│   ├── main.tsx                   # Entry point (React StrictMode)
+│   └── index.css                  # Tailwind directives + global styles
 ```
 
 ---
@@ -121,6 +127,9 @@ npm run lint
 | `npm run build` | Type-check and bundle for production (output: `dist/`) |
 | `npm run preview` | Locally preview the production build |
 | `npm run lint` | Run ESLint across all TypeScript/TSX files |
+| `npm run lint:fix` | Run ESLint and automatically fix found issues |
+| `npm run format` | Run Prettier to format source code |
+| `npm run generate:resume` | Generate PDF resume from the markdown source |
 
 ---
 
