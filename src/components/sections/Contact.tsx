@@ -33,7 +33,7 @@ function Contact() {
 
     const emailUser = "KierVOclares";
     const emailDomain = "gmail.com";
-    const email = `${emailUser}@${emailDomain}`;
+    const email = [emailUser, emailDomain].join(String.fromCharCode(64));
 
     const handleEmailClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
