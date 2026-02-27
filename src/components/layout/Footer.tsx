@@ -1,6 +1,5 @@
 import { Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
 import { PROFILE } from '../../data/profile';
-import resumePdf from '../../assets/resume/KierVincentOclares_Resume.pdf';
 
 interface NavLink {
     label: string;
@@ -71,7 +70,7 @@ export default function Footer() {
                     </p>
                     <div className="flex items-center gap-4">
                         <a
-                            href={resumePdf}
+                            href={PROFILE.resumeUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             download
