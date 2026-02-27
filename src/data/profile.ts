@@ -2,7 +2,7 @@
  * Profile data — contact information and social links for Kier Vincent Oclares.
  */
 import type { Profile } from '../types';
-import profilePhoto from '../assets/images/profile.jpg';
+import profilePhoto from '../assets/images/profile.webp';
 
 /** Hardcoded profile constants. */
 export const PROFILE: Profile = {

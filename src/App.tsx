@@ -7,6 +7,7 @@ import Experience from './components/sections/Experience';
 import Projects from './components/sections/Projects';
 import Education from './components/sections/Education';
 import Contact from './components/sections/Contact';
+import { Analytics } from '@vercel/analytics/react';
 
 /**
  * Root application component.
@@ -40,6 +41,7 @@ function App() {
                 </div>
             </main>
             <Footer />
+            <Analytics />
         </div>
     );
 }
