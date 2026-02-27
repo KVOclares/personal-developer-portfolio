@@ -16,7 +16,7 @@ interface Stat {
 
 const STATS: Stat[] = [
     { value: '4+', label: 'Years Experience' },
-    { value: 'GoA ML', label: 'Current Role' },
+    { value: 'ML Intern', label: 'Current Role' },
     { value: '2×', label: 'NAIT Honors' },
     { value: 'YEG', label: 'Edmonton, AB' },
 ];

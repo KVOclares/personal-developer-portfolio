@@ -33,6 +33,7 @@ export default {
                 'slide-in-left': 'slideInLeft 0.6s ease-out forwards',
                 'type-cursor': 'blink 1s step-end infinite',
                 'gradient-shift': 'gradientShift 8s ease infinite',
+                'bounceX': 'bounceX 1s ease-in-out infinite',
             },
             keyframes: {
                 fadeInUp: {
@@ -54,6 +55,10 @@ export default {
                 gradientShift: {
                     '0%, 100%': { backgroundPosition: '0% 50%' },
                     '50%': { backgroundPosition: '100% 50%' },
+                },
+                bounceX: {
+                    '0%, 100%': { transform: 'translateX(0)' },
+                    '50%': { transform: 'translateX(6px)' },
                 },
             },
             backgroundImage: {

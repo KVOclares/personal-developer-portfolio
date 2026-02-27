@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Phone, Linkedin, Github, MapPin, Copy, Check } from 'lucide-react';
+import { Mail, Linkedin, Github, MapPin } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { PROFILE } from '../../data/profile';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
@@ -16,38 +16,8 @@ interface ContactLink {
     subValue?: string;
     href?: string;
     newTab?: boolean;
+    onClick?: (e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) => void;
 }
-
-// ─── Data ───────────────────────────────────────────────────────────────────────
-
-const CONTACT_LINKS: ContactLink[] = [
-    {
-        icon: Phone,
-        label: 'Phone',
-        value: PROFILE.phone,
-        href: 'tel:+17809208681',
-    },
-    {
-        icon: Linkedin,
-        label: 'LinkedIn',
-        value: 'kier-vincent-o',
-        href: PROFILE.socials.find((s) => s.icon === 'linkedin')!.url,
-        newTab: true,
-    },
-    {
-        icon: Github,
-        label: 'GitHub',
-        value: 'KVOclares',
-        href: PROFILE.socials.find((s) => s.icon === 'github')!.url,
-        newTab: true,
-    },
-    {
-        icon: MapPin,
-        label: 'Location',
-        value: PROFILE.location.replace(', Canada', ''),
-        subValue: 'Remote-ready across Alberta',
-    },
-];
 
 // ─── Component ──────────────────────────────────────────────────────────────────
 
@@ -57,17 +27,52 @@ const CONTACT_LINKS: ContactLink[] = [
  */
 function Contact() {
     const sectionRef = useScrollAnimation<HTMLElement>();
+    const [isEmailRevealed, setIsEmailRevealed] = useState<boolean>(false);
     const [isCopied, setIsCopied] = useState<boolean>(false);
+    const [pulse, setPulse] = useState<boolean>(false);
 
-    const handleCopyEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault(); // prevent the parent <a> mailto from firing
-        e.stopPropagation();
-        const success = await copyToClipboard(PROFILE.email);
-        if (success) {
-            setIsCopied(true);
-            setTimeout(() => setIsCopied(false), 2000);
+    const emailUser = "KierVOclares";
+    const emailDomain = "gmail.com";
+    const email = `${emailUser}@${emailDomain}`;
+
+    const handleEmailClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        if (!isEmailRevealed) {
+            setIsEmailRevealed(true);
+            setPulse(true);
+            setTimeout(() => setPulse(false), 300);
+        } else {
+            const success = await copyToClipboard(email);
+            if (success) {
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 2000);
+            }
         }
     };
+
+    const CONTACT_LINKS: ContactLink[] = [
+        {
+            icon: Linkedin,
+            label: 'LinkedIn',
+            value: 'Connect on LinkedIn',
+            href: PROFILE.socials.find((s) => s.icon === 'linkedin')!.url,
+            newTab: true,
+        },
+        {
+            icon: Github,
+            label: 'GitHub',
+            value: 'KVOclares',
+            href: PROFILE.socials.find((s) => s.icon === 'github')!.url,
+            newTab: true,
+        },
+        {
+            icon: MapPin,
+            label: 'Location',
+            value: PROFILE.location.replace(', Canada', ''),
+            subValue: 'Open to Remote & In-Office',
+        },
+    ];
 
     return (
         <section
@@ -120,35 +125,63 @@ function Contact() {
                         transition: 'opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s',
                     }}
                 >
-                    <a
-                        href={`mailto:${PROFILE.email}`}
-                        aria-label="Send email to Kier"
-                        className="relative bg-electric-500 hover:bg-electric-600 text-white font-medium
-                                   px-8 py-4 rounded-xl text-base flex items-center gap-3 mx-auto
+                    <button
+                        type="button"
+                        onClick={handleEmailClick}
+                        aria-label={
+                            isCopied ? "Email address copied to clipboard" :
+                                isEmailRevealed ? "Click to copy email address" :
+                                    "Click to reveal email address"
+                        }
+                        className={`relative text-white font-medium
+                                   px-8 py-4 rounded-xl text-base flex items-center justify-center gap-3 mx-auto
                                    transition-all duration-300 hover:shadow-lg hover:shadow-electric-500/25
-                                   hover:-translate-y-1 group"
+                                   ${pulse ? 'scale-95' : 'hover:-translate-y-1 scale-100'} group`}
+                        style={{
+                            background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 50%, #1D4ED8 100%)',
+                            textShadow: '0 0 20px rgba(255,255,255,0.3)'
+                        }}
                     >
-                        <Mail className="w-5 h-5" aria-hidden="true" />
-                        <span>{PROFILE.email}</span>
+                        <Mail className="w-5 h-5 shrink-0" aria-hidden="true" />
 
-                        {/* Copy icon — overlaid on the right */}
-                        <button
-                            type="button"
-                            onClick={handleCopyEmail}
-                            aria-label={isCopied ? 'Email copied' : 'Copy email address'}
-                            className="ml-1 p-1 rounded-md hover:bg-white/20
-                                       opacity-0 group-hover:opacity-100
-                                       transition-opacity duration-200 cursor-pointer"
+                        <div className="relative flex items-center justify-center min-w-[260px] h-6" aria-live="polite">
+                            {/* Default State */}
+                            <div
+                                className={`absolute flex items-center gap-2 transition-all duration-300 ${isEmailRevealed ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
+                                    }`}
+                                aria-hidden={isEmailRevealed}
+                            >
+                                <span className="italic font-semibold">Psst... click me</span>
+                            </div>
+
+                            {/* Revealed State */}
+                            <div
+                                className={`absolute flex items-center gap-2 transition-all duration-300 ${isEmailRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+                                    }`}
+                                aria-hidden={!isEmailRevealed}
+                            >
+                                {isCopied ? (
+                                    <span className="text-green-300 font-semibold flex items-center gap-1">
+                                        ✓ Copied to clipboard!
+                                    </span>
+                                ) : (
+                                    <span>{isEmailRevealed ? email : ''}</span>
+                                )}
+                            </div>
+                        </div>
+                    </button>
+
+                    {/* Tooltip below button */}
+                    <div className="h-6 mt-3 mb-1">
+                        <p
+                            className={`text-gray-400 text-sm font-medium text-center transition-opacity duration-300 ${isEmailRevealed && !isCopied ? 'opacity-100' : 'opacity-0'
+                                }`}
                         >
-                            {isCopied ? (
-                                <Check className="w-4 h-4 text-green-400" aria-hidden="true" />
-                            ) : (
-                                <Copy className="w-4 h-4" aria-hidden="true" />
-                            )}
-                        </button>
-                    </a>
+                            ✓ Click again to copy
+                        </p>
+                    </div>
 
-                    <p className="text-gray-600 text-xs text-center mt-3">
+                    <p className="text-gray-600 text-xs text-center">
                         or reach out through any of the links below
                     </p>
                 </div>
@@ -156,7 +189,6 @@ function Contact() {
                 {/* ── Contact Links Row ─────────────────────────── */}
                 <div className="flex flex-wrap justify-center gap-4 mt-10">
                     {CONTACT_LINKS.map((link, idx) => {
-                        const isInteractive = Boolean(link.href);
                         const CardIcon = link.icon;
 
                         const cardContent = (
@@ -189,7 +221,7 @@ function Contact() {
                             transition: `opacity 0.6s ease ${0.3 + idx * 0.1}s, transform 0.6s ease ${0.3 + idx * 0.1}s`,
                         };
 
-                        if (isInteractive) {
+                        if (link.href) {
                             return (
                                 <a
                                     key={link.label}
@@ -201,6 +233,7 @@ function Contact() {
                                             ? `Visit ${link.label} profile (opens in new tab)`
                                             : `Call ${link.value}`
                                     }
+                                    onClick={link.onClick}
                                     data-animate
                                     className={`${sharedClasses} cursor-pointer hover:border-electric-500/30 hover:-translate-y-0.5`}
                                     style={animationStyle}
@@ -213,9 +246,10 @@ function Contact() {
                         return (
                             <div
                                 key={link.label}
-                                role="presentation"
+                                role={link.onClick ? "button" : "presentation"}
+                                onClick={link.onClick}
                                 data-animate
-                                className={`${sharedClasses} cursor-default`}
+                                className={`${sharedClasses} ${link.onClick ? 'cursor-pointer hover:border-electric-500/30 hover:-translate-y-0.5' : 'cursor-default'}`}
                                 style={animationStyle}
                             >
                                 {cardContent}

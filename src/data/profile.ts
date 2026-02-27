@@ -25,6 +25,7 @@ export const PROFILE: Profile = {
     availability: true,
     availabilityNote: 'Available for Opportunities!',
     resumeUrl: "/assets/resume/KierVincentOclares_Resume.pdf",
+    siteUrl: "https://kiervoclares.works",
     photo: profilePhoto,
     socials: [
         {
