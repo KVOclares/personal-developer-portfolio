@@ -79,7 +79,7 @@ export default function Footer() {
                             href={PROFILE.resumeUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            download
+                            download="KierVincentOclares_Resume.pdf"
                             aria-label="Download Kier's Resume"
                             className="text-gray-600 hover:text-electric-500 transition-colors duration-200"
                         >

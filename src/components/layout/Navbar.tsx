@@ -117,7 +117,7 @@ function Navbar() {
                                 href={RESUME_PATH}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                download
+                                download="KierVincentOclares_Resume.pdf"
                                 className="btn-outline ml-3 text-sm py-2 px-4"
                             >
                                 Download Resume
@@ -197,7 +197,7 @@ function Navbar() {
                             href={RESUME_PATH}
                             target="_blank"
                             rel="noopener noreferrer"
-                            download
+                            download="KierVincentOclares_Resume.pdf"
                             className="btn-outline mt-3 text-sm py-2.5 px-4 text-center"
                         >
                             Download Resume

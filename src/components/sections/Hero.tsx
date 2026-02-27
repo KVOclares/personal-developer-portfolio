@@ -137,7 +137,7 @@ function Hero() {
                         href={RESUME_PATH}
                         target="_blank"
                         rel="noopener noreferrer"
-                        download
+                        download="KierVincentOclares_Resume.pdf"
                         className="btn-outline"
                         aria-label="Download resume"
                     >
