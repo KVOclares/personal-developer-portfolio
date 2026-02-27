@@ -54,4 +54,4 @@ coverage/
 .agent/
 
 # Generated resume PDF (auto-generated at build time)
-public/assets/resume/KierVincentOclares_Resume.pdf
+# public/assets/resume/KierVincentOclares_Resume.pdf
