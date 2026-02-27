@@ -16,7 +16,8 @@ export const PROJECTS: Project[] = [
         featured: false,
         githubUrl: undefined,
         liveUrl: undefined,
-        note: "Internal GoA project — not publicly available"
+        note: "Internal GoA project — not publicly available",
+        isInternal: true
     },
     {
         id: "ai-chatbot-analysis",
@@ -27,7 +28,8 @@ export const PROJECTS: Project[] = [
         featured: false,
         githubUrl: undefined,
         liveUrl: undefined,
-        note: "Internal GoA project — code not publicly available"
+        note: "Internal GoA project — code not publicly available",
+        isInternal: true
     },
     {
         title: 'Personal Portfolio Site',
@@ -37,6 +39,33 @@ export const PROJECTS: Project[] = [
         status: 'live',
         liveUrl: '',
         githubUrl: 'https://github.com/KVOclares/personal-developer-portfolio',
+    },
+    {
+        id: "grant-ai-reviewer",
+        title: "Grant AI Reviewer",
+        description: "An AI-powered grant application reviewer. The system OCRs uploaded PDF grant applications, extracts structured information, and runs it through an OpenAI model guided by carefully engineered prompts to evaluate whether applications should be approved or rejected. A React + Vite interface presents results to reviewers for final human-in-the-loop decision making.",
+        role: [
+            "Designed and executed end-to-end testing of the full application pipeline including OCR extraction accuracy, prompt evaluation consistency, and UI functionality",
+            "Identified, documented, and reported system bugs across the OCR layer, AI evaluation layer, and React interface",
+            "Proposed and validated improvements to evaluation prompts to increase AI decision accuracy and reduce false positives",
+            "Suggested new features for the reviewer interface to improve usability and decision confidence",
+            "Validated system behavior across edge cases including malformed PDFs, incomplete applications, and ambiguous eligibility scenarios",
+            "Contributed to the Azure Logic Apps workflow that orchestrates the document processing pipeline"
+        ],
+        stack: [
+            "React",
+            "Vite",
+            "TypeScript",
+            "Azure Logic Apps",
+            "OpenAI API",
+            "OCR Pipeline"
+        ],
+        status: "in-progress",
+        featured: false,
+        githubUrl: undefined,
+        liveUrl: undefined,
+        environment: "Azure",
+        isInternal: true
     },
     {
         title: 'Alberta Program Finder',
@@ -67,13 +96,6 @@ export const PROJECTS: Project[] = [
         description:
             'Markdown note-taking app with full user authentication. Covers JWT auth, bcrypt password hashing, protected routes, and middleware-guarded API endpoints.',
         stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'JWT'],
-        status: 'coming-soon',
-    },
-    {
-        title: 'Cloud Cost Explainer Tool',
-        description:
-            'A web version of the GoA Cloud Cost dashboard. Users upload a CSV and an AI layer generates a plain-English summary of cost drivers and anomalies.',
-        stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Anthropic SDK'],
         status: 'coming-soon',
     },
     {

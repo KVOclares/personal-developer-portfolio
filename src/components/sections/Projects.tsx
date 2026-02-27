@@ -1,9 +1,10 @@
-import { Github, ExternalLink, Clock, Terminal } from 'lucide-react';
+import { Github, ExternalLink, Clock, Terminal, Lock, ChevronDown } from 'lucide-react';
+import { useState } from 'react';
 import { PROJECTS } from '../../data/projects';
 import SectionHeader from '../ui/SectionHeader';
 import Badge from '../ui/Badge';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
-import type { ProjectStatus } from '../../types';
+import type { Project, ProjectStatus } from '../../types';
 
 /* ─── Status colour system ──────────────────────────────────────────────────── */
 
@@ -37,6 +38,153 @@ const MOCK_MESSAGES = [
         text: `Based on your situation, here are 3 programs you may qualify for:\n1. AISH — Assured Income\n2. Alberta Works\n3. Child Benefit Supplement`,
     },
 ];
+
+/* ─── Standard Project Card Component ────────────────────────────────────────── */
+
+function StandardProjectCard({ project, idx, isLoneCard }: { project: Project; idx: number; isLoneCard: boolean }) {
+    const [isRoleExpanded, setIsRoleExpanded] = useState(false);
+    const style = STATUS_STYLES[project.status];
+
+    return (
+        <div
+            role="listitem"
+            data-animate
+            className={`card-glass flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:border-electric-500/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-electric-500/10 ${isLoneCard ? 'lg:col-start-2' : ''}`}
+            style={{
+                opacity: 0,
+                transform: 'translateY(20px)',
+                transition: `opacity 0.6s ease ${idx * 0.1}s, transform 0.6s ease ${idx * 0.1}s`,
+            }}
+        >
+            {/* Top accent bar */}
+            <div className={`h-1 w-full rounded-t-xl ${style.bar}`} />
+
+            <div className="p-6 flex flex-col flex-grow">
+                {/* Header row */}
+                <div className="flex items-start justify-between gap-3 mb-3">
+                    <div>
+                        <h3 className="text-lg font-bold text-white">{project.title}</h3>
+                        {project.subtitle && (
+                            <div className="text-electric text-xs font-mono mt-1">{project.subtitle}</div>
+                        )}
+                        {project.organization && (
+                            <div className="text-gray-500 text-xs mt-1">{project.organization}</div>
+                        )}
+                    </div>
+                    <span
+                        className={`inline-flex items-center whitespace-nowrap px-2.5 py-1 text-xs font-mono font-medium rounded-md ${style.badge}`}
+                        aria-label={`Project status: ${style.label}`}
+                    >
+                        {style.label}
+                    </span>
+                </div>
+
+                {/* Description */}
+                <p className={`text-gray-400 text-sm leading-relaxed mb-5 ${!project.role?.length ? 'flex-grow' : ''}`}>
+                    {project.description}
+                </p>
+
+                {/* My Role section */}
+                {project.role && project.role.length > 0 && (
+                    <div className="mb-5 flex-grow">
+                        <button
+                            onClick={() => setIsRoleExpanded(!isRoleExpanded)}
+                            className="flex items-center gap-1 text-gray-500 text-xs hover:text-gray-400 transition-colors"
+                        >
+                            <span>{isRoleExpanded ? "Hide my role" : "View my role ↓"}</span>
+                            <ChevronDown
+                                className={`w-3 h-3 transition-transform duration-300 ${isRoleExpanded ? 'rotate-180' : ''}`}
+                            />
+                        </button>
+
+                        {isRoleExpanded && (
+                            <div className="pt-3">
+                                <ul className="list-disc pl-4 space-y-2 text-gray-400 text-xs marker:text-electric-500/50">
+                                    {project.role.map((bullet, i) => (
+                                        <li key={i}>{bullet}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Tech stack */}
+                <div className="mb-5">
+                    <p className="text-gray-500 text-xs uppercase tracking-wider mb-2">Stack</p>
+                    <div className="flex flex-wrap gap-2">
+                        {project.stack.map((tech) => (
+                            <Badge key={tech} label={tech} variant="stack" />
+                        ))}
+                    </div>
+                </div>
+
+                {/* Action row */}
+                <div className="flex gap-3 pt-4 border-t border-white/10 mt-auto flex-wrap">
+                    {project.isInternal ? (
+                        <div className="flex items-center">
+                            <span className="inline-flex items-center gap-1.5 bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs px-3 py-1 rounded-full">
+                                <Lock size={12} aria-hidden="true" />
+                                Internal Project
+                            </span>
+                        </div>
+                    ) : (
+                        <>
+                            {project.githubUrl && (
+                                <a
+                                    href={project.githubUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-outline text-xs py-2 px-4"
+                                    aria-label={`View ${project.title} on GitHub`}
+                                >
+                                    <Github className="w-4 h-4" aria-hidden="true" />
+                                    GitHub
+                                </a>
+                            )}
+
+                            {project.liveUrl && (
+                                <a
+                                    href={project.liveUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-outline text-xs py-2 px-4"
+                                    aria-label={`View live demo of ${project.title}`}
+                                >
+                                    <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                                    Live Demo
+                                </a>
+                            )}
+
+                            <div className="flex items-center">
+                                <span className={`inline-flex items-center px-3 py-1 text-xs rounded-full border ${project.note === 'Academic Project' || project.title.includes('Capstone')
+                                    ? 'bg-purple-500/10 text-purple-400 border-purple-500/20'
+                                    : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                    }`}>
+                                    {project.note === 'Academic Project' || project.title.includes('Capstone')
+                                        ? 'Academic Project'
+                                        : 'Personal Project'}
+                                </span>
+                            </div>
+                        </>
+                    )}
+
+                    {project.status === 'coming-soon' && (
+                        <div className="flex items-center">
+                            <span
+                                className="inline-flex items-center gap-2 px-3 py-1 text-xs text-slate-400 bg-slate-800/50 border border-white/5 rounded-full cursor-not-allowed"
+                                aria-disabled="true"
+                            >
+                                <Clock className="w-4 h-4" aria-hidden="true" />
+                                In Development
+                            </span>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
 
 /* ─── Component ──────────────────────────────────────────────────────────────── */
 
@@ -85,101 +233,14 @@ function Projects() {
                     role="list"
                 >
                     {standardProjects.map((project, idx) => {
-                        const style = STATUS_STYLES[project.status];
                         const isLoneCard = standardProjects.length % 3 === 1 && idx === standardProjects.length - 1;
-
                         return (
-                            <div
+                            <StandardProjectCard
                                 key={project.title}
-                                role="listitem"
-                                data-animate
-                                className={`card-glass flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:border-electric-500/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-electric-500/10 ${isLoneCard ? 'lg:col-start-2' : ''}`}
-                                style={{
-                                    opacity: 0,
-                                    transform: 'translateY(20px)',
-                                    transition: `opacity 0.6s ease ${idx * 0.1}s, transform 0.6s ease ${idx * 0.1}s`,
-                                }}
-                            >
-                                {/* Top accent bar */}
-                                <div className={`h-1 w-full rounded-t-xl ${style.bar}`} />
-
-                                <div className="p-6 flex flex-col flex-grow">
-                                    {/* Header row */}
-                                    <div className="flex items-start justify-between gap-3 mb-3">
-                                        <h3 className="text-lg font-bold text-white">{project.title}</h3>
-                                        <span
-                                            className={`inline-flex items-center whitespace-nowrap px-2.5 py-1 text-xs font-mono font-medium rounded-md ${style.badge}`}
-                                            aria-label={`Project status: ${style.label}`}
-                                        >
-                                            {style.label}
-                                        </span>
-                                    </div>
-
-                                    {/* Description */}
-                                    <p className="text-gray-400 text-sm leading-relaxed mb-5 flex-grow">
-                                        {project.description}
-                                    </p>
-
-                                    {/* Tech stack */}
-                                    <div className="mb-5">
-                                        <p className="text-gray-500 text-xs uppercase tracking-wider mb-2">Stack</p>
-                                        <div className="flex flex-wrap gap-2">
-                                            {project.stack.map((tech) => (
-                                                <Badge key={tech} label={tech} variant="stack" />
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Action row */}
-                                    <div className="flex gap-3 pt-4 border-t border-white/10 mt-auto">
-                                        {project.githubUrl && (
-                                            <a
-                                                href={project.githubUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="btn-outline text-xs py-2 px-4"
-                                                aria-label={`View ${project.title} on GitHub`}
-                                            >
-                                                <Github className="w-4 h-4" aria-hidden="true" />
-                                                GitHub
-                                            </a>
-                                        )}
-
-                                        {project.liveUrl && (
-                                            <a
-                                                href={project.liveUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="btn-outline text-xs py-2 px-4"
-                                                aria-label={`View live demo of ${project.title}`}
-                                            >
-                                                <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                                                Live Demo
-                                            </a>
-                                        )}
-
-                                        {!project.githubUrl && !project.liveUrl && project.status !== 'coming-soon' && (
-                                            <div className="flex items-center">
-                                                <Badge
-                                                    label={project.note ? 'Internal Project' : 'Academic Project'}
-                                                    variant="status"
-                                                    className="!bg-gray-700 !text-gray-400 !border-gray-600"
-                                                />
-                                            </div>
-                                        )}
-
-                                        {project.status === 'coming-soon' && (
-                                            <span
-                                                className="inline-flex items-center gap-2 px-4 py-2 text-xs text-slate-500 border border-white/5 rounded-xl cursor-not-allowed"
-                                                aria-disabled="true"
-                                            >
-                                                <Clock className="w-4 h-4" aria-hidden="true" />
-                                                In Development
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
+                                project={project}
+                                idx={idx}
+                                isLoneCard={isLoneCard}
+                            />
                         );
                     })}
                 </div>
@@ -238,51 +299,65 @@ function Projects() {
                                 </div>
 
                                 {/* Action row */}
-                                <div className="flex gap-3 pt-4 border-t border-white/10 mt-auto">
-                                    {featuredProject.githubUrl && (
-                                        <a
-                                            href={featuredProject.githubUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="btn-outline text-xs py-2 px-4"
-                                            aria-label={`View ${featuredProject.title} on GitHub`}
-                                        >
-                                            <Github className="w-4 h-4" aria-hidden="true" />
-                                            GitHub
-                                        </a>
-                                    )}
-
-                                    {featuredProject.liveUrl && (
-                                        <a
-                                            href={featuredProject.liveUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="btn-outline text-xs py-2 px-4"
-                                            aria-label={`View live demo of ${featuredProject.title}`}
-                                        >
-                                            <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                                            Live Demo
-                                        </a>
-                                    )}
-
-                                    {!featuredProject.githubUrl && !featuredProject.liveUrl && featuredProject.status !== 'coming-soon' && (
+                                <div className="flex gap-3 pt-4 border-t border-white/10 mt-auto flex-wrap">
+                                    {featuredProject.isInternal ? (
                                         <div className="flex items-center">
-                                            <Badge
-                                                label={featuredProject.note ? 'Internal Project' : 'Academic Project'}
-                                                variant="status"
-                                                className="!bg-gray-700 !text-gray-400 !border-gray-600"
-                                            />
+                                            <span className="inline-flex items-center gap-1.5 bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs px-3 py-1 rounded-full">
+                                                <Lock size={12} aria-hidden="true" />
+                                                Internal Project
+                                            </span>
                                         </div>
+                                    ) : (
+                                        <>
+                                            {featuredProject.githubUrl && (
+                                                <a
+                                                    href={featuredProject.githubUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="btn-outline text-xs py-2 px-4"
+                                                    aria-label={`View ${featuredProject.title} on GitHub`}
+                                                >
+                                                    <Github className="w-4 h-4" aria-hidden="true" />
+                                                    GitHub
+                                                </a>
+                                            )}
+
+                                            {featuredProject.liveUrl && (
+                                                <a
+                                                    href={featuredProject.liveUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="btn-outline text-xs py-2 px-4"
+                                                    aria-label={`View live demo of ${featuredProject.title}`}
+                                                >
+                                                    <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                                                    Live Demo
+                                                </a>
+                                            )}
+
+                                            <div className="flex items-center">
+                                                <span className={`inline-flex items-center px-3 py-1 text-xs rounded-full border ${featuredProject.note === 'Academic Project' || featuredProject.title.includes('Capstone')
+                                                    ? 'bg-purple-500/10 text-purple-400 border-purple-500/20'
+                                                    : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                                    }`}>
+                                                    {featuredProject.note === 'Academic Project' || featuredProject.title.includes('Capstone')
+                                                        ? 'Academic Project'
+                                                        : 'Personal Project'}
+                                                </span>
+                                            </div>
+                                        </>
                                     )}
 
                                     {featuredProject.status === 'coming-soon' && (
-                                        <span
-                                            className="inline-flex items-center gap-2 px-4 py-2 text-xs text-slate-500 border border-white/5 rounded-xl cursor-not-allowed"
-                                            aria-disabled="true"
-                                        >
-                                            <Clock className="w-4 h-4" aria-hidden="true" />
-                                            In Development
-                                        </span>
+                                        <div className="flex items-center">
+                                            <span
+                                                className="inline-flex items-center gap-2 px-3 py-1 text-xs text-slate-400 bg-slate-800/50 border border-white/5 rounded-full cursor-not-allowed"
+                                                aria-disabled="true"
+                                            >
+                                                <Clock className="w-4 h-4" aria-hidden="true" />
+                                                In Development
+                                            </span>
+                                        </div>
                                     )}
                                 </div>
                             </div>

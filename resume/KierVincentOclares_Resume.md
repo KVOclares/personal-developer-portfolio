@@ -145,6 +145,16 @@ Data Preparation, Data Visualization, Data Governance
 
 ## Key Projects & Analytics Initiatives
 
+### Grant AI Reviewer
+**Government of Alberta**
+
+Designed and executed end-to-end testing of an AI-powered 
+grant application reviewer. Validated system behavior across 
+OCR extraction layers, structured prompt evaluation 
+consistency, and a React interface. Proposed improvements 
+to evaluation prompts, increasing AI decision accuracy and 
+reducing false positives for human-in-the-loop reviewers.
+
 ### AI Chatbot Intent Analysis
 **Government of Alberta**
 

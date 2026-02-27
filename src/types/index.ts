@@ -75,13 +75,18 @@ export type ProjectStatus = 'coming-soon' | 'live' | 'in-progress';
 export interface Project {
     id?: string;
     title: string;
+    subtitle?: string;
     description: string;
+    role?: string[];
     stack: string[];
     status: ProjectStatus;
     featured?: boolean;
     githubUrl?: string;
     liveUrl?: string;
     note?: string;
+    organization?: string;
+    environment?: string;
+    isInternal?: boolean;
 }
 
 // ─── Education ──────────────────────────────────────────────────────────────────
