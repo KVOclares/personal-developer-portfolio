@@ -20,6 +20,7 @@
 - **globals**: Globals library used with ESLint.
 - **@icons-pack/react-simple-icons**: React components for 3,000+ brand icons from Simple Icons.
 - **lucide-react**: Lightweight icon library used for category headers and fallback skill icons.
+- **@vercel/analytics**: Provides privacy-friendly, deeply integrated analytics for Vercel deployments.
 
 ## 3. Current Folder Structure
 ```text
@@ -114,6 +115,8 @@ src/
 - `EducationEntry` interface extended with `coursework?: string[]`, `Certification` interface added
 - `education.ts` updated with precise credential strings, and exports for `CERTIFICATIONS` and `CURRENTLY_LEARNING` to enable zero-component-change scalability
 - **Contact.tsx fully built**: centered single-column layout within `section-container` for alignment, left-aligned `SectionHeader`, recruiter-facing closing statement, large primary email CTA with secondary hover `copyToClipboard` action (Check icon on success), 4 contact link cards in a flex-wrap row (Phone, LinkedIn, GitHub, Location), data-driven availability status pill with pulsing green dot, staggered scroll animations, full accessibility (role="region", aria-labelledby, descriptive aria-labels).
+- **Profile Image Optimized**: Converted `profile.jpg` to `profile.webp` (< 200KB) and updated the `profile.ts` reference.
+- **Vercel Analytics**: Integrated `@vercel/analytics/react` to provide traffic insights by including `<Analytics />` in `App.tsx`.
 
 ## 5. What Needs To Be Built Next (In Order)
 1. [x] Navbar.tsx — sticky nav with smooth scroll anchor links, active section highlighting, hamburger menu, Back to Top button
@@ -125,8 +128,8 @@ src/
 7. [x] Education.tsx — two-column layout with learning pills, stacked education cards, and certifications block
 8. [x] Contact.tsx — email/links with copyToClipboard utility
 9. [x] Footer.tsx — simple footer with links
-10. [ ] Vercel deployment + custom domain setup
-11. [ ] Vercel Analytics integration
+10. [x] Vercel deployment + custom domain setup
+11. [x] Vercel Analytics integration
 
 ## 6. Design System
 - **Colors**:
@@ -153,11 +156,3 @@ src/
 - Vercel auto-deploys on every git push to main
 - Resume PDF hosted in src/assets/resume/ and served inline via vercel.json headers
 - Scalable data arrays (`CERTIFICATIONS`, `CURRENTLY_LEARNING`) used to prevent component code changes when adding new entries
-
-## 8. How To Continue In a New Chat
-Paste this exact instruction at the start of the new chat:
-
----
-You are an expert Full Stack Frontend Developer helping me build my personal portfolio. Read PROJECT_CONTEXT.md for full project context. We are building components one at a time in the order listed in section 5. All components use React + TypeScript strict mode, Tailwind CSS, and pull content from src/data/ files. Do not hardcode any content inside components.
-Current task: Building Vercel deployment + custom domain setup but do not change any code at the moment wait until I send a different prompt explaining what I want to do with it.
----
