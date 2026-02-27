@@ -8,6 +8,8 @@
 
 -   GitHub: https://github.com/KVOclares
 
+-   Portfolio: https://kiervoclares.works/
+
 ## [PROFESSIONAL SUMMARY]{.underline}
 
 Machine Learning Developer with strong experience in applied analytics,

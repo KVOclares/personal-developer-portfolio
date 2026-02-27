@@ -28,7 +28,7 @@ export default function Footer() {
                 <div className="flex flex-col items-center">
                     <span className="text-electric-500 font-mono font-bold text-2xl">KVO</span>
                     <p className="text-gray-600 text-xs text-center mt-1">
-                        Built with React + TypeScript. Deployed on Vercel.
+                        Built with React + TypeScript · kiervoclares.works
                     </p>
                 </div>
 

@@ -1,10 +1,8 @@
 ---
 # Kier Vincent Oclares
 
-KierVOclares@gmail.com &nbsp;|&nbsp; 
-+1 (780) 920-8681 &nbsp;|&nbsp;
-linkedin.com/in/kier-vincent-o-2150051a0 &nbsp;|&nbsp;
-github.com/KVOclares
+KierVOclares@gmail.com &nbsp;|&nbsp; +1 (780) 920-8681\
+linkedin.com/in/kier-vincent-o-2150051a0 &nbsp;|&nbsp; github.com/KVOclares &nbsp;|&nbsp; kiervoclares.works
 
 ---
 
