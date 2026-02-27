@@ -13,8 +13,9 @@ export const PROFILE: Profile = {
         'Your Future Full Stack Developer',
     ],
     location: 'Edmonton, Alberta, Canada',
-    email: 'KierVOclares@gmail.com',
-    phone: '+1 (780) 920-8681',
+    emailUser: 'KierVOclares',
+    emailDomain: 'gmail.com',
+    // phone: '+1 (780) 920-8681', // Removed from JS bundle for security; plain text only in Resume.md
     about:
         'Pipelines that don\'t break. Dashboards that actually get used. AI tools that make work faster and smarter. That\'s what I build — and I\'ve been doing it at the Government of Alberta.',
     bio: [
@@ -38,15 +39,6 @@ export const PROFILE: Profile = {
             url: 'https://github.com/KVOclares',
             icon: 'github',
         },
-        {
-            label: 'KierVOclares@gmail.com',
-            url: 'mailto:KierVOclares@gmail.com',
-            icon: 'email',
-        },
-        {
-            label: '+1 (780) 920-8681',
-            url: 'tel:+17809208681',
-            icon: 'phone',
-        },
+        // Email and phone removed from socials array to avoid bundling PII
     ],
 };

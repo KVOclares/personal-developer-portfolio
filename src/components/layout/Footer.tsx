@@ -19,7 +19,13 @@ export default function Footer() {
     // Extract required links from profile data
     const githubLink = PROFILE.socials.find((s) => s.icon === 'github')?.url || 'https://github.com/KVOclares';
     const linkedinLink = PROFILE.socials.find((s) => s.icon === 'linkedin')?.url || 'https://www.linkedin.com/in/kier-vincent-o-2150051a0/';
-    const emailLink = PROFILE.email ? `mailto:${PROFILE.email}` : 'mailto:KierVOclares@gmail.com';
+
+    // Dynamically assemble email to avoid exposing complete string in JS bundle
+    const emailUser = 'KierVOclares';
+    const emailDomain = 'gmail.com';
+    const emailLink = (PROFILE.emailUser && PROFILE.emailDomain)
+        ? `mailto:${PROFILE.emailUser}${String.fromCharCode(64)}${PROFILE.emailDomain}`
+        : `mailto:${emailUser}${String.fromCharCode(64)}${emailDomain}`;
 
     return (
         <footer aria-label="Site footer" className="bg-navy-800 border-t border-gray-800 py-12 px-6">
