@@ -72,6 +72,7 @@ export type ProjectStatus = 'coming-soon' | 'live' | 'in-progress';
 
 /** A single project card. */
 export interface Project {
+    id?: string;
     title: string;
     description: string;
     stack: string[];
@@ -79,6 +80,7 @@ export interface Project {
     featured?: boolean;
     githubUrl?: string;
     liveUrl?: string;
+    note?: string;
 }
 
 // ─── Education ──────────────────────────────────────────────────────────────────

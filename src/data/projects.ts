@@ -8,6 +8,28 @@ import type { Project } from '../types';
 /** All portfolio projects, ordered by progression. */
 export const PROJECTS: Project[] = [
     {
+        id: "goa-cloud-cost-dashboard",
+        title: "Cloud Cost Invoice Dashboard",
+        description: "Consolidated multiple fragmented legacy Cloud Cost Invoice dashboards into a single unified enterprise Power BI solution for executive decision support at the Government of Alberta. Improved data accuracy from 80% to 99% by migrating legacy hard-coded transformations to scalable SQL models. Implemented Row-Level Security for role-based access compliance across diverse business units.",
+        stack: ["Power BI", "SQL", "T-SQL", "SSIS", "DAX", "ETL Pipelines", "Row-Level Security"],
+        status: "live",
+        featured: false,
+        githubUrl: undefined,
+        liveUrl: undefined,
+        note: "Internal GoA project — not publicly available"
+    },
+    {
+        id: "ai-chatbot-analysis",
+        title: "AI Chatbot Intent Analysis",
+        description: "Evaluated AI chatbot intent accuracy for a GoA contact centre by parsing 5,000 unstructured JSON conversation logs. Built a Python pipeline to map system outputs against user inputs and extract actionable insights that improved production model accuracy.",
+        stack: ["Python", "Pandas", "JSON", "Data Analysis", "NLP"],
+        status: "live",
+        featured: false,
+        githubUrl: undefined,
+        liveUrl: undefined,
+        note: "Internal GoA project — code not publicly available"
+    },
+    {
         title: 'Personal Portfolio Site',
         description:
             'This site. Built with React, TypeScript, and Tailwind CSS. Deployed on Vercel with automatic deploys on every git push.',
@@ -31,11 +53,14 @@ export const PROJECTS: Project[] = [
         status: 'coming-soon',
     },
     {
-        title: 'Edmonton Housing Data Explorer',
-        description:
-            'Productionizing the NAIT capstone housing analytics project as a live web app with an API layer serving model results to a React frontend.',
-        stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Python'],
-        status: 'coming-soon',
+        id: "edmonton-housing",
+        title: "Edmonton Housing Analytics Capstone",
+        description: "End-to-end analytics pipeline on Edmonton housing inventory data. Translated complex datasets into actionable data stories and presentations for non-technical project sponsors at NAIT.",
+        stack: ["Python", "Pandas", "R", "Data Visualization", "Statistical Analysis"],
+        status: "live",
+        featured: false,
+        githubUrl: undefined,
+        liveUrl: undefined
     },
     {
         title: 'Developer Notes App',

@@ -158,6 +158,16 @@ function Projects() {
                                             </a>
                                         )}
 
+                                        {!project.githubUrl && !project.liveUrl && project.status !== 'coming-soon' && (
+                                            <div className="flex items-center">
+                                                <Badge
+                                                    label={project.note ? 'Internal Project' : 'Academic Project'}
+                                                    variant="status"
+                                                    className="!bg-gray-700 !text-gray-400 !border-gray-600"
+                                                />
+                                            </div>
+                                        )}
+
                                         {project.status === 'coming-soon' && (
                                             <span
                                                 className="inline-flex items-center gap-2 px-4 py-2 text-xs text-slate-500 border border-white/5 rounded-xl cursor-not-allowed"
@@ -253,6 +263,16 @@ function Projects() {
                                             <ExternalLink className="w-4 h-4" aria-hidden="true" />
                                             Live Demo
                                         </a>
+                                    )}
+
+                                    {!featuredProject.githubUrl && !featuredProject.liveUrl && featuredProject.status !== 'coming-soon' && (
+                                        <div className="flex items-center">
+                                            <Badge
+                                                label={featuredProject.note ? 'Internal Project' : 'Academic Project'}
+                                                variant="status"
+                                                className="!bg-gray-700 !text-gray-400 !border-gray-600"
+                                            />
+                                        </div>
                                     )}
 
                                     {featuredProject.status === 'coming-soon' && (

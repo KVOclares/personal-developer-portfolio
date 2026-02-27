@@ -5,6 +5,7 @@
 interface BadgeProps {
     label: string;
     variant?: 'skill' | 'status' | 'stack';
+    className?: string;
 }
 
 const variantStyles: Record<string, string> = {
@@ -13,10 +14,10 @@ const variantStyles: Record<string, string> = {
     stack: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
 };
 
-function Badge({ label, variant = 'skill' }: BadgeProps) {
+function Badge({ label, variant = 'skill', className = '' }: BadgeProps) {
     return (
         <span
-            className={`inline-block px-2.5 py-1 text-xs font-mono font-medium rounded-md border ${variantStyles[variant]}`}
+            className={`inline-block px-2.5 py-1 text-xs font-mono font-medium rounded-md border ${variantStyles[variant]} ${className}`.trim()}
         >
             {label}
         </span>
