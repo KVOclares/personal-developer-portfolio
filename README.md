@@ -79,42 +79,29 @@ A modern, fully responsive personal portfolio SPA showcasing my background in fu
 
 ---
 
-## ⚙️ Getting Started
+## ⚙️ Development Workflow
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) >= 18.x
-- npm >= 9.x
-
-### Installation
+Here is a quick overview of how I run this project locally for development:
 
 ```bash
-git clone https://github.com/KVOclares/personal-developer-portfolio.git
-cd personal-developer-portfolio
+# Install dependencies
 npm install
-```
 
-### Running Locally
-
-```bash
+# Start development server
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+The application runs locally on [http://localhost:5173](http://localhost:5173).
 
-### Build for Production
+### Building & Verification
 
 ```bash
+# Type-check and build production bundle
 npm run build
-npm run preview
-```
 
-Output is in the `dist/` folder.
-
-### Linting
-
-```bash
+# Verify code quality
 npm run lint
+npm run format
 ```
 
 ---
@@ -133,28 +120,21 @@ npm run lint
 
 ---
 
-## 🚀 Deployment
+## 🚀 Infrastructure & Deployment
 
-This site is deployed on Vercel with automatic deployments from the main branch.
+The portfolio is continuously deployed to Vercel. Any `git push` to the `main` branch triggers an automatic production build.
 
-### Deploy Your Own
-1. Fork this repository
-2. Go to [vercel.com](https://vercel.com) and import the repo
-3. Set framework preset to: **Vite**
-4. Add environment variables from `.env.example`
-5. Deploy — done
+### Content Management
 
-### Updating Content
+Site content is fully decoupled from the UI components. All text, assets, and metadata live in typed TypeScript constants under `src/data/`:
 
-All site content lives in `src/data/`. To update: edit the relevant data file → `git push` → Vercel auto-deploys in ~30 seconds.
-
-| File | What to update |
-|------|---------------|
-| `src/data/profile.ts` | Name, bio, contact info |
-| `src/data/experience.ts` | Work history |
-| `src/data/projects.ts` | Portfolio projects |
-| `src/data/skills.ts` | Technical skills |
-| `src/data/education.ts` | Degrees, certifications |
+| File | Domain |
+|------|--------|
+| `src/data/profile.ts` | Core identity, bio, and contact info |
+| `src/data/experience.ts` | Professional timeline and roles |
+| `src/data/projects.ts` | Portfolio showcases and case studies |
+| `src/data/skills.ts` | Technical skills definitions |
+| `src/data/education.ts` | Academic history and degrees |
 
 ---
 
@@ -179,4 +159,4 @@ To update the resume:
 
 ## 📄 License
 
-MIT — feel free to fork and adapt for your own portfolio.
+This repository is primarily for my personal portfolio. You are more than welcome to explore the source code for reference, learning, or inspiration! I just politely ask that you do not reuse my personal branding, content, or resume data if you adapt any part of the code for your own projects.
