@@ -24,7 +24,7 @@ export const PROFILE: Profile = {
         'I\'m now building full stack web applications to complement my data background. My goal is to be the developer who can own the entire stack — from the database query to the React component — and I\'m getting there one project at a time.',
     ],
     availability: true,
-    availabilityNote: 'Available for Opportunities!',
+    availabilityNote: 'Open for Opportunities!',
     resumeUrl: "/assets/resume/KierVincentOclares_Resume.pdf",
     siteUrl: "https://kiervoclares.works",
     photo: profilePhoto,

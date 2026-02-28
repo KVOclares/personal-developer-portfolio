@@ -82,7 +82,7 @@ Metadata Tracking
 
 <div class="job-entry">
 
-### Communication Lead Technician
+### Senior Communication Technician
 **ASCCI-North Inc.**, August 2021 – August 2024
 
 - Standardized operational service delivery and 
