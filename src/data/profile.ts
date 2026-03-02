@@ -15,7 +15,6 @@ export const PROFILE: Profile = {
     location: 'Edmonton, Alberta, Canada',
     emailUser: 'KierVOclares',
     emailDomain: 'gmail.com',
-    // phone: '+1 (780) 920-8681', // Removed from JS bundle for security; plain text only in Resume.md
     about:
         'Pipelines that don\'t break. Dashboards that actually get used. AI tools that make work faster and smarter. That\'s what I build — and I\'ve been doing it at the Government of Alberta.',
     bio: [

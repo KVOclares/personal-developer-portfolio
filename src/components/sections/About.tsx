@@ -80,6 +80,23 @@ function About() {
                 aria-labelledby="about-heading"
             >
                 <div className="max-w-6xl mx-auto px-6">
+                    {/* Section header */}
+                    <div
+                        data-animate
+                        className="mb-12"
+                        style={{
+                            opacity: 0,
+                            transform: 'translateY(20px)',
+                            transition: 'opacity 0.6s ease, transform 0.6s ease',
+                        }}
+                    >
+                        <p className="section-subheading">WHO I AM</p>
+                        <h2 id="about-heading" className="section-heading">
+                            About Me
+                        </h2>
+                        <div className="h-1 w-16 bg-gradient-to-r from-electric-500 to-accent-cyan rounded-full mt-2" />
+                    </div>
+
                     <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
                         {/* ── Left Column — Photo & Badges (40%) ──────────── */}
                         <div
@@ -96,8 +113,8 @@ function About() {
                                 ref={photoTriggerRef}
                                 type="button"
                                 onClick={openLightbox}
-                                className="relative group cursor-zoom-in rounded-full overflow-hidden
-                                           w-48 h-48 md:w-64 md:h-64
+                                className="relative group cursor-zoom-in rounded-2xl overflow-hidden
+                                           w-48 h-64 md:w-64 md:h-[22rem]
                                            border-[3px] border-electric-500
                                            focus:outline-none focus-visible:ring-2
                                            focus-visible:ring-electric-500 focus-visible:ring-offset-2
@@ -109,11 +126,11 @@ function About() {
                             >
                                 <div
                                     className="w-full h-full transition-all duration-300
-                                               group-hover:scale-110"
+                                               group-hover:scale-105"
                                     style={{
                                         backgroundImage: `url(${PROFILE.photo})`,
-                                        backgroundSize: '170%',
-                                        backgroundPosition: '77% 70%',
+                                        backgroundSize: '200%',
+                                        backgroundPosition: '73% 90%',
                                         backgroundRepeat: 'no-repeat',
                                     }}
                                     role="img"
@@ -152,14 +169,6 @@ function About() {
                                 transition: 'opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s',
                             }}
                         >
-                            {/* Section header */}
-                            <div className="mb-8">
-                                <p className="section-subheading">WHO I AM</p>
-                                <h2 id="about-heading" className="section-heading">
-                                    About Me
-                                </h2>
-                                <div className="h-1 w-16 bg-gradient-to-r from-electric-500 to-accent-cyan rounded-full" />
-                            </div>
 
                             {/* Bio paragraphs */}
                             <div className="space-y-4 mb-10">

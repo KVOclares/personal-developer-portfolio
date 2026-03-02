@@ -2,7 +2,7 @@
 
 # Kier Vincent Oclares — Developer Portfolio
 
-**Full Stack Developer · Data Engineer · AI Integration Specialist**
+**Future Full Stack Developer · Data Engineer · AI Integration Specialist**
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
@@ -11,7 +11,9 @@
 
 </div>
 
-A modern, fully responsive personal portfolio SPA showcasing my background in full-stack development, data engineering, and AI-assisted development at the Government of Alberta. Built with a deep navy + electric blue design system, smooth scroll animations, and all content cleanly separated into typed TypeScript constants — no backend required.
+A modern, fully responsive personal portfolio SPA showcasing my background in full-stack development, data engineering, and AI-assisted development. Built with a deep navy + electric blue design system, smooth scroll animations, and all content cleanly separated into typed TypeScript constants — no backend required.
+
+![Portfolio Preview](src/assets/images/welcome_page.webp)
 
 ---
 
