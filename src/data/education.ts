@@ -7,7 +7,7 @@ import type { EducationEntry, Certification } from '../types';
 export const EDUCATION: EducationEntry[] = [
     {
         kind: 'education',
-        degree: 'Certificate — Alberta AI Academy (Levels 1–3)',
+        degree: 'Alberta AI Academy (Levels 1–3)',
         field: 'Applied AI & Enterprise Automation',
         institution: 'Government of Alberta',
         period: '2025 – 2026',
