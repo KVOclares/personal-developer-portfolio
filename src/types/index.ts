@@ -69,7 +69,7 @@ export interface ExperienceEntry {
 // ─── Projects ───────────────────────────────────────────────────────────────────
 
 /** Status of a project. */
-export type ProjectStatus = 'coming-soon' | 'live' | 'in-progress';
+export type ProjectStatus = 'coming-soon' | 'live' | 'in-progress' | 'finished';
 
 /** A single project card. */
 export interface Project {

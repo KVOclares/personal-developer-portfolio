@@ -27,6 +27,11 @@ const STATUS_STYLES: Record<
         badge: 'bg-gray-700 text-gray-400 border border-gray-600',
         label: 'Coming Soon',
     },
+    finished: {
+        bar: 'bg-blue-500',
+        badge: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
+        label: 'Finished',
+    },
 };
 
 /* ─── Featured-card mock terminal content ────────────────────────────────────── */
@@ -199,8 +204,7 @@ function Projects() {
     const standardProjects = PROJECTS.filter((p) => !p.featured);
     const featuredProject = PROJECTS.find((p) => p.featured);
 
-    /* Animation delay index — featured card animates last */
-    const featuredDelay = standardProjects.length;
+
 
     return (
         <section
@@ -227,35 +231,17 @@ function Projects() {
                     />
                 </div>
 
-                {/* ── Standard project cards ─────────────────────────────── */}
-                <div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                    role="list"
-                >
-                    {standardProjects.map((project, idx) => {
-                        const isLoneCard = standardProjects.length % 3 === 1 && idx === standardProjects.length - 1;
-                        return (
-                            <StandardProjectCard
-                                key={project.title}
-                                project={project}
-                                idx={idx}
-                                isLoneCard={isLoneCard}
-                            />
-                        );
-                    })}
-                </div>
-
                 {/* ── Featured project card ──────────────────────────────── */}
                 {featuredProject && (
                     <div
                         data-animate
                         role="listitem"
-                        className="mt-6 card-glass overflow-hidden transition-all duration-300 ease-in-out
+                        className="mb-8 card-glass overflow-hidden transition-all duration-300 ease-in-out
                                    hover:border-electric-500/50 hover:-translate-y-1 hover:shadow-lg hover:shadow-electric-500/10"
                         style={{
                             opacity: 0,
                             transform: 'translateY(20px)',
-                            transition: `opacity 0.6s ease ${featuredDelay * 0.1}s, transform 0.6s ease ${featuredDelay * 0.1}s`,
+                            transition: `opacity 0.6s ease 0s, transform 0.6s ease 0s`,
                         }}
                     >
                         {/* Top accent bar */}
@@ -398,6 +384,24 @@ function Projects() {
                         </div>
                     </div>
                 )}
+
+                {/* ── Standard project cards ─────────────────────────────── */}
+                <div
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    role="list"
+                >
+                    {standardProjects.map((project, idx) => {
+                        const isLoneCard = standardProjects.length % 3 === 1 && idx === standardProjects.length - 1;
+                        return (
+                            <StandardProjectCard
+                                key={project.title}
+                                project={project}
+                                idx={idx + 1}
+                                isLoneCard={isLoneCard}
+                            />
+                        );
+                    })}
+                </div>
             </div>
         </section>
     );
