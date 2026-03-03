@@ -1,10 +1,11 @@
-import { Github, ExternalLink, Clock, Terminal, Lock, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import { Github, ExternalLink, Clock, Terminal, Lock, ChevronDown, X } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { PROJECTS } from '../../data/projects';
 import SectionHeader from '../ui/SectionHeader';
 import Badge from '../ui/Badge';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
 import type { Project, ProjectStatus } from '../../types';
+import abnChattedImg from '../../assets/images/abn_chatted.jpg';
 
 /* ─── Status colour system ──────────────────────────────────────────────────── */
 
@@ -34,15 +35,6 @@ const STATUS_STYLES: Record<
     },
 };
 
-/* ─── Featured-card mock terminal content ────────────────────────────────────── */
-
-const MOCK_MESSAGES = [
-    { role: 'user' as const, text: 'What benefits am I eligible for?' },
-    {
-        role: 'ai' as const,
-        text: `Based on your situation, here are 3 programs you may qualify for:\n1. AISH — Assured Income\n2. Alberta Works\n3. Child Benefit Supplement`,
-    },
-];
 
 /* ─── Standard Project Card Component ────────────────────────────────────────── */
 
@@ -200,6 +192,35 @@ function StandardProjectCard({ project, idx, isLoneCard }: { project: Project; i
 function Projects() {
     const sectionRef = useScrollAnimation<HTMLElement>();
 
+    // ── Lightbox state ────────────────────────────────────────────────────────
+    const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
+    const photoTriggerRef = useRef<HTMLButtonElement>(null);
+
+    const openLightbox = (): void => setIsLightboxOpen(true);
+
+    const closeLightbox = useCallback((): void => {
+        setIsLightboxOpen(false);
+        // Return focus to the trigger element
+        setTimeout(() => photoTriggerRef.current?.focus(), 0);
+    }, []);
+
+    // ── Escape key + body scroll lock ─────────────────────────────────────────
+    useEffect(() => {
+        if (!isLightboxOpen) return;
+
+        const onKeyDown = (e: KeyboardEvent): void => {
+            if (e.key === 'Escape') closeLightbox();
+        };
+
+        document.addEventListener('keydown', onKeyDown);
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
+            document.body.style.overflow = '';
+        };
+    }, [isLightboxOpen, closeLightbox]);
+
     /* Separate standard and featured projects */
     const standardProjects = PROJECTS.filter((p) => !p.featured);
     const featuredProject = PROJECTS.find((p) => p.featured);
@@ -248,8 +269,8 @@ function Projects() {
                         <div className={`h-1 w-full rounded-t-xl ${STATUS_STYLES[featuredProject.status].bar}`} />
 
                         <div className="flex flex-col lg:flex-row">
-                            {/* Left column — 60% */}
-                            <div className="p-6 lg:p-8 lg:w-[60%] flex flex-col">
+                            {/* Left column — 1/3 */}
+                            <div className="p-6 lg:p-8 lg:w-1/3 flex flex-col">
                                 {/* Header row */}
                                 <div className="flex items-start justify-between gap-3 mb-3">
                                     <div className="flex items-center gap-3">
@@ -270,9 +291,16 @@ function Projects() {
                                 </span>
 
                                 {/* Description */}
-                                <p className="text-gray-400 text-sm leading-relaxed mb-5 flex-grow">
-                                    {featuredProject.description}
-                                </p>
+                                <div className="mb-5 flex-grow">
+                                    <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                                        {featuredProject.description}
+                                    </p>
+                                    {featuredProject.disclaimer && (
+                                        <div className="mt-2 text-yellow-500/80 text-[10px] sm:text-xs leading-relaxed italic">
+                                            {featuredProject.disclaimer}
+                                        </div>
+                                    )}
+                                </div>
 
                                 {/* Tech stack */}
                                 <div className="mb-5">
@@ -348,38 +376,26 @@ function Projects() {
                                 </div>
                             </div>
 
-                            {/* Right column — 40% mock terminal */}
+                            {/* Right column — 2/3 image section */}
                             <div
-                                className="lg:w-[40%] p-6 lg:p-8 flex items-center"
+                                className="lg:w-2/3 p-6 lg:p-8 flex items-center justify-center"
                                 aria-hidden="true"
                             >
-                                <div className="w-full bg-black/40 rounded-xl p-4 font-mono text-xs space-y-4 border border-white/5">
-                                    {/* Terminal title bar */}
-                                    <div className="flex items-center gap-1.5 mb-3">
-                                        <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                                        <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                                        <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
-                                        <span className="ml-2 text-gray-600 text-[10px]">benefits-navigator</span>
-                                    </div>
-
-                                    {/* Chat messages */}
-                                    {MOCK_MESSAGES.map((msg, i) => (
-                                        <div key={i} className="space-y-1">
-                                            <span className={msg.role === 'user' ? 'text-gray-400' : 'text-green-400'}>
-                                                {msg.role === 'user' ? '> User: ' : '> AI: '}
-                                            </span>
-                                            <p
-                                                className={`whitespace-pre-wrap pl-2 ${msg.role === 'user' ? 'text-gray-400' : 'text-green-400'
-                                                    }`}
-                                            >
-                                                {msg.text}
-                                            </p>
-                                        </div>
-                                    ))}
-
-                                    {/* Blinking cursor */}
-                                    <span className="inline-block w-2 h-4 bg-green-400 animate-pulse" />
-                                </div>
+                                <button
+                                    ref={photoTriggerRef}
+                                    type="button"
+                                    onClick={openLightbox}
+                                    className="w-full relative group bg-black/40 rounded-xl overflow-hidden shadow-2xl shadow-electric-500/10 border border-white/5 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-electric-500 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900"
+                                    aria-label="View full featured project image"
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-transparent to-transparent opacity-60 z-10 transition-opacity duration-300 group-hover:opacity-30"></div>
+                                    <img
+                                        src={abnChattedImg}
+                                        alt="Alberta Benefits Navigator chat interface"
+                                        className="w-full block h-auto object-cover max-h-[600px] transition-transform duration-700 ease-in-out group-hover:scale-105"
+                                        loading="lazy"
+                                    />
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -403,6 +419,44 @@ function Projects() {
                     })}
                 </div>
             </div>
+
+            {/* ── Photo Lightbox ────────────────────────────────────────────── */}
+            {isLightboxOpen && (
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center
+                               bg-black/80 backdrop-blur-sm
+                               animate-fade-in cursor-zoom-out"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Featured project fullscreen view"
+                    onClick={closeLightbox}
+                >
+                    {/* Close button */}
+                    <button
+                        type="button"
+                        onClick={closeLightbox}
+                        className="absolute top-4 right-4 z-10 p-2 rounded-lg
+                                   text-white/80 hover:text-white hover:bg-white/10
+                                   transition-colors duration-200"
+                        aria-label="Close photo"
+                    >
+                        <X className="w-6 h-6" />
+                    </button>
+
+                    {/* Full image */}
+                    <div
+                        className="flex flex-col items-center"
+                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                    >
+                        <img
+                            src={abnChattedImg}
+                            alt="Alberta Benefits Navigator chat interface — full photo"
+                            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg
+                                       shadow-2xl shadow-black/50"
+                        />
+                    </div>
+                </div>
+            )}
         </section>
     );
 }

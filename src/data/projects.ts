@@ -10,10 +10,12 @@ export const PROJECTS: Project[] = [
     {
         title: 'Alberta Benefits Navigator',
         description:
-            'The flagship project. A public-facing AI chatbot that matches Albertans to government benefit programs based on their situation. Full stack with conversation state, PostgreSQL session history, and an AI model doing the matching and response generation.',
-        stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Anthropic SDK', 'REST APIs'],
-        status: 'coming-soon',
+            'A conversational AI tool that helps Albertans discover government benefit programs they may be eligible for. Built with React, TypeScript, and Vite on the frontend, Vercel serverless functions for the API, Supabase for session persistence, and Google Gemini for AI-powered benefit matching.',
+        stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Google Gemini', 'Supabase', 'Playwright'],
+        status: 'finished',
         featured: true,
+        githubUrl: 'https://github.com/KVOclares/Alberta-Benefits-Navigator',
+        disclaimer: 'Disclaimer: This tool is not an official Government of Alberta service. Always verify eligibility directly with the relevant program.',
     },
     {
         id: "goa-cloud-cost-dashboard",

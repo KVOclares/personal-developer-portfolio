@@ -87,6 +87,7 @@ export interface Project {
     organization?: string;
     environment?: string;
     isInternal?: boolean;
+    disclaimer?: string;
 }
 
 // ─── Education ──────────────────────────────────────────────────────────────────
