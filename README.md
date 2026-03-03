@@ -155,7 +155,7 @@ To update the resume:
 - **Email:** [KierVOclares@gmail.com](mailto:KierVOclares@gmail.com)
 - **LinkedIn:** [kier-vincent-o-2150051a0](https://www.linkedin.com/in/kier-vincent-o-2150051a0/)
 - **GitHub:** [KVOclares](https://github.com/KVOclares)
-- **Portfolio:** [kiervoclares.works](https://kiervoclares.works/)
+- **Portfolio:** [kiervoclares.works](https://kiervoclares.works/) | [personal-developer-portfolio.vercel.app](https://personal-developer-portfolio.vercel.app/)
 
 ---
 
