@@ -246,7 +246,7 @@ function Projects() {
         if (!isDragging || !carouselRef.current) return;
         e.preventDefault();
         const x = e.pageX - carouselRef.current.offsetLeft;
-        const walk = (x - startX) * 1.5; // Scroll speed multiplier
+        const walk = (x - startX) * 1; // Scroll speed multiplier
         setDragDistance(Math.abs(walk));
         carouselRef.current.scrollLeft = scrollLeftState - walk;
     };
