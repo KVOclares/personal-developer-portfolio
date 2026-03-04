@@ -1,5 +1,5 @@
-import { Github, ExternalLink, Clock, Terminal, Lock, ChevronDown, X } from 'lucide-react';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { Github, ExternalLink, Clock, Terminal, Lock, ChevronDown, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { PROJECTS } from '../../data/projects';
 import SectionHeader from '../ui/SectionHeader';
 import Badge from '../ui/Badge';
@@ -38,7 +38,7 @@ const STATUS_STYLES: Record<
 
 /* ─── Standard Project Card Component ────────────────────────────────────────── */
 
-function StandardProjectCard({ project, idx, isLoneCard }: { project: Project; idx: number; isLoneCard: boolean }) {
+function StandardProjectCard({ project }: { project: Project }) {
     const [isRoleExpanded, setIsRoleExpanded] = useState(false);
     const style = STATUS_STYLES[project.status];
 
@@ -46,11 +46,11 @@ function StandardProjectCard({ project, idx, isLoneCard }: { project: Project; i
         <div
             role="listitem"
             data-animate
-            className={`card-glass flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:border-electric-500/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-electric-500/10 ${isLoneCard ? 'lg:col-start-2' : ''}`}
+            className={`card-glass flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:border-electric-500/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-electric-500/10 h-full w-full`}
             style={{
                 opacity: 0,
                 transform: 'translateY(20px)',
-                transition: `opacity 0.6s ease ${idx * 0.1}s, transform 0.6s ease ${idx * 0.1}s`,
+                transition: 'opacity 0.6s ease 0s, transform 0.6s ease 0s',
             }}
         >
             {/* Top accent bar */}
@@ -192,6 +192,167 @@ function StandardProjectCard({ project, idx, isLoneCard }: { project: Project; i
 function Projects() {
     const sectionRef = useScrollAnimation<HTMLElement>();
 
+    /* Separate standard and featured projects */
+    const standardProjects = PROJECTS.filter((p) => !p.featured);
+    const featuredProject = PROJECTS.find((p) => p.featured);
+
+    // ── Carousel state ────────────────────────────────────────────────────────
+    const carouselRef = useRef<HTMLDivElement>(null);
+    const scrollTimeout = useRef<ReturnType<typeof setTimeout>>();
+    const ITEM_COUNT = standardProjects.length;
+    // We render 3 sets of projects to achieve infinite scroll (pre, main, post).
+    const extendedProjects = [...standardProjects, ...standardProjects, ...standardProjects];
+
+    // Start at the first item of the middle set
+    const [activeIndex, setActiveIndex] = useState(ITEM_COUNT);
+
+    // ── Drag state ────────────────────────────────────────────────────────────
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeftState, setScrollLeftState] = useState(0);
+    const [dragDistance, setDragDistance] = useState(0);
+
+    const handleMouseDown = (e: React.MouseEvent) => {
+        if (!carouselRef.current) return;
+        setIsDragging(true);
+        setDragDistance(0);
+        // Remove smooth scroll and snapping while dragging
+        carouselRef.current.classList.remove('scroll-smooth', 'snap-x', 'snap-mandatory');
+        setStartX(e.pageX - carouselRef.current.offsetLeft);
+        setScrollLeftState(carouselRef.current.scrollLeft);
+    };
+
+    const handleMouseLeave = () => {
+        if (!isDragging) return;
+        setIsDragging(false);
+        if (carouselRef.current) {
+            carouselRef.current.classList.add('scroll-smooth', 'snap-x', 'snap-mandatory');
+            // Snap back to closest slide on mouse leave
+            scrollToSlide(activeIndex);
+        }
+    };
+
+    const handleMouseUp = () => {
+        if (!isDragging) return;
+        setIsDragging(false);
+        if (carouselRef.current) {
+            carouselRef.current.classList.add('scroll-smooth', 'snap-x', 'snap-mandatory');
+            // Snap back to closest slide on mouse up
+            scrollToSlide(activeIndex);
+        }
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging || !carouselRef.current) return;
+        e.preventDefault();
+        const x = e.pageX - carouselRef.current.offsetLeft;
+        const walk = (x - startX) * 1.5; // Scroll speed multiplier
+        setDragDistance(Math.abs(walk));
+        carouselRef.current.scrollLeft = scrollLeftState - walk;
+    };
+
+    // Initial scroll setup instantly to the middle set
+    useEffect(() => {
+        const container = carouselRef.current;
+        if (!container || ITEM_COUNT === 0) return;
+        const child = container.children[ITEM_COUNT] as HTMLElement;
+        if (child) {
+            // Remove scroll-smooth so initial scroll is instant
+            container.classList.remove('scroll-smooth');
+            const scrollTarget = child.offsetLeft - (container.clientWidth - child.clientWidth) / 2;
+            container.scrollTo({ left: scrollTarget, behavior: 'instant' });
+
+            // Re-enable smooth scrolling after position is set
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    container.classList.add('scroll-smooth');
+                });
+            });
+        }
+    }, [ITEM_COUNT]);
+
+
+    const handleCarouselScroll = () => {
+        if (!carouselRef.current || ITEM_COUNT === 0) return;
+        const container = carouselRef.current;
+        const scrollLeft = container.scrollLeft;
+
+        let closestIndex = ITEM_COUNT;
+        let minDiff = Infinity;
+        const center = scrollLeft + container.clientWidth / 2;
+
+        Array.from(container.children).forEach((child, index) => {
+            const childNode = child as HTMLElement;
+            const childRect = childNode.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+
+            const childCenter = childRect.left - containerRect.left + scrollLeft + childNode.clientWidth / 2;
+            const diff = Math.abs(center - childCenter);
+            if (diff < minDiff) {
+                minDiff = diff;
+                closestIndex = index;
+            }
+        });
+
+        setActiveIndex(closestIndex);
+
+        // Infinite loop seamless reset logic
+        clearTimeout(scrollTimeout.current);
+        scrollTimeout.current = setTimeout(() => {
+            // If we've scrolled into the first set or the last set
+            if (closestIndex < ITEM_COUNT || closestIndex >= ITEM_COUNT * 2) {
+                const targetIndex = ITEM_COUNT + (closestIndex % ITEM_COUNT);
+                const child = container.children[targetIndex] as HTMLElement;
+                if (child) {
+                    // Disable smooth scrolling temporarily to jump silently
+                    container.classList.remove('scroll-smooth');
+                    const childLeft = child.offsetLeft;
+                    const scrollTarget = childLeft - (container.clientWidth - child.clientWidth) / 2;
+                    container.scrollTo({ left: scrollTarget, behavior: 'instant' });
+                    setActiveIndex(targetIndex);
+
+                    // Re-enable smooth scrolling after jump
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            container.classList.add('scroll-smooth');
+                        });
+                    });
+                }
+            }
+        }, 300); // Wait for scroll momentum to finish
+    };
+
+    const scrollToSlide = (index: number) => {
+        if (!carouselRef.current) return;
+        const container = carouselRef.current;
+
+        // Ensure smooth scrolling is on
+        container.classList.add('scroll-smooth');
+        const child = container.children[index] as HTMLElement;
+        if (!child) return;
+
+        const childLeft = child.offsetLeft;
+        const scrollTarget = childLeft - (container.clientWidth - child.clientWidth) / 2;
+
+        container.scrollTo({
+            left: scrollTarget,
+            behavior: 'smooth'
+        });
+    };
+
+    const handlePrevSlide = () => {
+        scrollToSlide(activeIndex - 1);
+    };
+
+    const handleNextSlide = () => {
+        scrollToSlide(activeIndex + 1);
+    };
+
+    const handleIndicatorClick = (idx: number) => {
+        // Go directly to the requested item in the middle set
+        scrollToSlide(ITEM_COUNT + idx);
+    };
+
     // ── Lightbox state ────────────────────────────────────────────────────────
     const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
     const photoTriggerRef = useRef<HTMLButtonElement>(null);
@@ -221,9 +382,7 @@ function Projects() {
         };
     }, [isLightboxOpen, closeLightbox]);
 
-    /* Separate standard and featured projects */
-    const standardProjects = PROJECTS.filter((p) => !p.featured);
-    const featuredProject = PROJECTS.find((p) => p.featured);
+
 
 
 
@@ -401,22 +560,82 @@ function Projects() {
                     </div>
                 )}
 
-                {/* ── Standard project cards ─────────────────────────────── */}
+                {/* ── Standard project cards Carousel ──────────────────────── */}
                 <div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                    role="list"
+                    className="relative w-full group mt-12"
                 >
-                    {standardProjects.map((project, idx) => {
-                        const isLoneCard = standardProjects.length % 3 === 1 && idx === standardProjects.length - 1;
-                        return (
-                            <StandardProjectCard
-                                key={project.title}
-                                project={project}
-                                idx={idx + 1}
-                                isLoneCard={isLoneCard}
-                            />
-                        );
-                    })}
+                    {/* Left/Right Navigation Buttons */}
+                    <button
+                        onClick={handlePrevSlide}
+                        className="absolute left-0 lg:-left-6 top-1/2 -translate-y-1/2 z-10 p-2 
+                                   bg-navy-800/80 backdrop-blur-md border border-white/10 rounded-full
+                                   text-white/70 hover:text-white hover:bg-electric-500/20 hover:border-electric-500/50
+                                   transition-all duration-300 shadow-lg opacity-0 group-hover:opacity-100 focus:opacity-100"
+                        aria-label="Previous project"
+                    >
+                        <ChevronLeft className="w-6 h-6" />
+                    </button>
+
+                    <button
+                        onClick={handleNextSlide}
+                        className="absolute right-0 lg:-right-6 top-1/2 -translate-y-1/2 z-10 p-2 
+                                   bg-navy-800/80 backdrop-blur-md border border-white/10 rounded-full
+                                   text-white/70 hover:text-white hover:bg-electric-500/20 hover:border-electric-500/50
+                                   transition-all duration-300 shadow-lg opacity-0 group-hover:opacity-100 focus:opacity-100"
+                        aria-label="Next project"
+                    >
+                        <ChevronRight className="w-6 h-6" />
+                    </button>
+
+                    <div
+                        ref={carouselRef}
+                        onScroll={handleCarouselScroll}
+                        onMouseDown={handleMouseDown}
+                        onMouseLeave={handleMouseLeave}
+                        onMouseUp={handleMouseUp}
+                        onMouseMove={handleMouseMove}
+                        onClickCapture={(e) => {
+                            if (dragDistance > 10) {
+                                e.stopPropagation();
+                                e.preventDefault();
+                            }
+                        }}
+                        className={`flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 lg:mx-0 lg:px-0 hide-scrollbar scroll-smooth relative select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                        role="list"
+                        style={{
+                            scrollbarWidth: 'none',
+                            msOverflowStyle: 'none',
+                            maskImage: 'linear-gradient(to right, transparent, black 4%, black 96%, transparent)',
+                            WebkitMaskImage: 'linear-gradient(to right, transparent, black 4%, black 96%, transparent)'
+                        }}
+                    >
+                        {extendedProjects.map((project, idx) => (
+                            <div
+                                key={`${project.title}-${idx}`}
+                                className="w-[85vw] md:w-[350px] lg:w-[380px] shrink-0 snap-center flex"
+                            >
+                                <StandardProjectCard
+                                    project={project}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* ── Carousel Indicators ────────────────────────────── */}
+                <div className="flex justify-center items-center gap-2.5 mt-2">
+                    {standardProjects.map((_, idx) => (
+                        <button
+                            key={idx}
+                            type="button"
+                            aria-label={`Go to project slide ${idx + 1}`}
+                            onClick={() => handleIndicatorClick(idx)}
+                            className={`h-2 rounded-full transition-all duration-300 ${(activeIndex % ITEM_COUNT) === idx
+                                ? 'bg-electric-500 w-8'
+                                : 'bg-white/20 hover:bg-white/40 w-2 hover:scale-110'
+                                }`}
+                        />
+                    ))}
                 </div>
             </div>
 

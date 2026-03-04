@@ -61,3 +61,4 @@ coverage/
 
 # ─── Security Audit Logs ───────────────────────────────────────────────────────
 .security-audit-*.json
+lint.txt

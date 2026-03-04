@@ -78,13 +78,6 @@ export const PROJECTS: Project[] = [
         isInternal: true
     },
     {
-        title: 'Alberta Program Finder',
-        description:
-            'A searchable, filterable directory of Government of Alberta programs. Built with React and TypeScript, powered by a static JSON dataset.',
-        stack: ['React', 'TypeScript', 'Tailwind CSS'],
-        status: 'coming-soon',
-    },
-    {
         title: 'Personal Budget Tracker',
         description:
             'Full CRUD budget tracking app with income and expense management, running totals, and category breakdowns. First full stack project with a REST API.',
@@ -106,13 +99,6 @@ export const PROJECTS: Project[] = [
         description:
             'Markdown note-taking app with full user authentication. Covers JWT auth, bcrypt password hashing, protected routes, and middleware-guarded API endpoints.',
         stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'JWT'],
-        status: 'coming-soon',
-    },
-    {
-        title: 'PR Quality Gate Bot',
-        description:
-            'A GitHub Actions workflow that uses an AI model to review pull requests and post a structured security and quality report as a PR comment.',
-        stack: ['GitHub Actions', 'Node.js', 'Anthropic SDK', 'CI/CD'],
         status: 'coming-soon',
     },
 ];
