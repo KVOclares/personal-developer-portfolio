@@ -224,24 +224,37 @@ function Projects() {
         setScrollLeftState(carouselRef.current.scrollLeft);
     };
 
+    const snapToExpectedSlide = () => {
+        if (!carouselRef.current) return;
+        carouselRef.current.classList.add('scroll-smooth', 'snap-x', 'snap-mandatory');
+
+        // Only snap to next/prev if drag distance was somewhat significant
+        if (dragDistance > 30) {
+            // Did we drag left (positive walk) or right (negative walk)?
+            // scrollLeftState - carousel.scrollLeft tells us direction
+            const isDraggingLeft = carouselRef.current.scrollLeft > scrollLeftState;
+
+            if (isDraggingLeft) {
+                scrollToSlide(activeIndex + 1);
+            } else {
+                scrollToSlide(activeIndex - 1);
+            }
+        } else {
+            // Cancelled drag, snap back to same slide
+            scrollToSlide(activeIndex);
+        }
+    }
+
     const handleMouseLeave = () => {
         if (!isDragging) return;
         setIsDragging(false);
-        if (carouselRef.current) {
-            carouselRef.current.classList.add('scroll-smooth', 'snap-x', 'snap-mandatory');
-            // Snap back to closest slide on mouse leave
-            scrollToSlide(activeIndex);
-        }
+        snapToExpectedSlide();
     };
 
     const handleMouseUp = () => {
         if (!isDragging) return;
         setIsDragging(false);
-        if (carouselRef.current) {
-            carouselRef.current.classList.add('scroll-smooth', 'snap-x', 'snap-mandatory');
-            // Snap back to closest slide on mouse up
-            scrollToSlide(activeIndex);
-        }
+        snapToExpectedSlide();
     };
 
     const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
@@ -259,8 +272,9 @@ function Projects() {
         const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
         const x = pageX - carouselRef.current.offsetLeft;
 
-        // Use a slightly smaller multiplier for touch to make it feel less "slippery"
-        const multiplier = 'touches' in e ? 0.8 : 1;
+        // Extremely reduced friction for touch screens, 
+        // because snapToExpectedSlide will handle the snapping at the end
+        const multiplier = 'touches' in e ? 0.3 : 1;
         const walk = (x - startX) * multiplier;
         setDragDistance(Math.abs(walk));
         carouselRef.current.scrollLeft = scrollLeftState - walk;
