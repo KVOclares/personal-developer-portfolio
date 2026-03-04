@@ -212,70 +212,41 @@ function Projects() {
     const [scrollLeftState, setScrollLeftState] = useState(0);
     const [dragDistance, setDragDistance] = useState(0);
 
-    const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+    const handleMouseDown = (e: React.MouseEvent) => {
         if (!carouselRef.current) return;
         setIsDragging(true);
         setDragDistance(0);
         // Remove smooth scroll and snapping while dragging
         carouselRef.current.classList.remove('scroll-smooth', 'snap-x', 'snap-mandatory');
-
-        const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
-        setStartX(pageX - carouselRef.current.offsetLeft);
+        setStartX(e.pageX - carouselRef.current.offsetLeft);
         setScrollLeftState(carouselRef.current.scrollLeft);
     };
-
-    const snapToExpectedSlide = () => {
-        if (!carouselRef.current) return;
-        carouselRef.current.classList.add('scroll-smooth', 'snap-x', 'snap-mandatory');
-
-        // Only snap to next/prev if drag distance was somewhat significant
-        if (dragDistance > 30) {
-            // Did we drag left (positive walk) or right (negative walk)?
-            // scrollLeftState - carousel.scrollLeft tells us direction
-            const isDraggingLeft = carouselRef.current.scrollLeft > scrollLeftState;
-
-            if (isDraggingLeft) {
-                scrollToSlide(activeIndex + 1);
-            } else {
-                scrollToSlide(activeIndex - 1);
-            }
-        } else {
-            // Cancelled drag, snap back to same slide
-            scrollToSlide(activeIndex);
-        }
-    }
 
     const handleMouseLeave = () => {
         if (!isDragging) return;
         setIsDragging(false);
-        snapToExpectedSlide();
+        if (carouselRef.current) {
+            carouselRef.current.classList.add('scroll-smooth', 'snap-x', 'snap-mandatory');
+            // Snap back to closest slide on mouse leave
+            scrollToSlide(activeIndex);
+        }
     };
 
     const handleMouseUp = () => {
         if (!isDragging) return;
         setIsDragging(false);
-        snapToExpectedSlide();
+        if (carouselRef.current) {
+            carouselRef.current.classList.add('scroll-smooth', 'snap-x', 'snap-mandatory');
+            // Snap back to closest slide on mouse up
+            scrollToSlide(activeIndex);
+        }
     };
 
-    const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
+    const handleMouseMove = (e: React.MouseEvent) => {
         if (!isDragging || !carouselRef.current) return;
-
-        // Prevent default touch movement to avoid page scrolling while swiping
-        if ('touches' in e) {
-            // passive is false on synthetic event handlers by default in React
-            // wait we can't reliably e.preventDefault() on touch moves in React unless passive is manually handled
-            // For now, we'll try to calculate it anyway.
-        } else {
-            e.preventDefault();
-        }
-
-        const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
-        const x = pageX - carouselRef.current.offsetLeft;
-
-        // Extremely reduced friction for touch screens, 
-        // because snapToExpectedSlide will handle the snapping at the end
-        const multiplier = 'touches' in e ? 0.3 : 1;
-        const walk = (x - startX) * multiplier;
+        e.preventDefault();
+        const x = e.pageX - carouselRef.current.offsetLeft;
+        const walk = (x - startX) * 1.5; // Scroll speed multiplier
         setDragDistance(Math.abs(walk));
         carouselRef.current.scrollLeft = scrollLeftState - walk;
     };
@@ -623,9 +594,6 @@ function Projects() {
                         onMouseLeave={handleMouseLeave}
                         onMouseUp={handleMouseUp}
                         onMouseMove={handleMouseMove}
-                        onTouchStart={handleMouseDown}
-                        onTouchEnd={handleMouseUp}
-                        onTouchMove={handleMouseMove}
                         onClickCapture={(e) => {
                             if (dragDistance > 10) {
                                 e.stopPropagation();
