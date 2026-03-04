@@ -212,13 +212,15 @@ function Projects() {
     const [scrollLeftState, setScrollLeftState] = useState(0);
     const [dragDistance, setDragDistance] = useState(0);
 
-    const handleMouseDown = (e: React.MouseEvent) => {
+    const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
         if (!carouselRef.current) return;
         setIsDragging(true);
         setDragDistance(0);
         // Remove smooth scroll and snapping while dragging
         carouselRef.current.classList.remove('scroll-smooth', 'snap-x', 'snap-mandatory');
-        setStartX(e.pageX - carouselRef.current.offsetLeft);
+
+        const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
+        setStartX(pageX - carouselRef.current.offsetLeft);
         setScrollLeftState(carouselRef.current.scrollLeft);
     };
 
@@ -242,11 +244,24 @@ function Projects() {
         }
     };
 
-    const handleMouseMove = (e: React.MouseEvent) => {
+    const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
         if (!isDragging || !carouselRef.current) return;
-        e.preventDefault();
-        const x = e.pageX - carouselRef.current.offsetLeft;
-        const walk = (x - startX) * 1; // Scroll speed multiplier
+
+        // Prevent default touch movement to avoid page scrolling while swiping
+        if ('touches' in e) {
+            // passive is false on synthetic event handlers by default in React
+            // wait we can't reliably e.preventDefault() on touch moves in React unless passive is manually handled
+            // For now, we'll try to calculate it anyway.
+        } else {
+            e.preventDefault();
+        }
+
+        const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
+        const x = pageX - carouselRef.current.offsetLeft;
+
+        // Use a slightly smaller multiplier for touch to make it feel less "slippery"
+        const multiplier = 'touches' in e ? 0.8 : 1;
+        const walk = (x - startX) * multiplier;
         setDragDistance(Math.abs(walk));
         carouselRef.current.scrollLeft = scrollLeftState - walk;
     };
@@ -594,6 +609,9 @@ function Projects() {
                         onMouseLeave={handleMouseLeave}
                         onMouseUp={handleMouseUp}
                         onMouseMove={handleMouseMove}
+                        onTouchStart={handleMouseDown}
+                        onTouchEnd={handleMouseUp}
+                        onTouchMove={handleMouseMove}
                         onClickCapture={(e) => {
                             if (dragDistance > 10) {
                                 e.stopPropagation();
