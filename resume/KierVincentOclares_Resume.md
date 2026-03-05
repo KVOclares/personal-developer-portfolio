@@ -1,8 +1,8 @@
 ---
 # Kier Vincent Oclares
 
-KierVOclares@gmail.com &nbsp;|&nbsp; +1 (780) 920-8681\
-linkedin.com/in/kier-vincent-o-2150051a0 &nbsp;|&nbsp; github.com/KVOclares &nbsp;|&nbsp; kiervoclares.works
+KierVOclares@gmail.com &nbsp;|&nbsp; +1 (780) 920-8681&nbsp;|&nbsp; linkedin.com/in/kier-vincent-o-2150051a0\
+github.com/KVOclares &nbsp;|&nbsp; https://kiervoclares.works/ (https://personal-developer-portfolio.vercel.app/)
 
 ---
 
@@ -155,14 +155,10 @@ consistency, and a React interface. Proposed improvements
 to evaluation prompts, increasing AI decision accuracy and 
 reducing false positives for human-in-the-loop reviewers.
 
-### AI Chatbot Intent Analysis
-**Government of Alberta**
+### Alberta Benefits Navigator
+**Personal Project**
 
-Evaluated AI chatbot intent accuracy and user 
-satisfaction by parsing and analyzing 5,000 
-unstructured JSON conversation logs, utilizing 
-Python to map system outputs against user inputs 
-and extracting actionable product insights.
+Built a conversational AI web app helping Albertans discover provincial benefit programs through a natural-language chat interface. Integrated Google Gemini 2.5 Flash with structured JSON prompting across 7 benefit categories, with real-time SSE streaming, Supabase session persistence, and a Vercel serverless backend with RLS and 80% test coverage via GitHub Actions CI/CD.
 
 ### Edmonton Housing Analytics Capstone
 **NAIT**
