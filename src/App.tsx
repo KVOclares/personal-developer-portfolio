@@ -8,6 +8,7 @@ import Projects from './components/sections/Projects';
 import Education from './components/sections/Education';
 import Contact from './components/sections/Contact';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 /**
  * Root application component.
@@ -42,6 +43,7 @@ function App() {
             </main>
             <Footer />
             <Analytics />
+            <SpeedInsights />
         </div>
     );
 }
