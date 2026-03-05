@@ -145,7 +145,7 @@ function StandardProjectCard({ project }: { project: Project }) {
                                     href={project.liveUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="btn-outline text-xs py-2 px-4"
+                                    className="btn-green text-xs py-2 px-4"
                                     aria-label={`View live demo of ${project.title}`}
                                 >
                                     <ExternalLink className="w-4 h-4" aria-hidden="true" />
@@ -500,7 +500,7 @@ function Projects() {
                                                     href={featuredProject.liveUrl}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="btn-outline text-xs py-2 px-4"
+                                                    className="btn-green text-xs py-2 px-4"
                                                     aria-label={`View live demo of ${featuredProject.title}`}
                                                 >
                                                     <ExternalLink className="w-4 h-4" aria-hidden="true" />

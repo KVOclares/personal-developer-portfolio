@@ -18,6 +18,16 @@ export const PROJECTS: Project[] = [
         disclaimer: 'Disclaimer: This tool is not an official Government of Alberta service. Always verify eligibility directly with the relevant program.',
     },
     {
+        title: 'Aero — Flight Tracker',
+        description:
+            'A real-time flight status tracker built with Next.js. Search by flight number or airport IATA code to get live departure/arrival times, terminal and gate info, baggage claim, and timezone conversions. Features URL-persisted state, recent search history, loading skeletons, a mock data fallback when the API key is absent, and server-side rate limiting.',
+        stack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'date-fns', 'Lucide React', 'AviationStack API'],
+        status: 'live',
+        featured: false,
+        githubUrl: 'https://github.com/KVOclares/flight-lookup',
+        liveUrl: 'https://flight-lookup-sigma.vercel.app/',
+    },
+    {
         id: "goa-cloud-cost-dashboard",
         title: "Cloud Cost Invoice Dashboard",
         description: "Consolidated multiple fragmented legacy Cloud Cost Invoice dashboards into a single unified enterprise Power BI solution for executive decision support at the Government of Alberta. Improved data accuracy from 80% to 99% by migrating legacy hard-coded transformations to scalable SQL models. Implemented Row-Level Security for role-based access compliance across diverse business units.",
